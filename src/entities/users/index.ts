@@ -1,5 +1,5 @@
 // Export the API interfaces (Query Keys and Query Options)
-export { userKeys } from "./api/users.keys";
+export { usersKeys } from "./api/users.keys";
 export { usersQueries } from "./api/users.queries";
 
 // Export the Types
