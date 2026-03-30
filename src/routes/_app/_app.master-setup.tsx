@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_app/_app/master-setup")({
   component: RouteComponent,
+  staticData: {
+    breadcrumb: "Master Setup",
+  },
 });
 
 function RouteComponent() {
