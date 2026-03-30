@@ -1,5 +1,5 @@
 import { Outlet } from "@tanstack/react-router";
-import { SidebarNavMenu } from "@widgets/navigation/SidebarNavMenu";
+import SidebarNavMenu from "@widgets/navigation";
 
 export function AppShell() {
   return (
