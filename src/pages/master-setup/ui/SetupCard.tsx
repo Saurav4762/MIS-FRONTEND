@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { MasterSetupSection } from "../lib/routes";
+import type { LucideIcon } from "lucide-react";
 
 interface SetupCardProps {
   title: string;
@@ -7,7 +8,7 @@ interface SetupCardProps {
   status?: string;
   description: string;
   buttonLabel: string;
-  icon: string;
+  icon: LucideIcon;
   section: MasterSetupSection;
 }
 
@@ -17,13 +18,13 @@ export function SetupCard({
   status,
   description,
   buttonLabel,
-  icon,
+  icon: Icon,
   section,
 }: SetupCardProps) {
   return (
     <div className="flex flex-col rounded-lg border border-[#1a2742] bg-[#081428] p-6">
       <div className="flex items-start gap-4">
-        <div className="text-3xl">{icon}</div>
+        <div className="text-3xl"><Icon size={28} /></div>
         <div className="flex-1">
           <h3 className="text-lg font-semibold text-slate-100">{title}</h3>
           {count !== undefined && (

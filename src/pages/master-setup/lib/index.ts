@@ -1,1 +1,1 @@
-export { buildMasterSetupRoute, masterSetupSectionSchema, type MasterSetupSection } from "./routes";
+export { masterSetupSectionSchema, type MasterSetupSection } from "./routes";

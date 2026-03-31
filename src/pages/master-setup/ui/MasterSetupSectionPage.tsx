@@ -7,12 +7,14 @@ import {
   FiscalYearsPage,
   SurveyOptionsPage,
 } from "../sections";
+import MunicipalityEditPage from "../sections/municipality";
 
 interface MasterSetupSectionPageProps {
   section: MasterSetupSection;
 }
 
 const sectionComponentMap: Record<MasterSetupSection, React.ComponentType> = {
+  municipalities: MunicipalityEditPage,
   wards: WardsPage,
   toles: TolesPage,
   departments: DepartmentsPage,

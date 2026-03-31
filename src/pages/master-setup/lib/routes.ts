@@ -4,6 +4,7 @@ import { z } from "zod";
  */
 
 export const masterSetupSectionSchema = z.enum([
+  "municipalities",
   "wards",
   "toles",
   "departments",
@@ -13,13 +14,3 @@ export const masterSetupSectionSchema = z.enum([
 ]);
 
 export type MasterSetupSection = z.infer<typeof masterSetupSectionSchema>;
-
-
-/**
- * Helper to build dynamic section routes
- * Usage: buildMasterSetupRoute("wards") -> navigation path to wards section
- */
-export function buildMasterSetupRoute(section: MasterSetupSection): string {
-  return `/master-setup/${section}`;
-}
-

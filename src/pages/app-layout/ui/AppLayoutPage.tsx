@@ -1,12 +1,15 @@
-import { Outlet } from "@tanstack/react-router";
 import { AppShell } from "@widgets/layout";
 import SidebarNavMenu from "@widgets/navigation";
 import { Breadcrumb } from "./Breadcrumb";
 
-export function AppLayoutPage() {
+type AppLayoutPageProps = {
+  children: React.ReactNode;
+};
+
+export function AppLayoutPage({ children }: AppLayoutPageProps) {
   return (
     <AppShell sidebar={<SidebarNavMenu />} breadcrumbs={<Breadcrumb />}>
-      <Outlet />
+      {children}
     </AppShell>
   );
 }

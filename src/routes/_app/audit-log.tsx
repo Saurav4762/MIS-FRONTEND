@@ -2,8 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_app/audit-log")({
   component: RouteComponent,
-  staticData: {
-    breadcrumb: "Audit Log",
+  beforeLoad: async () => {
+    return {
+      breadcrumb: "Audit Log",
+    };
   },
 });
 

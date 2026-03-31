@@ -1,5 +1,6 @@
 import { useMasterSetupSummary } from "../../../features/master-setups";
 import { SetupCard } from "./SetupCard";
+import { Building, Calendar, ChartBar, Landmark, List, MapPin } from "lucide-react";
 
 export function MasterSetupPage() {
   const { data, isLoading } = useMasterSetupSummary();
@@ -23,12 +24,22 @@ export function MasterSetupPage() {
       {data && (
         <div className="grid gap-6 md:grid-cols-3">
           <SetupCard
+            title="Municipalities"
+            count={data.municipalityCount}
+            status="Active Municipalities"
+            description="Manage administrative boundaries and details for each municipality."
+            buttonLabel="Manage Municipalities"
+            icon={Landmark}
+            section="municipalities"
+          />
+
+          <SetupCard
             title="Wards"
             count={data.wardCount}
             status="Active Wards"
             description="Manage administrative ward boundaries and their respective populations."
             buttonLabel="Manage Wards"
-            icon="📍"
+            icon={Building}
             section="wards"
           />
 
@@ -37,7 +48,7 @@ export function MasterSetupPage() {
             count={data.toleCount}
             description="Define and categorize local neighborhoods and tole structures within each ward."
             buttonLabel="Manage Toles"
-            icon="🏘️"
+            icon={MapPin}
             section="toles"
           />
 
@@ -46,7 +57,7 @@ export function MasterSetupPage() {
             count={data.departmentCount}
             description="Organize municipal departments like Health, Education, and Infrastructure."
             buttonLabel="Manage Departments"
-            icon="🏛️"
+            icon={Building}
             section="departments"
           />
 
@@ -56,7 +67,7 @@ export function MasterSetupPage() {
             status="Active Programs"
             description="Track municipal initiatives, social programs, and development campaigns."
             buttonLabel="Manage Programs"
-            icon="📊"
+            icon={ChartBar}
             section="programs"
           />
 
@@ -65,7 +76,7 @@ export function MasterSetupPage() {
             status={`Current: ${data.currentFiscalYear}`}
             description="Set up financial calendars, reporting periods, and yearly rollover rules."
             buttonLabel="Manage Fiscal Years"
-            icon="📅"
+            icon={Calendar}
             section="fiscal-years"
           />
 
@@ -74,7 +85,7 @@ export function MasterSetupPage() {
             status="Custom Fields & Lists"
             description="Configure dynamic dropdowns (e.g., custom local locations, road types) for data collection forms."
             buttonLabel="Manage Options"
-            icon="📋"
+            icon={List}
             section="survey-options"
           />
         </div>

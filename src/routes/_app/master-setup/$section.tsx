@@ -1,13 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MasterSetupSectionPage } from "@pages/master-setup/ui";
-import { type MasterSetupSection, masterSetupSectionSchema } from "@pages/master-setup/lib/routes";
+import {
+  type MasterSetupSection,
+  masterSetupSectionSchema,
+} from "@pages/master-setup/lib/routes";
 
 interface MasterSetupSectionParams {
   section: MasterSetupSection;
 }
 
 function RouteComponent() {
-  const { section  } = Route.useParams() as MasterSetupSectionParams;
+  const { section } = Route.useParams() as MasterSetupSectionParams;
 
   return <MasterSetupSectionPage section={section} />;
 }
@@ -23,7 +26,7 @@ export const Route = createFileRoute(
   },
   errorComponent: () => <div>Invalid section</div>,
   component: RouteComponent,
-  staticData: {
-    breadcrumb: "Section",
-  },
+  beforeLoad: ({ params }) => ({
+    breadcrumb: params.section,
+  }),
 });

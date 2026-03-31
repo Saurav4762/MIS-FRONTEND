@@ -1,15 +1,36 @@
 import { Link, useMatches } from "@tanstack/react-router";
 import { Landmark } from "lucide-react";
 
+type BreadcrumbContext = {
+  breadcrumb: string;
+};
+
 export function Breadcrumb() {
   const matches = useMatches();
 
-  const crumbs = matches
-    .filter((match) => match.staticData?.breadcrumb)
-    .map((match) => ({
-      title: match.staticData.breadcrumb!,
-      path: match.pathname,
-    }));
+  const crumbs: { title: string; path: string }[] = matches
+
+    .filter((match) => {
+      const cxt = match.context as BreadcrumbContext;
+      return cxt?.breadcrumb;
+    })
+    .map((match) => {
+      return {
+        title: (match.context as BreadcrumbContext).breadcrumb!,
+        path: match.pathname,
+      };
+    })
+    .reduce(
+      (unique, crumb) => {
+
+        // Only add if this title hasn't been added yet
+        if (!unique.some((c) => c.title === crumb.title)) {
+          unique.push(crumb);
+        }
+        return unique;
+      },
+      [] as typeof crumbs,
+    );
 
   return (
     <nav className="flex items-center gap-2 text-xs">
