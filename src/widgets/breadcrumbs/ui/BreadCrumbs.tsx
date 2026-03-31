@@ -1,7 +1,7 @@
 import { Link, useMatches } from "@tanstack/react-router";
 import { Landmark } from "lucide-react";
 
-export function Breadcrumb() {
+export default function Breadcrumb() {
   const matches = useMatches();
 
   console.log(matches);

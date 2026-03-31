@@ -1,5 +1,5 @@
 import { QueryClientProvider as QCP } from "@tanstack/react-query";
-import { queryClient } from "@shared/api/query-client";
+import { queryClient } from "@shared/api";
 import type { ReactNode } from "react";
 
 type Props = {

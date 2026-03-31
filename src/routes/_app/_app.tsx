@@ -1,5 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { AppShell } from "@widgets/layout/AppShell";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+import Breadcrumb from "@widgets/breadcrumbs";
+import { AppShell } from "@widgets/layout";
+import SidebarNavMenu from "@widgets/navigation";
 
 export const Route = createFileRoute("/_app/_app")({
   notFoundComponent: () => <div>404 - Page Not Found from app</div>,
@@ -7,5 +9,9 @@ export const Route = createFileRoute("/_app/_app")({
 });
 
 function RouteComponent() {
-  return <AppShell />;
+  return (
+    <AppShell sidebar={<SidebarNavMenu />} breadcrumbs={<Breadcrumb />}>
+      <Outlet />
+    </AppShell>
+  );
 }

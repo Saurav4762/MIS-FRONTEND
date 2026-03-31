@@ -1,7 +1,7 @@
 import { Search } from "lucide-react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
-import { SidebarNavItem } from "./components/SidebarNavItem";
-import { SidebarSectionTitle } from "./components/SidebarSectionTitle";
+import { SidebarNavItem } from "./ui/SidebarNavItem";
+import { SidebarSectionTitle } from "./ui/SidebarSectionTitle";
 import { sidebarGroups } from "./model/sidebar-items";
 
 export function SidebarNavMenu() {
