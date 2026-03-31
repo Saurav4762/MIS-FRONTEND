@@ -19,7 +19,7 @@ const sleep = (ms: number) =>
 export const masterSetupApi = {
   getSummary: async () => {
     // Mock backend roundtrip until the real endpoint is available.
-    await sleep(5000);
+    await sleep(500);
     return structuredClone(mockSummaryDb);
   },
 };

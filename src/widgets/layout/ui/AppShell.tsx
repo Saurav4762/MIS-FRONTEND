@@ -11,7 +11,7 @@ export function AppShell({ sidebar, breadcrumbs, children }: AppShellProps) {
       {sidebar}
 
       <main className="min-w-0 flex-1 p-6 space-y-6.5">
-        <div className="pb-6">
+        <div className="pb-6 pt-0.5">
           {breadcrumbs}
         </div>
         {children}
