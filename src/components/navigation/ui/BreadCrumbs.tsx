@@ -25,8 +25,6 @@ export default function Breadcrumbs() {
       },
       [] as typeof crumbs,
     );
-  console.log("matches", matches);
-  console.log("Breadcrumbs", crumbs);
 
   return (
     <nav className="flex items-center gap-2 text-xs">
