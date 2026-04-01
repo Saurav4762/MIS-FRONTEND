@@ -1,4 +1,4 @@
-import { MasterSetupMunicipalityEditPage } from '@pages/master-setup-municipality'
+import { MasterSetupMunicipalityEditPage } from '@pages/master-setup-municipalities'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_app/master-setup/municipalities')({
