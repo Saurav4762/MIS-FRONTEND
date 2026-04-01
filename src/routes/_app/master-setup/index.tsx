@@ -7,4 +7,9 @@ function RouteComponent() {
 
 export const Route = createFileRoute("/_app/master-setup/")({
   component: RouteComponent,
+  beforeLoad: () => {
+    return {
+      breadcrumb: "Master Setup",
+    };
+  }
 });

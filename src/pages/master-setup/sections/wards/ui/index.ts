@@ -1,1 +1,0 @@
-export { WardsPage } from "./WardsPage";

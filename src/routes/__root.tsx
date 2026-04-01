@@ -1,14 +1,8 @@
-import {
-  createRootRouteWithContext,
-  Outlet,
-} from "@tanstack/react-router";
+import type { RouteContext } from "@shared/config";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-type RouterContext = {
-  breadcrumb?: string;
-};
-
-export const Route = createRootRouteWithContext<RouterContext>()({
+export const Route = createRootRouteWithContext<RouteContext>()({
   component: () => (
     <>
       <Outlet />
@@ -17,5 +11,5 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   ),
 
   // Global 404
-  notFoundComponent: () => <div>404 - Page Not Foundf</div>,
+  notFoundComponent: () => <div>404 - Page Not Found</div>,
 });

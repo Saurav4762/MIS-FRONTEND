@@ -2,8 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_app/bulk-import")({
   component: RouteComponent,
-  staticData: {
-    breadcrumb: "Bulk Import",
+  beforeLoad: async () => {
+    return {
+      breadcrumb: "Bulk Import",
+    };
   },
 });
 

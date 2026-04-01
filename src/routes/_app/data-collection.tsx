@@ -2,9 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_app/data-collection")({
   component: RouteComponent,
-  staticData: {
-    breadcrumb: "Data Collection",
-  },
+  beforeLoad: async () => {
+    return {
+      breadcrumb: "Data Collection",
+    };
+  }
 });
 
 function RouteComponent() {

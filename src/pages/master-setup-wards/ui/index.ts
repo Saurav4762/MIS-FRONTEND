@@ -1,0 +1,1 @@
+export { MasterSetupWardsPage } from "./WardsPage";

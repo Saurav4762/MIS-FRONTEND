@@ -1,2 +1,2 @@
 export { env } from "./env";
-import "./router.d";
+export { type RouteContext } from "./router";

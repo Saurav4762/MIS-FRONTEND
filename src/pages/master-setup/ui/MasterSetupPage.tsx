@@ -1,6 +1,13 @@
-import { useMasterSetupSummary } from "../../../features/master-setups";
+import { useMasterSetupSummary } from "../lib";
 import { SetupCard } from "./SetupCard";
-import { Building, Calendar, ChartBar, Landmark, List, MapPin } from "lucide-react";
+import {
+  Building,
+  Calendar,
+  ChartBar,
+  Landmark,
+  List,
+  MapPin,
+} from "lucide-react";
 
 export function MasterSetupPage() {
   const { data, isLoading } = useMasterSetupSummary();

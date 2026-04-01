@@ -3,8 +3,10 @@ import { DashboardPage } from "@pages/dashboard";
 
 export const Route = createFileRoute("/_app/dashboard")({
   component: RouteComponent,
-  staticData: {
-    breadcrumb: "Dashboard",
+  beforeLoad: async () => {
+    return {
+      breadcrumb: "Dashboard",
+    };
   },
 });
 

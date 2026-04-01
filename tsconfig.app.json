@@ -28,6 +28,12 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
+      // "@*": [
+      //   "./src/*"
+      // ],
+      "@components/*": [
+        "./src/components/*"
+      ],
       "@app/*": [
         "./src/app/*"
       ],

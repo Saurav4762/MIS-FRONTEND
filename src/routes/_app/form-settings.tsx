@@ -2,9 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_app/form-settings")({
   component: RouteComponent,
-  staticData: {
-    breadcrumb: "Form Settings",
-  },
+  beforeLoad: async () => {
+    return {
+      breadcrumb: "Form Settings",
+    };
+  }
 });
 
 function RouteComponent() {

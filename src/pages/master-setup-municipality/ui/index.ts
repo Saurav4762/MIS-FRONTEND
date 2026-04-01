@@ -1,0 +1,1 @@
+export { MasterSetupMunicipalityEditPage } from "./MunicipalityEditPage";

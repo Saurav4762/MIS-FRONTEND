@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import type { MasterSetupSection } from "../lib/routes";
 import type { LucideIcon } from "lucide-react";
+import type { MasterSetupSectionPageId } from "../model/types";
+
+import { masterSetupSectionUrlMap } from "../model/types";
 
 interface SetupCardProps {
   title: string;
@@ -9,7 +11,8 @@ interface SetupCardProps {
   description: string;
   buttonLabel: string;
   icon: LucideIcon;
-  section: MasterSetupSection;
+  // the full path
+  section: MasterSetupSectionPageId;
 }
 
 export function SetupCard({
@@ -24,7 +27,9 @@ export function SetupCard({
   return (
     <div className="flex flex-col rounded-lg border border-[#1a2742] bg-[#081428] p-6">
       <div className="flex items-start gap-4">
-        <div className="text-3xl"><Icon size={28} /></div>
+        <div className="text-3xl">
+          <Icon size={28} />
+        </div>
         <div className="flex-1">
           <h3 className="text-lg font-semibold text-slate-100">{title}</h3>
           {count !== undefined && (
@@ -41,8 +46,7 @@ export function SetupCard({
       <p className="mt-4 text-sm text-slate-400">{description}</p>
 
       <Link
-        to="/master-setup/$section"
-        params={{ section }}
+        to={masterSetupSectionUrlMap[section]}
         className="mt-6 rounded-md text-center text-sm bg-slate-700 px-4 py-2 font-medium text-slate-100 transition-colors hover:bg-slate-600"
       >
         {buttonLabel}
