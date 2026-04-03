@@ -22,3 +22,8 @@
     background: #4b5563; /* Tailwind gray-600 */
   }
 }
+
+* {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #374151 transparent; /* Thumb color and track color for Firefox */
+}
