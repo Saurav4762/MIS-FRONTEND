@@ -15,6 +15,7 @@ import { cva } from "class-variance-authority";
 
 import cn from "@shared/lib";
 import { MunicipalityAddForm } from "./MunicipalityAddForm";
+import { MunicipalityEditForm } from "./MunicipalityEditForm";
 
 
 
@@ -72,6 +73,7 @@ const buttonVariants = cva(
 
 export function MasterSetupMunicipalityPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   return (
     <>
@@ -185,6 +187,7 @@ export function MasterSetupMunicipalityPage() {
                       <button
                         type="button"
                         className={cn(buttonVariants({ variant: "icon" }))}
+                        onClick={() => setIsEditModalOpen(true)}
                       >
                         <Pencil className="h-4 w-4" />
                       </button>
@@ -250,6 +253,17 @@ export function MasterSetupMunicipalityPage() {
             onClose={() => setIsAddModalOpen(false)}
             onDismiss={() => setIsAddModalOpen(false)}
             onConfirm={() => setIsAddModalOpen(false)}
+          />
+        </div>
+      )}
+
+      {isEditModalOpen && (
+        <div className="fixed inset-0 z-50 overflow-y-hidden bg-[#020816]/75 p-4 backdrop-blur-[2px] md:p-8">
+          <MunicipalityEditForm
+            className="bg-transparent p-0 md:p-0"
+            onClose={() => setIsEditModalOpen(false)}
+            onDismiss={() => setIsEditModalOpen(false)}
+            onConfirm={() => setIsEditModalOpen(false)}
           />
         </div>
       )}
