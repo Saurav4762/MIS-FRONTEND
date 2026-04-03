@@ -1,2 +1,2 @@
-export { MasterSetupMunicipalityEditPage } from "./MunicipalityEditPage";
-export { MunicipalityAdd } from "./MunicipalityAdd";
+export { MasterSetupMunicipalityPage } from "./MunicipalityPage";
+export { MunicipalityAddForm } from "./MunicipalityAddForm";

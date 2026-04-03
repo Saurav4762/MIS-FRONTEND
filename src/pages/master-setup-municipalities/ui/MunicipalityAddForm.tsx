@@ -59,7 +59,7 @@ function Field({ label, placeholder, className, startIcon }: FieldProps) {
   );
 }
 
-export function MunicipalityAdd({
+export function MunicipalityAddForm({
   className,
   onClose,
   onDismiss,
@@ -153,4 +153,4 @@ export function MunicipalityAdd({
   );
 }
 
-export default MunicipalityAdd;
+export default MunicipalityAddForm;

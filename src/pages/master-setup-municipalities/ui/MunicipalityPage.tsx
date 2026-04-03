@@ -14,7 +14,7 @@ import { useState } from "react";
 import { cva } from "class-variance-authority";
 
 import cn from "@shared/lib";
-import { MunicipalityAdd } from "./MunicipalityAdd";
+import { MunicipalityAddForm } from "./MunicipalityAddForm";
 
 
 
@@ -70,7 +70,7 @@ const buttonVariants = cva(
   },
 );
 
-export function MasterSetupMunicipalityEditPage() {
+export function MasterSetupMunicipalityPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
@@ -245,7 +245,7 @@ export function MasterSetupMunicipalityEditPage() {
 
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 overflow-y-hidden bg-[#020816]/75 p-4 backdrop-blur-[2px] md:p-8">
-          <MunicipalityAdd
+          <MunicipalityAddForm
             className="bg-transparent p-0 md:p-0"
             onClose={() => setIsAddModalOpen(false)}
             onDismiss={() => setIsAddModalOpen(false)}

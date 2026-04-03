@@ -1,1 +1,1 @@
-export { MasterSetupMunicipalityEditPage } from "./ui";
+export { MasterSetupMunicipalityPage } from "./ui";
