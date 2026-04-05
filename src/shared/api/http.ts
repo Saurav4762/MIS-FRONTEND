@@ -6,20 +6,20 @@ export type ApiError = {
   status: number;
   code: string;
   message: string;
-  details?: unknown;
+  error?: unknown;
 };
 
 const buildError = (error: AxiosError): ApiError => {
   const status = error.response?.status ?? 0;
   const data = error.response?.data as
-    | { code?: string; message?: string; details?: unknown }
+    | { code?: string; message?: string; error?: unknown }
     | undefined;
 
   return {
     status,
     code: data?.code ?? "UNKNOWN_ERROR",
     message: data?.message ?? error.message ?? "Something went wrong",
-    details: data?.details,
+    error: data?.error,
   };
 };
 

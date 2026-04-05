@@ -1,7 +1,11 @@
+import { useForm } from "react-hook-form";
+
 import { cva } from "class-variance-authority";
-import { Building2, Globe, Save, X } from "lucide-react";
+import { Building2, Save, X } from "lucide-react";
 
 import cn from "@shared/lib";
+import { useCreateMunicipality } from "../api";
+import type { Municipality } from "../model";
 
 const actionButtonVariants = cva(
   "inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition-colors",
@@ -29,14 +33,25 @@ interface MunicipalityAddProps {
   onConfirm?: () => void;
 }
 
+type MunicipalityFormValues = Omit<Municipality, "id">;
+
 interface FieldProps {
   label: string;
   placeholder: string;
   className?: string;
   startIcon?: React.ReactNode;
+  registration?: ReturnType<typeof useForm<MunicipalityFormValues>>["register"];
+  name?: keyof MunicipalityFormValues;
 }
 
-function Field({ label, placeholder, className, startIcon }: FieldProps) {
+function Field({
+  label,
+  placeholder,
+  className,
+  startIcon,
+  registration,
+  name,
+}: FieldProps) {
   return (
     <div className={cn("space-y-3", className)}>
       <label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
@@ -50,9 +65,9 @@ function Field({ label, placeholder, className, startIcon }: FieldProps) {
         )}
         <input
           type="text"
-          readOnly
           placeholder={placeholder}
           className={cn(fieldClass, startIcon && "pl-11")}
+          {...(registration && name ? registration(name) : {})}
         />
       </div>
     </div>
@@ -65,6 +80,20 @@ export function MunicipalityAddForm({
   onDismiss,
   onConfirm,
 }: MunicipalityAddProps) {
+  const createMunicipalityMutation = useCreateMunicipality();
+
+  const { register, handleSubmit } = useForm<MunicipalityFormValues>({
+    defaultValues: {
+      code: "",
+      nameNe: "",
+      nameEn: "",
+      headExecutiveNameEn: "",
+      headExecutiveNameNe: "",
+      email: "",
+      phoneNo: "",
+    },
+  });
+
   const handleClose = () => {
     onClose?.();
   };
@@ -74,6 +103,16 @@ export function MunicipalityAddForm({
     onClose?.();
   };
 
+  const onSubmit = async (values: MunicipalityFormValues) => {
+    try {
+      await createMunicipalityMutation.mutateAsync(values);
+      onConfirm?.();
+      onClose?.();
+    } catch (error) {
+      console.error("Create municipality failed:", error);
+    }
+  };
+
   return (
     <section
       className={cn(
@@ -81,7 +120,10 @@ export function MunicipalityAddForm({
         className,
       )}
     >
-      <div className="mx-auto w-full max-w-2xl overflow-hidden rounded-3xl border border-[#242C3E] bg-[#1A1F2B] shadow-[0_40px_100px_rgba(0,0,0,0.5)]">
+      <form
+        className="mx-auto w-full max-w-2xl overflow-hidden rounded-3xl border border-[#242C3E] bg-[#1A1F2B] shadow-[0_40px_100px_rgba(0,0,0,0.5)]"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <header className="flex items-start justify-between border-b border-[#232B3E] px-16 py-8 md:px-10">
           <div className="flex items-center gap-5">
             <div className="grid h-14 w-14 place-items-center rounded-xl border border-[#2F4AFF] bg-[#1F2B4A] text-[#4D67FF]">
@@ -107,24 +149,51 @@ export function MunicipalityAddForm({
           </button>
         </header>
 
+
         <div className="h-104 grid grid-cols-2 gap-x-5 gap-y-8 overflow-y-scroll px-8 py-20 md:grid-cols-2 md:px-12 md:py-12">
+
+          <Field
+            className="md:col-span-2"
+            label="Code"
+            placeholder="MUN-001"
+            registration={register}
+            name="code"
+          />
           <Field
             label="Municipality Name (EN)"
             placeholder="Kathmandu Metropolitan City"
+            registration={register}
+            name="nameEn"
           />
           <Field
             label="नगरपालिकाको नाम (NE)"
             placeholder="काठमाडौँ महानगरपालिका"
+            registration={register}
+            name="nameNe"
           />
-          <Field label="Mayor / Chief (EN)" placeholder="Executive Head Name" />
-          <Field label="प्रमुखको नाम (NE)" placeholder="पूरा नाम नेपालीमा" />
-          <Field label="Email Address" placeholder="info@municipality.gov.np" />
-          <Field label="Phone Number" placeholder="+977-XX-XXXXXXX" />
           <Field
-            className="md:col-span-2"
-            label="Official Website Url"
-            placeholder="https://www.municipality.gov.np"
-            startIcon={<Globe className="h-5 w-5" />}
+            label="Mayor / Chief (EN)"
+            placeholder="Executive Head Name"
+            registration={register}
+            name="headExecutiveNameEn"
+          />
+          <Field
+            label="प्रमुखको नाम (NE)"
+            placeholder="पूरा नाम नेपालीमा"
+            registration={register}
+            name="headExecutiveNameNe"
+          />
+          <Field
+            label="Email Address"
+            placeholder="info@municipality.gov.np"
+            registration={register}
+            name="email"
+          />
+          <Field
+            label="Phone Number"
+            placeholder="+977-XX-XXXXXXX"
+            registration={register}
+            name="phoneNo"
           />
         </div>
 
@@ -137,18 +206,20 @@ export function MunicipalityAddForm({
             Dismiss
           </button>
           <button
-            type="button"
-            onClick={onConfirm}
+            type="submit"
+            disabled={createMunicipalityMutation.isPending}
             className={cn(
               actionButtonVariants({ variant: "primary" }),
-              "min-w-60",
+              "min-w-60 disabled:cursor-not-allowed disabled:opacity-70",
             )}
           >
             <Save className="h-4 w-4" />
-            Confirm Registry
+            {createMunicipalityMutation.isPending
+              ? "Saving..."
+              : "Confirm Registry"}
           </button>
         </footer>
-      </div>
+      </form>
     </section>
   );
 }
