@@ -18,6 +18,7 @@ import { MunicipalityAddForm } from "./MunicipalityAddForm";
 import { MunicipalityEditForm } from "./MunicipalityEditForm";
 import { useMunicipalities } from "../api";
 import type { Municipality } from "../model";
+import MunicipalityDeleteConfirmBox from "./MunicipalityDeleteConfirmBox";
 
 // const municipalities = [
 //   {
@@ -74,6 +75,11 @@ const buttonVariants = cva(
 export function MasterSetupMunicipalityPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+
+  const [selectedMunicipality, setSelectedMunicipality] =
+    useState<Municipality | null>(null);
+
   const { data } = useMunicipalities();
 
   if (!data) {
@@ -81,6 +87,26 @@ export function MasterSetupMunicipalityPage() {
   }
 
   const municipalities = (data ?? []) as Municipality[];
+
+  const handleOpenDeleteConfirmModal = (municipality: Municipality) => {
+    setSelectedMunicipality(municipality);
+    setIsDeleteConfirmOpen(true);
+  };
+
+  const handleCloseDeleteConfirmModal = () => {
+    setSelectedMunicipality(null);
+    setIsDeleteConfirmOpen(false);
+  };
+
+  const handleOpenEditModal = (municipality: Municipality) => {
+    setSelectedMunicipality(municipality);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedMunicipality(null);
+  };
 
   return (
     <>
@@ -197,13 +223,14 @@ export function MasterSetupMunicipalityPage() {
                           <button
                             type="button"
                             className={cn(buttonVariants({ variant: "icon" }))}
-                            onClick={() => setIsEditModalOpen(true)}
+                            onClick={() => handleOpenEditModal(municipality)}
                           >
                             <Pencil className="h-4 w-4" />
                           </button>
                           <button
                             type="button"
                             className={cn(buttonVariants({ variant: "icon" }))}
+                            onClick={() => handleOpenDeleteConfirmModal(row)}
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
@@ -271,10 +298,21 @@ export function MasterSetupMunicipalityPage() {
       {isEditModalOpen && (
         <div className="fixed inset-0 z-50 overflow-y-hidden bg-[#020816]/75 p-4 backdrop-blur-[2px] md:p-8">
           <MunicipalityEditForm
+            municipality={selectedMunicipality}
             className="bg-transparent p-0 md:p-0"
-            onClose={() => setIsEditModalOpen(false)}
-            onDismiss={() => setIsEditModalOpen(false)}
-            onConfirm={() => setIsEditModalOpen(false)}
+            onClose={handleCloseEditModal}
+            onDismiss={handleCloseEditModal}
+            onConfirm={handleCloseEditModal}
+          />
+        </div>
+      )}
+      {isDeleteConfirmOpen && (
+        <div className="fixed inset-0 z-50 bg-[#020816]/75  p-4 backdrop-blur-[2px] md:p-8">
+          <MunicipalityDeleteConfirmBox
+            municipality={selectedMunicipality}
+            onClose={() => handleCloseDeleteConfirmModal()}
+            onDismiss={() => handleCloseDeleteConfirmModal()}
+            onConfirm={() => handleCloseDeleteConfirmModal()}
           />
         </div>
       )}

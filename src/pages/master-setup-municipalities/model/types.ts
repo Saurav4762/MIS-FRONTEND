@@ -10,6 +10,7 @@ export const municipalitySchema = z.object({
   headExecutiveNameNe: z.string().max(100),
   email: z.email(),
   phoneNo: z.string().max(20),
+  website: z.url().max(200).optional(),
 });
 
 export type Municipality = z.infer<typeof municipalitySchema>;

@@ -4,6 +4,7 @@ import { cva } from "class-variance-authority";
 import { Building2, Globe, Save, X } from "lucide-react";
 
 import cn from "@shared/lib";
+import type { Municipality } from "../model";
 
 const actionButtonVariants = cva(
 	"inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition-colors",
@@ -26,6 +27,7 @@ const fieldClass =
 
 interface MunicipalityEditProps {
 	className?: string;
+	municipality?: Municipality | null;
 	onClose?: () => void;
 	onDismiss?: () => void;
 	onConfirm?: () => void;
@@ -34,11 +36,12 @@ interface MunicipalityEditProps {
 interface FieldProps {
 	label: string;
 	placeholder: string;
+	value?: string;
 	className?: string;
 	startIcon?: ReactNode;
 }
 
-function Field({ label, placeholder, className, startIcon }: FieldProps) {
+function Field({ label, placeholder, value, className, startIcon }: FieldProps) {
 	return (
 		<div className={cn("space-y-3", className)}>
 			<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
@@ -53,6 +56,7 @@ function Field({ label, placeholder, className, startIcon }: FieldProps) {
 				<input
 					type="text"
 					readOnly
+					value={value ?? ""}
 					placeholder={placeholder}
 					className={cn(fieldClass, startIcon && "pl-11")}
 				/>
@@ -63,6 +67,7 @@ function Field({ label, placeholder, className, startIcon }: FieldProps) {
 
 export function MunicipalityEditForm({
 	className,
+	municipality,
 	onClose,
 	onDismiss,
 	onConfirm,
@@ -113,19 +118,38 @@ export function MunicipalityEditForm({
 					<Field
 						label="Municipality Name (EN)"
 						placeholder="Kathmandu Metropolitan City"
+						value={municipality?.nameEn}
 					/>
 					<Field
 						label="नगरपालिकाको नाम (NE)"
 						placeholder="काठमाडौँ महानगरपालिका"
+						value={municipality?.nameNe}
 					/>
-					<Field label="Mayor / Chief (EN)" placeholder="Executive Head Name" />
-					<Field label="प्रमुखको नाम (NE)" placeholder="पूरा नाम नेपालीमा" />
-					<Field label="Email Address" placeholder="info@municipality.gov.np" />
-					<Field label="Phone Number" placeholder="+977-XX-XXXXXXX" />
+					<Field
+						label="Mayor / Chief (EN)"
+						placeholder="Executive Head Name"
+						value={municipality?.headExecutiveNameEn}
+					/>
+					<Field
+						label="प्रमुखको नाम (NE)"
+						placeholder="पूरा नाम नेपालीमा"
+						value={municipality?.headExecutiveNameNe}
+					/>
+					<Field
+						label="Email Address"
+						placeholder="info@municipality.gov.np"
+						value={municipality?.email}
+					/>
+					<Field
+						label="Phone Number"
+						placeholder="+977-XX-XXXXXXX"
+						value={municipality?.phoneNo}
+					/>
 					<Field
 						className="md:col-span-2"
 						label="Official Website Url"
 						placeholder="https://www.municipality.gov.np"
+						value={municipality?.website}
 						startIcon={<Globe className="h-5 w-5" />}
 					/>
 				</div>

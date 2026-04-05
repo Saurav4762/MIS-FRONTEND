@@ -11,12 +11,24 @@ export const getMunicipalities = async (): Promise<Municipality[]> => {
   }
 };
 
-export const createMunicipality = async (data: Omit<Municipality, "id">): Promise<Municipality> => {
+export const createMunicipality = async (
+  data: Omit<Municipality, "id">,
+): Promise<Municipality> => {
   try {
     const response = await http.post("/municipality", data);
     return response.data;
   } catch (error) {
     console.error("Error creating municipality:", error);
+    throw error;
+  }
+};
+
+export const deleteMunicipality = async (id: string): Promise<void> => {
+  try {
+    await http.delete(`/municipality/${id}`);
+    return;
+  } catch (error) {
+    console.log("Error deleting municipality", error);
     throw error;
   }
 };
