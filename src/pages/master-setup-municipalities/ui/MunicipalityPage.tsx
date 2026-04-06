@@ -183,24 +183,24 @@ export function MasterSetupMunicipalityPage() {
                       <td className="px-6 py-8 text-sm font-semibold tracking-tight text-[#838BA0]">
                         {municipality.code}
                       </td>
-                      <td className="px-6 py-8">
-                        <p className="text-sm font-semibold tracking-tight text-[#E4E8F4]">
+                      <td className="px-6 py-8 max-w-50">
+                        <p className="text-sm max-w-full whitespace-nowrap overflow-hidden text-ellipsis font-semibold tracking-tight text-[#E4E8F4]">
                           {municipality.nameEn}
                         </p>
-                        <p className="mt-2 text-xs text-[#7E8599]">
+                        <p className="mt-2 text-xs text-[#7E8599] max-w-full whitespace-nowrap overflow-hidden text-ellipsis ">
                           {municipality.nameNe}
                         </p>
                       </td>
                       <td className="px-6 py-8">
                         <div className="flex items-center gap-4">
-                          <div className="grid h-12 w-12 place-items-center rounded-xl bg-[#30384A] text-[#A8AEC1]">
+                          <div className="grid h-12 w-12 min-w-12 min-h-12 place-items-center rounded-xl bg-[#30384A] text-[#A8AEC1]">
                             <User className="h-4 w-4" />
                           </div>
-                          <div>
-                            <p className="text-sm font-semibold tracking-tight text-[#E4E8F4]">
+                          <div className="max-w-50">
+                            <p className="text-sm font-semibold tracking-tight text-[#E4E8F4] max-w-full whitespace-nowrap overflow-hidden text-ellipsis ">
                               {municipality.headExecutiveNameEn}
                             </p>
-                            <p className="mt-1 text-xs font-semibold tracking-[0.08em] text-[#5874FF]">
+                            <p className="mt-1 text-xs font-semibold tracking-[0.08em] text-[#5874FF] max-w-full whitespace-nowrap overflow-hidden text-ellipsis ">
                               {municipality.headExecutiveNameNe}
                             </p>
                           </div>
@@ -212,7 +212,7 @@ export function MasterSetupMunicipalityPage() {
                             <Phone className="h-4 w-4 text-[#737B8E]" />
                             {municipality.phoneNo}
                           </p>
-                          <p className="flex items-center gap-3 text-[#7D8599]">
+                          <p className="flex items-center gap-3 text-[#7D8599] max-w-full whitespace-nowrap overflow-hidden text-ellipsis">
                             <Mail className="h-4 w-4 text-[#6D7589]" />
                             {municipality.email}
                           </p>

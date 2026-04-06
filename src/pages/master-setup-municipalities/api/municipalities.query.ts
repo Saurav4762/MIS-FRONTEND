@@ -6,6 +6,7 @@ import {
   getMunicipalities,
   createMunicipality,
   deleteMunicipality,
+  updateMunicipality,
 } from "./municipalities.api";
 import type { Municipality } from "../model";
 
@@ -28,6 +29,22 @@ export const useCreateMunicipality = () => {
     onError: (error) => {
       // You can handle global error notifications here
       console.error("Mutation failed:", error);
+    },
+  });
+};
+
+export const useUpdateMunicipality = () => {
+  return useMutation<
+    Municipality,
+    unknown,
+    { id: string; data: Partial<Omit<Municipality, "id">> }
+  >({
+    mutationFn: ({ id, data }) => updateMunicipality(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: municipalitiesKeys.list() });
+    },
+    onError: (error) => {
+      console.error("Mutation failed error", error);
     },
   });
 };

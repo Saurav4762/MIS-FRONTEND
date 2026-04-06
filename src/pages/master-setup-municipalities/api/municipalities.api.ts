@@ -23,12 +23,25 @@ export const createMunicipality = async (
   }
 };
 
+export const updateMunicipality = async (
+  id: string,
+  data: Partial<Omit<Municipality, "id">>,
+): Promise<Municipality> => {
+  try {
+    const response = await http.patch(`/municipality/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating municipality:", error);
+    throw error;
+  }
+};
+
 export const deleteMunicipality = async (id: string): Promise<void> => {
   try {
     await http.delete(`/municipality/${id}`);
     return;
   } catch (error) {
-    console.log("Error deleting municipality", error);
+    console.error("Error deleting municipality:", error);
     throw error;
   }
 };
