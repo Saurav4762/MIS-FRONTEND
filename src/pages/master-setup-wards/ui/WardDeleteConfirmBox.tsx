@@ -1,9 +1,9 @@
 import { cva } from "class-variance-authority";
-import { useDeleteMunicipality } from "../api";
-import type { Municipality } from "../model";
 import { AlertTriangle, Trash2, X } from "lucide-react";
 
 import cn from "@shared/lib";
+import { useDeleteWard } from "../api";
+import type { Ward } from "../model";
 
 const actionButtonVariants = cva(
   "inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3 text-sm font-semibold uppercase tracking-[0.12em] transition-colors",
@@ -21,22 +21,24 @@ const actionButtonVariants = cva(
   },
 );
 
-interface MunicipalityDeleteConfirmBoxProps {
-  municipality: Pick<Municipality, "id" | "nameEn" | "nameNe"> | null;
+interface WardDeleteConfirmBoxProps {
+  ward: Pick<Ward, "id" | "number"> | null;
+  municipalityId: string;
   onClose: () => void;
   onConfirm: () => void;
   onDismiss: () => void;
 }
 
-export default function MunicipalityDeleteConfirmBox({
-  municipality,
+export function WardDeleteConfirmBox({
+  ward,
+  municipalityId,
   onClose,
   onConfirm,
   onDismiss,
-}: MunicipalityDeleteConfirmBoxProps) {
-  const deleteMunicipalityMutation = useDeleteMunicipality();
+}: WardDeleteConfirmBoxProps) {
+  const deleteWardMutation = useDeleteWard();
 
-  if (!municipality?.id) {
+  if (!ward?.id) {
     onClose();
     return null;
   }
@@ -44,6 +46,7 @@ export default function MunicipalityDeleteConfirmBox({
   const handleClose = () => {
     onClose?.();
   };
+
   const handleDismiss = () => {
     onDismiss?.();
     onClose?.();
@@ -51,10 +54,10 @@ export default function MunicipalityDeleteConfirmBox({
 
   const handleDelete = async () => {
     try {
-      await deleteMunicipalityMutation.mutateAsync(municipality);
+      await deleteWardMutation.mutateAsync({ id: ward.id, municipalityId });
       onConfirm?.();
     } catch {
-      alert("Something went wrong");
+      alert("Failed to delete ward.");
     }
   };
 
@@ -68,7 +71,7 @@ export default function MunicipalityDeleteConfirmBox({
             </div>
             <div>
               <h2 className="text-2xl font-semibold leading-none tracking-[-0.02em] text-[#E8EBF3]">
-                Delete Municipality
+                Delete Ward
               </h2>
               <p className="mt-2 text-[13px] font-semibold uppercase tracking-[0.12em] text-[#A1A8BA]">
                 This action cannot be undone
@@ -88,15 +91,13 @@ export default function MunicipalityDeleteConfirmBox({
 
         <div className="space-y-3 px-8 py-8 md:px-10">
           <p className="text-sm leading-7 text-[#C7CDDA]">
-            You are about to permanently delete this municipality record.
+            You are about to permanently delete this ward record.
           </p>
           <div className="rounded-xl border border-[#3B4254] bg-[#2A3040] px-4 py-3 text-[#E2E6F1]">
             <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#9EA6BA]">
-              Selected Municipality
+              Selected Ward
             </p>
-            <p className="mt-2 text-base font-medium">
-              {municipality.nameNe} ({municipality.nameEn})
-            </p>
+            <p className="mt-2 text-base font-medium">Ward No. {ward.number}</p>
           </div>
         </div>
 
@@ -114,14 +115,16 @@ export default function MunicipalityDeleteConfirmBox({
               actionButtonVariants({ variant: "danger" }),
               "min-w-52 disabled:cursor-not-allowed disabled:opacity-70",
             )}
-            disabled={deleteMunicipalityMutation.isPending}
+            disabled={deleteWardMutation.isPending}
             onClick={handleDelete}
           >
             <Trash2 className="h-4 w-4" />
-            {deleteMunicipalityMutation.isPending ? "Deleting..." : "Confirm Delete"}
+            {deleteWardMutation.isPending ? "Deleting..." : "Confirm Delete"}
           </button>
         </footer>
       </div>
     </section>
   );
 }
+
+export default WardDeleteConfirmBox;

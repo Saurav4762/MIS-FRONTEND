@@ -1,9 +1,11 @@
-import type { ReactNode } from "react";
+import { useState } from "react";
 
 import { cva } from "class-variance-authority";
 import { Save, ShieldCheck, X } from "lucide-react";
 
 import cn from "@shared/lib";
+import { useUpdateWard } from "../api";
+import type { UpdateWardPayload } from "../model";
 
 const actionButtonVariants = cva(
 	"inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3 text-sm font-semibold uppercase tracking-widest transition-colors",
@@ -26,47 +28,50 @@ const fieldClass =
 
 interface WardEditFormProps {
 	className?: string;
+	wardId: string;
+	municipalityId: string;
+	initialNumber?: number;
+	initialRepresentativeNameEn?: string;
+	initialRepresentativeNameNe?: string;
+	initialPhone?: string;
+	initialEmail?: string;
 	onClose?: () => void;
 	onDismiss?: () => void;
 	onConfirm?: () => void;
 }
 
-interface FieldProps {
-	label: string;
-	placeholder: string;
-	className?: string;
-	startIcon?: ReactNode;
-}
-
-function Field({ label, placeholder, className, startIcon }: FieldProps) {
-	return (
-		<div className={cn("space-y-3", className)}>
-			<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
-				{label}
-			</label>
-			<div className="relative">
-				{startIcon && (
-					<span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#8D94A8]">
-						{startIcon}
-					</span>
-				)}
-				<input
-					type="text"
-					readOnly
-					placeholder={placeholder}
-					className={cn(fieldClass, startIcon && "pl-11", className)}
-				/>
-			</div>
-		</div>
-	);
-}
-
 export function WardEditForm({
 	className,
+	wardId,
+	municipalityId,
+	initialNumber = 0,
+	initialRepresentativeNameEn = "",
+	initialRepresentativeNameNe = "",
+	initialPhone = "",
+	initialEmail = "",
 	onClose,
 	onDismiss,
 	onConfirm,
 }: WardEditFormProps) {
+	const [number, setNumber] = useState(String(initialNumber));
+	const [representativeNameEn, setRepresentativeNameEn] = useState(
+		initialRepresentativeNameEn,
+	);
+	const [representativeNameNe, setRepresentativeNameNe] = useState(
+		initialRepresentativeNameNe,
+	);
+	const [phone, setPhone] = useState(initialPhone);
+	const [email, setEmail] = useState(initialEmail);
+	const [formError, setFormError] = useState("");
+	const { mutateAsync: updateWard, isPending } = useUpdateWard();
+
+	const isFormValid =
+		Number.isInteger(Number(number)) &&
+		Number(number) >= 1 &&
+		Number(number) <= 999 &&
+		representativeNameEn.trim().length > 0 &&
+		representativeNameNe.trim().length > 0;
+
 	const handleClose = () => {
 		onClose?.();
 	};
@@ -74,6 +79,34 @@ export function WardEditForm({
 	const handleDismiss = () => {
 		onDismiss?.();
 		onClose?.();
+	};
+
+	const handleSubmit = async () => {
+		setFormError("");
+
+		if (!isFormValid) {
+			setFormError(
+				"Ward number and representative names in both EN and NE are required.",
+			);
+			return;
+		}
+
+		const payload: UpdateWardPayload = {
+			number: Number(number),
+			representativeNameEn: representativeNameEn.trim(),
+			representativeNameNe: representativeNameNe.trim(),
+			phoneNo: phone.trim() || undefined,
+			email: email.trim() || undefined,
+		};
+
+		try {
+			await updateWard({ id: wardId, municipalityId, data: payload });
+			onConfirm?.();
+			onClose?.();
+		} catch (error) {
+			console.error("Failed to update ward:", error);
+			setFormError("Failed to update ward. Please try again.");
+		}
 	};
 
 	return (
@@ -104,20 +137,82 @@ export function WardEditForm({
 					</button>
 				</header>
 
-				<div className="space-y-8 px-8 py-8 md:px-10 md:py-10">
-					<div className="grid grid-cols-2 gap-x-6 gap-y-7">
-						<Field label="Ward Name (EN)" placeholder="e.g. Ward 01" />
-						<Field label="वडाको नाम (NE)" placeholder="वडा नं. १" />
-						<Field label="Representative (EN)" placeholder="Full Name" />
-						<Field label="प्रतिनिधि (NE)" placeholder="पुरा नाम" />
+<form className="space-y-8 px-8 py-8 md:px-10 md:py-10">
+				<div className="grid grid-cols-2 gap-x-6 gap-y-7">
+					<div className="space-y-3">
+						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
+							Ward Number
+						</label>
+						<input
+							type="number"
+							min={1}
+							max={999}
+							value={number}
+							onChange={(event) => setNumber(event.target.value)}
+							placeholder="e.g. 1"
+							className={fieldClass}
+						/>
 					</div>
-
-					<div className="grid grid-cols-3 gap-x-6 gap-y-7">
-						<Field label="Official Email" placeholder="ward@bhadrapur.gov.np" />
-						<Field label="Phone Number" placeholder="+977-..." />
-						<Field label="Official Website" placeholder="https://wardXX.bhadrapur.gov.np" />
+					<div className="space-y-3">
+						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
+							Representative Name (EN)
+						</label>
+						<input
+							type="text"
+							value={representativeNameEn}
+							onChange={(event) => setRepresentativeNameEn(event.target.value)}
+							placeholder="Full Name"
+							className={fieldClass}
+						/>
+					</div>
+					<div className="space-y-3">
+						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
+							Representative Name (NE)
+						</label>
+						<input
+							type="text"
+							value={representativeNameNe}
+							onChange={(event) => setRepresentativeNameNe(event.target.value)}
+							placeholder="पूरा नाम"
+							className={fieldClass}
+						/>
 					</div>
 				</div>
+
+				<div className="grid grid-cols-2 gap-x-6 gap-y-7">
+					<div className="space-y-3">
+						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
+							Phone Number
+						</label>
+						<input
+							type="tel"
+							value={phone}
+							onChange={(event) => setPhone(event.target.value)}
+							placeholder="e.g. +977-..."
+							className={fieldClass}
+						/>
+					</div>
+
+					<div className="space-y-3">
+						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
+							Email Address
+						</label>
+						<input
+							type="email"
+							value={email}
+							onChange={(event) => setEmail(event.target.value)}
+							placeholder="ward@bhadrapur.gov.np"
+							className={fieldClass}
+						/>
+					</div>
+				</div>
+
+				{formError && (
+					<p className="rounded-lg border border-[#4A353A] bg-[#2D2227] px-4 py-3 text-sm font-medium text-[#E6AFB3]">
+						{formError}
+					</p>
+				)}
+			</form>
 
 				<footer className="flex flex-wrap items-center justify-end gap-4 border-t border-[#232B3E] px-8 py-8 md:px-10">
 					<button
@@ -129,14 +224,16 @@ export function WardEditForm({
 					</button>
 					<button
 						type="button"
-						onClick={onConfirm}
+						onClick={handleSubmit}
+						disabled={isPending || !isFormValid}
 						className={cn(
 							actionButtonVariants({ variant: "primary" }),
+							(isPending || !isFormValid) && "cursor-not-allowed opacity-70",
 							"min-w-74",
 						)}
 					>
 						<Save className="h-4 w-4" />
-						Save Ward Entity
+						{isPending ? "Saving..." : "Save Ward Entity"}
 					</button>
 				</footer>
 			</div>

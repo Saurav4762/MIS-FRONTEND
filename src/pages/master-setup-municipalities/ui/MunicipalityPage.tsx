@@ -1,6 +1,6 @@
 import {
-  Download,
-  Filter,
+  // Download,
+  // Filter,
   Mail,
   MapPin,
   Pencil,
@@ -8,15 +8,16 @@ import {
   Plus,
   Search,
   Trash2,
+  Upload,
   User,
 } from "lucide-react";
-import { useState } from "react";
+import { type ChangeEvent, useRef, useState } from "react";
 import { cva } from "class-variance-authority";
 
 import cn from "@shared/lib";
 import { MunicipalityAddForm } from "./MunicipalityAddForm";
 import { MunicipalityEditForm } from "./MunicipalityEditForm";
-import { useMunicipalities } from "../api";
+import { useImportMunicipalitySeed, useMunicipalities } from "../api";
 import type { Municipality } from "../model";
 import MunicipalityDeleteConfirmBox from "./MunicipalityDeleteConfirmBox";
 
@@ -79,7 +80,9 @@ export function MasterSetupMunicipalityPage() {
 
   const [selectedMunicipality, setSelectedMunicipality] =
     useState<Municipality | null>(null);
+  const municipalityImportInputRef = useRef<HTMLInputElement | null>(null);
 
+  const importMunicipalitySeedMutation = useImportMunicipalitySeed();
   const { data } = useMunicipalities();
 
   if (!data) {
@@ -101,6 +104,35 @@ export function MasterSetupMunicipalityPage() {
   const handleOpenEditModal = (municipality: Municipality) => {
     setSelectedMunicipality(municipality);
     setIsEditModalOpen(true);
+  };
+
+  const handleImportMunicipalitySeed = async (file: File) => {
+    try {
+      const result = await importMunicipalitySeedMutation.mutateAsync(file);
+      alert(result.message ?? "Municipality seed import completed successfully.");
+    } catch {
+      alert("Failed to import municipality seed.");
+    }
+  };
+
+  const handleImportFileSelection = async (
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    const selectedFile = event.target.files?.[0];
+
+    if (!selectedFile) {
+      return;
+    }
+
+    const isExcelFile = /\.(xlsx|xls)$/i.test(selectedFile.name);
+    if (!isExcelFile) {
+      alert("Please select a valid Excel file (.xlsx or .xls).");
+      event.target.value = "";
+      return;
+    }
+
+    await handleImportMunicipalitySeed(selectedFile);
+    event.target.value = "";
   };
 
   const handleCloseEditModal = () => {
@@ -134,20 +166,27 @@ export function MasterSetupMunicipalityPage() {
           </label>
 
           <div className="ml-auto flex flex-wrap items-center gap-4">
-            <button
+            <input
+              ref={municipalityImportInputRef}
+              type="file"
+              accept=".xlsx,.xls"
+              className="hidden"
+              onChange={handleImportFileSelection}
+            />
+            {/* <button
               type="button"
               className={cn(buttonVariants({ variant: "action" }))}
             >
               <Filter className="h-4 w-4" />
               FILTER
-            </button>
-            <button
+            </button> */}
+            {/* <button
               type="button"
               className={cn(buttonVariants({ variant: "action" }))}
             >
               <Download className="h-4 w-4" />
               EXPORT
-            </button>
+            </button> */}
             <button
               type="button"
               className={cn(buttonVariants({ variant: "primary" }))}
@@ -155,6 +194,17 @@ export function MasterSetupMunicipalityPage() {
             >
               <Plus className="h-4 w-4" />
               ADD MUNICIPALITY
+            </button>
+            <button
+              type="button"
+              className={cn(buttonVariants({ variant: "action" }))}
+              onClick={() => municipalityImportInputRef.current?.click()}
+              disabled={importMunicipalitySeedMutation.isPending}
+            >
+              <Upload className="h-4 w-4" />
+              {importMunicipalitySeedMutation.isPending
+                ? "IMPORTING..."
+                : "IMPORT MUNICIPALITIES"}
             </button>
           </div>
         </div>

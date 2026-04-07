@@ -1,5 +1,5 @@
 import { http } from "@shared/api";
-import type { Municipality } from "../model";
+import type { Municipality, MunicipalitySeedResponse } from "../model";
 
 export const getMunicipalities = async (): Promise<Municipality[]> => {
   try {
@@ -42,6 +42,25 @@ export const deleteMunicipality = async (id: string): Promise<void> => {
     return;
   } catch (error) {
     console.error("Error deleting municipality:", error);
+    throw error;
+  }
+};
+
+export const importMunicipalitySeed = async (
+  file: File,
+): Promise<MunicipalitySeedResponse> => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await http.post("/municipality/seed", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error importing municipality seed:", error);
     throw error;
   }
 };

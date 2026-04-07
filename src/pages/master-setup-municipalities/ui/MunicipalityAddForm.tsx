@@ -91,6 +91,7 @@ export function MunicipalityAddForm({
       headExecutiveNameNe: "",
       email: "",
       phoneNo: "",
+      website: "",
     },
   });
 
@@ -149,9 +150,7 @@ export function MunicipalityAddForm({
           </button>
         </header>
 
-
         <div className="h-104 grid grid-cols-2 gap-x-5 gap-y-8 overflow-y-scroll px-8 py-20 md:grid-cols-2 md:px-12 md:py-12">
-
           <Field
             className="md:col-span-2"
             label="Code"
@@ -194,6 +193,13 @@ export function MunicipalityAddForm({
             placeholder="+977-XX-XXXXXXX"
             registration={register}
             name="phoneNo"
+          />
+          <Field
+            className="col-span-2"
+            label="Website"
+            placeholder="https://www.municipality.gov.np"
+            registration={register}
+            name="website"
           />
         </div>
 

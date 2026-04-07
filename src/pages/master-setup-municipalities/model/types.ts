@@ -14,3 +14,14 @@ export const municipalitySchema = z.object({
 });
 
 export type Municipality = z.infer<typeof municipalitySchema>;
+
+export const municipalitySeedResponseSchema = z.object({
+  message: z.string().optional(),
+  insertedCount: z.number().int().nonnegative().optional(),
+  updatedCount: z.number().int().nonnegative().optional(),
+  skippedCount: z.number().int().nonnegative().optional(),
+});
+
+export type MunicipalitySeedResponse = z.infer<
+  typeof municipalitySeedResponseSchema
+>;

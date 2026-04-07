@@ -7,8 +7,9 @@ import {
   createMunicipality,
   deleteMunicipality,
   updateMunicipality,
+  importMunicipalitySeed,
 } from "./municipalities.api";
-import type { Municipality } from "../model";
+import type { Municipality, MunicipalitySeedResponse } from "../model";
 
 // 1. Hook to Fetch all Municipalities
 export const useMunicipalities = () => {
@@ -58,6 +59,18 @@ export const useDeleteMunicipality = () => {
 
     onError: (error) => {
       console.error("Mutation failed error", error);
+    },
+  });
+};
+
+export const useImportMunicipalitySeed = () => {
+  return useMutation<MunicipalitySeedResponse, unknown, File>({
+    mutationFn: importMunicipalitySeed,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: municipalitiesKeys.list() });
+    },
+    onError: (error) => {
+      console.error("Seed import failed:", error);
     },
   });
 };

@@ -2,8 +2,6 @@ import { useMasterSetupSummary } from "../lib";
 import { SetupCard } from "./SetupCard";
 import {
   Building,
-  Calendar,
-  ChartBar,
   Landmark,
   List,
   MapPin,
@@ -59,16 +57,16 @@ export function MasterSetupPage() {
             section="toles"
           />
 
-          <SetupCard
+          {/* <SetupCard
             title="Departments"
             count={data.departmentCount}
             description="Organize municipal departments like Health, Education, and Infrastructure."
             buttonLabel="Manage Departments"
             icon={Building}
             section="departments"
-          />
+          /> */}
 
-          <SetupCard
+          {/* <SetupCard
             title="Programs"
             count={data.programCount}
             status="Active Programs"
@@ -76,16 +74,16 @@ export function MasterSetupPage() {
             buttonLabel="Manage Programs"
             icon={ChartBar}
             section="programs"
-          />
+          /> */}
 
-          <SetupCard
+          {/* <SetupCard
             title="Fiscal Years"
             status={`Current: ${data.currentFiscalYear}`}
             description="Set up financial calendars, reporting periods, and yearly rollover rules."
             buttonLabel="Manage Fiscal Years"
             icon={Calendar}
             section="fiscal-years"
-          />
+          /> */}
 
           <SetupCard
             title="Survey Options"
