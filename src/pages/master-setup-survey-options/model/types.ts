@@ -4,13 +4,12 @@ import { z } from "zod";
 
 export const optionListSchema = z.object({
   id: z.string(),
-  description: z.preprocess(
-    (val) => (val === "" ? undefined : val),
-    z
-      .string()
-      .min(20, "Description must be at least 20 characters long")
-      .optional(),
-  ),
+  description: z
+    .union([
+      z.literal("").transform((): undefined => undefined),
+      z.string().min(20, "Description must be at least 20 characters long"),
+    ])
+    .optional(),
   labelEn: z.string().min(1, "English label is required"),
   labelNe: z.string().min(1, "Nepali label is required"),
 });
@@ -33,6 +32,10 @@ export const optionItemSchema = z.object({
 });
 export const createOptionItemSchema = optionItemSchema.omit({
   id: true,
+});
+
+export const createOptionItemFormSchema = createOptionItemSchema.omit({
+  optionListId: true,
 });
 
 export const updateOptionItemSchema = optionItemSchema.partial().omit({

@@ -1,8 +1,12 @@
 import { Plus, X } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { ApiError } from "@shared/api";
 import { useCreateOptionItem } from "../api";
-import { createOptionItemSchema } from "../model/types";
+import {
+  createOptionItemFormSchema,
+} from "../model/types";
 
 interface SurveyOptionItemCreateModalProps {
   isOpen: boolean;
@@ -12,6 +16,8 @@ interface SurveyOptionItemCreateModalProps {
   onSave: () => void | Promise<void>;
 }
 
+type CreateOptionItemFormData = typeof createOptionItemFormSchema._input;
+
 export function SurveyOptionItemCreateModal({
   isOpen,
   optionListId,
@@ -19,53 +25,48 @@ export function SurveyOptionItemCreateModal({
   onClose,
   onSave,
 }: SurveyOptionItemCreateModalProps) {
-  const [optionItemData, setOptionItemData] = useState({
-    optionListId: optionListId ?? "",
-    labelEn: "",
-    labelNe: "",
-  });
-
   const { mutateAsync: createOptionItemAsync } = useCreateOptionItem();
+  const [apiError, setApiError] = useState<string | null>(null);
 
-  const [isSaving, setIsSaving] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = useForm<CreateOptionItemFormData>({
+    resolver: zodResolver(createOptionItemFormSchema),
+    defaultValues: {
+      labelEn: "",
+      labelNe: "",
+    },
+  });
 
   if (!isOpen) {
     return null;
   }
 
   const handleClose = () => {
-    if (isSaving) {
+    if (isSubmitting) {
       return;
     }
 
-    setErrorMessage(null);
+    setApiError(null);
     onClose();
   };
 
-  const handleSave = async () => {
+  const handleSave = async (data: CreateOptionItemFormData) => {
     const normalizedPayload = {
       optionListId: optionListId.trim(),
-      labelEn: optionItemData.labelEn.trim(),
-      labelNe: optionItemData.labelNe.trim(),
+      labelEn: data.labelEn.trim(),
+      labelNe: data.labelNe.trim(),
     };
 
-    setIsSaving(true);
-    setErrorMessage(null);
+    setApiError(null);
 
     try {
-      const result = createOptionItemSchema.safeParse(normalizedPayload);
-      if (!result.success) {
-        const firstIssue = result.error.issues[0]?.message;
-        setErrorMessage(firstIssue ?? "Please fix the highlighted form fields.");
-        console.error("Validation error:", result.error.issues);
-        return;
-      }
-
       await createOptionItemAsync(normalizedPayload);
 
-      setOptionItemData({
-        optionListId: optionListId,
+      reset({
         labelEn: "",
         labelNe: "",
       });
@@ -73,11 +74,9 @@ export function SurveyOptionItemCreateModal({
       await onSave();
       onClose();
     } catch (error) {
-      const apiError = error as ApiError;
-      setErrorMessage(apiError.message || "Failed to create option item.");
+      const apiErrorObj = error as ApiError;
+      setApiError(apiErrorObj.message || "Failed to create option item.");
       console.error("Error creating option item:", error);
-    } finally {
-      setIsSaving(false);
     }
   };
 
@@ -100,29 +99,20 @@ export function SurveyOptionItemCreateModal({
           <button
             type="button"
             onClick={handleClose}
-            disabled={isSaving}
+            disabled={isSubmitting}
             className="rounded-xl p-2 text-[#96A0B4] transition-colors hover:bg-[#21293A] hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="mt-6 space-y-5">
+        <form onSubmit={handleSubmit(handleSave)} className="mt-6 space-y-5">
           <label className="block space-y-2">
             <span className="text-sm font-semibold text-[#DCE2ED]">
               Name (EN)
             </span>
             <input
-              value={optionItemData.labelEn}
-              onChange={(event) =>
-                {
-                  setErrorMessage(null);
-                  setOptionItemData({
-                    ...optionItemData,
-                    labelEn: event.target.value,
-                  });
-                }
-              }
+              {...register("labelEn")}
               placeholder="Enter English item name"
               className="h-13 w-full rounded-2xl border border-[#2A3348] bg-[#1D2434] px-4 text-sm text-[#E4EAF6] outline-none transition-colors placeholder:text-[#70798D] focus:border-[#4562F3]"
             />
@@ -133,16 +123,7 @@ export function SurveyOptionItemCreateModal({
               Name (NE)
             </span>
             <input
-              value={optionItemData.labelNe}
-              onChange={(event) =>
-                {
-                  setErrorMessage(null);
-                  setOptionItemData({
-                    ...optionItemData,
-                    labelNe: event.target.value,
-                  });
-                }
-              }
+              {...register("labelNe")}
               placeholder="नेपाली नाम प्रविष्ट गर्नुहोस्"
               className="h-13 w-full rounded-2xl border border-[#2A3348] bg-[#1D2434] px-4 text-sm text-[#E4EAF6] outline-none transition-colors placeholder:text-[#70798D] focus:border-[#4562F3]"
             />
@@ -154,32 +135,31 @@ export function SurveyOptionItemCreateModal({
             </p>
           )}
 
-          {errorMessage && (
+          {apiError && (
             <p className="rounded-2xl border border-[#513244] bg-[#2A1B2A] px-4 py-3 text-sm font-medium text-[#F1A2B4]">
-              {errorMessage}
+              {apiError}
             </p>
           )}
-        </div>
 
-        <div className="mt-7 flex flex-wrap justify-end gap-3">
-          <button
-            type="button"
-            onClick={handleClose}
-            disabled={isSaving}
-            className="rounded-2xl border border-[#2A3348] px-4 py-3 text-sm font-semibold text-[#AEB7CA] transition-colors hover:bg-[#20283A] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={isSaving}
-            className="inline-flex items-center gap-2 rounded-2xl bg-[#4562F3] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#5470FF] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <Plus className="h-4 w-4" />
-            {isSaving ? "Creating..." : "Create Option Item"}
-          </button>
-        </div>
+          <div className="mt-7 flex flex-wrap justify-end gap-3">
+            <button
+              type="button"
+              onClick={handleClose}
+              disabled={isSubmitting}
+              className="rounded-2xl border border-[#2A3348] px-4 py-3 text-sm font-semibold text-[#AEB7CA] transition-colors hover:bg-[#20283A] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="inline-flex items-center gap-2 rounded-2xl bg-[#4562F3] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#5470FF] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <Plus className="h-4 w-4" />
+              {isSubmitting ? "Creating..." : "Create Option Item"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
