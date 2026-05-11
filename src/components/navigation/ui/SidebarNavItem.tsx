@@ -20,8 +20,8 @@ export function SidebarNavItem({
       className={[
         "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-xs text-left font-medium transition-colors",
         active
-          ? "bg-[#4f65f8] text-white"
-          : "bg-transparent text-[#98b5e3] hover:bg-[#0f1a2f] hover:text-[#cbe2ff]",
+          ? "bg-[var(--mis-color-pri-500)] text-white"
+          : "bg-transparent text-[var(--mis-color-ink-600)] hover:bg-[var(--mis-color-ink-50)] hover:text-[var(--mis-color-ink-800)]",
       ].join(" ")}
     >
       <Icon strokeWidth={1.85} className="w-4 h-4" />

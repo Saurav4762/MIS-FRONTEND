@@ -1,5 +1,6 @@
 import { ChevronLeft, Plus } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { Button } from "@shared/ui/Button";
 
 interface SectionHeaderProps {
   title: string;
@@ -19,24 +20,23 @@ export function SectionHeader({
       <div className="flex items-center gap-4">
         <Link
           to="/master-setup"
-          className="rounded-lg border border-[#1a2742] bg-[#081428] p-2 hover:bg-[#0a1a33] transition-colors"
+          className="rounded-lg border border-[var(--mis-color-ink-300)] bg-[var(--mis-color-white)] p-2 text-[var(--mis-color-ink-600)] transition-colors hover:bg-[var(--mis-color-ink-50)]"
         >
-          <ChevronLeft className="h-5 w-5 text-slate-400" />
+          <ChevronLeft className="h-5 w-5" />
         </Link>
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-100 capitalize">
+          <h1 className="text-3xl font-semibold tracking-tight text-[var(--mis-color-ink-900)] capitalize">
             {title}
           </h1>
-          <p className="mt-2 text-slate-400">{description}</p>
+          <p className="mt-2 text-[var(--mis-color-ink-600)]">{description}</p>
         </div>
       </div>
-      <button
+      <Button
         onClick={onAddClick}
-        className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 transition-colors"
       >
         <Plus className="h-4 w-4" />
         {buttonLabel}
-      </button>
+      </Button>
     </div>
   );
 }

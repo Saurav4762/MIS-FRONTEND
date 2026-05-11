@@ -12,9 +12,9 @@ const actionButtonVariants = cva(
 	{
 		variants: {
 			variant: {
-				ghost: "text-[#B1B7C7] hover:text-white",
+				ghost: "text-[var(--mis-color-ink-700)] hover:text-[var(--mis-color-ink-900)]",
 				primary:
-					"bg-[#4B62FF] text-white shadow-[0_0_20px_rgba(75,98,255,0.4)] hover:bg-[#5A70FF]",
+					"bg-[var(--mis-color-pri-500)] text-white shadow-[var(--mis-shadow-focus)] hover:bg-[var(--mis-color-pri-600)]",
 			},
 		},
 		defaultVariants: {
@@ -24,7 +24,7 @@ const actionButtonVariants = cva(
 );
 
 const fieldClass =
-	"h-14 w-full rounded-xl border border-[#3A4152] bg-[#343A47] px-4 text-sm text-[#CFD3E1] placeholder:text-[#7D8496] outline-none transition-colors focus:border-[#5A70FF]";
+	"h-14 w-full rounded-xl border border-[var(--mis-color-ink-300)] bg-[var(--mis-color-white)] px-4 text-sm text-[var(--mis-color-ink-800)] placeholder:text-[var(--mis-color-ink-500)] outline-none transition-colors focus:border-[var(--mis-color-pri-600)]";
 
 interface WardEditFormProps {
 	className?: string;
@@ -111,17 +111,17 @@ export function WardEditForm({
 
 	return (
 		<section className={cn("min-h-screen h-dvh overflow-hidden p-5 md:p-8", className)}>
-			<div className="mx-auto w-full max-w-2xl overflow-hidden rounded-3xl border border-[#242C3E] bg-[#1A1F2B] shadow-[0_40px_100px_rgba(0,0,0,0.5)]">
-				<header className="flex items-start justify-between border-b border-[#232B3E] px-8 py-8 md:px-10">
+			<div className="mx-auto w-full max-w-2xl overflow-hidden rounded-3xl border border-[var(--mis-color-ink-200)] bg-[var(--mis-color-white)] shadow-[var(--mis-shadow-lg)]">
+				<header className="flex items-start justify-between border-b border-[var(--mis-color-ink-200)] px-8 py-8 md:px-10">
 					<div className="flex items-center gap-4">
-						<div className="grid h-12 w-12 place-items-center rounded-xl border border-[#2F4AFF] bg-[#1F2B4A] text-[#4D67FF]">
+						<div className="grid h-12 w-12 place-items-center rounded-xl border border-[var(--mis-color-pri-500)] bg-[var(--mis-color-pri-50)] text-[var(--mis-color-pri-600)]">
 							<ShieldCheck className="h-5 w-5" />
 						</div>
 						<div>
-							<h1 className="text-3xl font-semibold leading-none tracking-[-0.02em] text-[#E8EBF3]">
+							<h1 className="text-3xl font-semibold leading-none tracking-[-0.02em] text-[var(--mis-color-ink-900)]">
 								Edit Ward Entity
 							</h1>
-							<p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#A1A8BA]">
+							<p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--mis-color-ink-500)]">
 								Registry Update
 							</p>
 						</div>
@@ -131,7 +131,7 @@ export function WardEditForm({
 						type="button"
 						aria-label="Close"
 						onClick={handleClose}
-						className="rounded-lg p-2 text-[#C5CBD8] transition-colors hover:bg-[#2B3245] hover:text-white"
+						className="rounded-lg p-2 text-[var(--mis-color-ink-600)] transition-colors hover:bg-[var(--mis-color-ink-100)] hover:text-[var(--mis-color-ink-900)]"
 					>
 						<X className="h-6 w-6" />
 					</button>
@@ -140,7 +140,7 @@ export function WardEditForm({
 <form className="space-y-8 px-8 py-8 md:px-10 md:py-10">
 				<div className="grid grid-cols-2 gap-x-6 gap-y-7">
 					<div className="space-y-3">
-						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
+						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mis-color-ink-500)]">
 							Ward Number
 						</label>
 						<input
@@ -154,7 +154,7 @@ export function WardEditForm({
 						/>
 					</div>
 					<div className="space-y-3">
-						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
+						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mis-color-ink-500)]">
 							Representative Name (EN)
 						</label>
 						<input
@@ -166,7 +166,7 @@ export function WardEditForm({
 						/>
 					</div>
 					<div className="space-y-3">
-						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
+						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mis-color-ink-500)]">
 							Representative Name (NE)
 						</label>
 						<input
@@ -181,7 +181,7 @@ export function WardEditForm({
 
 				<div className="grid grid-cols-2 gap-x-6 gap-y-7">
 					<div className="space-y-3">
-						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
+						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mis-color-ink-500)]">
 							Phone Number
 						</label>
 						<input
@@ -194,7 +194,7 @@ export function WardEditForm({
 					</div>
 
 					<div className="space-y-3">
-						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[#B7BDCB]">
+						<label className="block text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mis-color-ink-500)]">
 							Email Address
 						</label>
 						<input
@@ -208,13 +208,13 @@ export function WardEditForm({
 				</div>
 
 				{formError && (
-					<p className="rounded-lg border border-[#4A353A] bg-[#2D2227] px-4 py-3 text-sm font-medium text-[#E6AFB3]">
+					<p className="rounded-lg border border-[var(--mis-color-error-100)] bg-[var(--mis-color-error-50)] px-4 py-3 text-sm font-medium text-[var(--mis-color-error-600)]">
 						{formError}
 					</p>
 				)}
 			</form>
 
-				<footer className="flex flex-wrap items-center justify-end gap-4 border-t border-[#232B3E] px-8 py-8 md:px-10">
+				<footer className="flex flex-wrap items-center justify-end gap-4 border-t border-[var(--mis-color-ink-200)] px-8 py-8 md:px-10">
 					<button
 						type="button"
 						onClick={handleDismiss}
@@ -242,3 +242,4 @@ export function WardEditForm({
 }
 
 export default WardEditForm;
+

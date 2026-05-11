@@ -25,29 +25,29 @@ export function SetupCard({
   section,
 }: SetupCardProps) {
   return (
-    <div className="flex flex-col rounded-lg border border-[#1a2742] bg-[#081428] p-6">
+    <div className="flex flex-col rounded-lg border border-[var(--mis-color-ink-200)] bg-[var(--mis-color-white)] p-6">
       <div className="flex items-start gap-4">
         <div className="text-3xl">
           <Icon size={28} />
         </div>
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-slate-100">{title}</h3>
+          <h3 className="text-lg font-semibold text-[var(--mis-color-ink-900)]">{title}</h3>
           {count !== undefined && (
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-[var(--mis-color-ink-600)]">
               {count} {status || ""}
             </p>
           )}
           {status && count === undefined && (
-            <p className="text-sm text-slate-400">{status}</p>
+            <p className="text-sm text-[var(--mis-color-ink-600)]">{status}</p>
           )}
         </div>
       </div>
 
-      <p className="mt-4 text-sm text-slate-400">{description}</p>
+      <p className="mt-4 text-sm text-[var(--mis-color-ink-600)]">{description}</p>
 
       <Link
         to={masterSetupSectionUrlMap[section]}
-        className="mt-6 rounded-md text-center text-sm bg-slate-700 px-4 py-2 font-medium text-slate-100 transition-colors hover:bg-slate-600"
+        className="mt-6 rounded-md bg-[var(--mis-color-pri-500)] px-4 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-[var(--mis-color-pri-600)]"
       >
         {buttonLabel}
       </Link>

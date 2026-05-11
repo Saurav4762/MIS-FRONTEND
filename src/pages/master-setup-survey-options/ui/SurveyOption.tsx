@@ -1,6 +1,7 @@
 import { Landmark, Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import type { OptionList } from "../model";
+import { Button } from "@shared/ui/Button";
 import { SurveyOptionEditModal } from "./SurveyOptionEditModel";
 import { SurveyOptionDeleteModal } from "./SurveyOptionDeleteModel";
 
@@ -29,12 +30,12 @@ export function SurveyOption({
   };
 
   return (
-    <aside className="w-full overflow-hidden rounded-xl border border-[#252D40] bg-[#171D2A] shadow-sm">
-      <div className="flex items-center justify-between border-b border-[#252D3F] px-6 py-3">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#E7EBF6]">
+    <aside className="w-full overflow-hidden rounded-[var(--mis-card-radius)] border border-[var(--mis-color-ink-200)] bg-[var(--mis-color-white)] shadow-[var(--mis-shadow-sm)]">
+      <div className="flex items-center justify-between border-b border-[var(--mis-color-ink-200)] px-6 py-3">
+        <p className="text-xs font-bold uppercase tracking-widest text-[var(--mis-color-ink-900)]">
           Master Categories
         </p>
-        <span className="h-7 w-7 rounded-full bg-[#212A3D]" />
+        <span className="h-7 w-7 rounded-full bg-[var(--mis-color-pri-100)]" />
       </div>
 
       <div className="space-y-1 px-4 py-3">
@@ -46,8 +47,8 @@ export function SurveyOption({
             <div
               key={item.id}
               className={active
-                ? "flex items-stretch gap-2 rounded-xl bg-[#222C42] px-2 py-2 text-[#EAF0FF]"
-                : "flex items-stretch gap-2 rounded-xl px-2 py-2 text-[#BAC1D2] transition-colors hover:bg-[#1C2434]"
+                ? "flex items-stretch gap-2 rounded-[var(--mis-field-radius)] bg-[var(--mis-color-pri-50)] px-2 py-2 text-[var(--mis-color-pri-700)]"
+                : "flex items-stretch gap-2 rounded-[var(--mis-field-radius)] px-2 py-2 text-[var(--mis-color-ink-700)] transition-colors hover:bg-[var(--mis-color-ink-50)]"
               }
             >
               <button
@@ -57,15 +58,15 @@ export function SurveyOption({
                 }}
                 className={
                   active
-                    ? "flex min-w-0 flex-1 items-center gap-3 rounded-xl px-4 py-3 text-left text-[#EAF0FF]"
-                    : "flex min-w-0 flex-1 items-center gap-3 rounded-xl px-4 py-3 text-left text-[#BAC1D2] transition-colors hover:bg-[#1C2434]"
+                    ? "flex min-w-0 flex-1 items-center gap-3 rounded-[var(--mis-field-radius)] px-4 py-3 text-left text-[var(--mis-color-pri-700)]"
+                    : "flex min-w-0 flex-1 items-center gap-3 rounded-[var(--mis-field-radius)] px-4 py-3 text-left text-[var(--mis-color-ink-700)] transition-colors hover:bg-[var(--mis-color-ink-50)]"
                 }
               >
                 <span
                   className={
                     active
-                      ? "grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#3051EF]/20 text-[#6E89FF]"
-                      : "grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#20283A] text-[#8D95AA]"
+                      ? "grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[var(--mis-color-pri-100)] text-[var(--mis-color-pri-700)]"
+                      : "grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[var(--mis-color-ink-100)] text-[var(--mis-color-ink-500)]"
                   }
                 >
                   <Icon className="h-4 w-4" />
@@ -80,7 +81,7 @@ export function SurveyOption({
                     setSelectedOptionList(item);
                     setIsEditOpen(true);
                   }}
-                  className="rounded-md p-2 text-[#94A6C1] transition-colors hover:bg-[#EDF3FE] hover:text-[#2E67D8]"
+                  className="rounded-md p-2 text-[var(--mis-color-ink-500)] transition-colors hover:bg-[var(--mis-color-pri-50)] hover:text-[var(--mis-color-pri-700)]"
                 >
                   <Pencil className="h-4 w-4" />
                 </button>
@@ -90,7 +91,7 @@ export function SurveyOption({
                     setSelectedOptionList(item);
                     setIsDeleteOpen(true);
                   }}
-                  className="rounded-md p-2 text-[#94A6C1] transition-colors hover:bg-[#FDEEEF] hover:text-[#D44D62]"
+                  className="rounded-md p-2 text-[var(--mis-color-ink-500)] transition-colors hover:bg-[var(--mis-color-error-50)] hover:text-[var(--mis-color-error-600)]"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
@@ -99,17 +100,18 @@ export function SurveyOption({
           );
         })}
       </div>
-      <div className="border-t border-[#252D3F] px-4 py-3">
-        <button
+      <div className="border-t border-[var(--mis-color-ink-200)] px-4 py-3">
+        <Button
           type="button"
+          variant="secondary"
+          className="w-full border-2 border-dashed uppercase tracking-[0.08em]"
           onClick={() => {
             onAddClick?.();
           }}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[#39445E] bg-[#1A2131] px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-[#A9B3C8] transition-colors hover:border-[#4B62FF] hover:text-white"
         >
           <Plus className="h-4 w-4" />
           Add New Category
-        </button>
+        </Button>
       </div>
 
       <SurveyOptionEditModal

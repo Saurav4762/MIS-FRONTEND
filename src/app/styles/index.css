@@ -3,6 +3,56 @@
   --text-tiny: 0.625rem; /* 10px */
 }
 
+:root {
+  --mis-font-sans: "Nunito", "Source Sans 3", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+
+  --mis-color-ink-900: #0f172a;
+  --mis-color-ink-800: #1e293b;
+  --mis-color-ink-700: #334155;
+  --mis-color-ink-600: #475569;
+  --mis-color-ink-500: #64748b;
+  --mis-color-ink-400: #94a3b8;
+  --mis-color-ink-300: #cbd5e1;
+  --mis-color-ink-200: #e2e8f0;
+  --mis-color-ink-100: #f1f5f9;
+  --mis-color-ink-50: #f8fafc;
+  --mis-color-white: #ffffff;
+
+  --mis-color-pri-700: #0369a1;
+  --mis-color-pri-600: #0284c7;
+  --mis-color-pri-500: #0ea5e9;
+  --mis-color-pri-200: #bae6fd;
+  --mis-color-pri-100: #e0f2fe;
+  --mis-color-pri-50: #f0f9ff;
+
+  --mis-color-error-600: #dc2626;
+  --mis-color-error-500: #ef4444;
+  --mis-color-error-100: #fee2e2;
+  --mis-color-error-50: #fef2f2;
+
+  --mis-color-success-600: #059669;
+  --mis-color-success-500: #10b981;
+
+  --mis-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06),
+    0 1px 2px rgba(15, 23, 42, 0.04);
+  --mis-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06),
+    0 2px 4px rgba(15, 23, 42, 0.04);
+  --mis-shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.08),
+    0 4px 10px rgba(15, 23, 42, 0.04);
+  --mis-shadow-focus: 0 0 0 4px rgba(14, 165, 233, 0.18);
+  --mis-shadow-error: 0 0 0 4px rgba(239, 68, 68, 0.18);
+
+  --mis-field-height: 44px;
+  --mis-field-radius: 10px;
+  --mis-card-radius: 14px;
+  --mis-shell-radius: 20px;
+}
+
+body {
+  font-family: var(--mis-font-sans);
+}
+
 @layer utilities {
   /* Webkit browsers (Chrome, Safari, Edge) */
   .custom-scrollbar::-webkit-scrollbar {
@@ -14,16 +64,31 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #374151; /* Tailwind gray-700 */
+    background: var(--mis-color-ink-700);
     border-radius: 10px; /* Rounded pill shape */
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #4b5563; /* Tailwind gray-600 */
+    background: var(--mis-color-ink-600);
   }
 }
 
 * {
   scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: #374151 transparent; /* Thumb color and track color for Firefox */
+  scrollbar-color: var(--mis-color-ink-700) transparent;
+}
+
+.mis-focus-ring:focus-visible {
+  box-shadow: var(--mis-shadow-focus);
+}
+
+.mis-modal-overlay {
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.mis-modal-shell {
+  border: 1px solid var(--mis-color-ink-200);
+  border-radius: var(--mis-shell-radius);
+  background: var(--mis-color-white);
+  box-shadow: var(--mis-shadow-lg);
 }

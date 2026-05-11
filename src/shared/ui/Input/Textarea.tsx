@@ -1,17 +1,17 @@
-import { type InputHTMLAttributes, forwardRef } from "react";
+import { type TextareaHTMLAttributes, forwardRef } from "react";
 import cn from "@shared/lib";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   hasError?: boolean;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, hasError = false, ...props }, ref) => {
     return (
-      <input
+      <textarea
         ref={ref}
         className={cn(
-          "h-[var(--mis-field-height)] w-full rounded-[var(--mis-field-radius)] border bg-[var(--mis-color-white)] px-[14px] text-[15px] font-medium text-[var(--mis-color-ink-900)] outline-none transition-colors placeholder:font-normal placeholder:text-[var(--mis-color-ink-400)]",
+          "min-h-[110px] w-full rounded-[var(--mis-field-radius)] border bg-[var(--mis-color-white)] px-[14px] py-3 text-[15px] font-medium text-[var(--mis-color-ink-900)] outline-none transition-colors placeholder:font-normal placeholder:text-[var(--mis-color-ink-400)]",
           hasError
             ? "border-[var(--mis-color-error-500)] focus:border-[var(--mis-color-error-500)] focus:shadow-[var(--mis-shadow-error)]"
             : "border-[var(--mis-color-ink-300)] hover:border-[var(--mis-color-ink-400)] focus:border-[var(--mis-color-pri-500)] focus:shadow-[var(--mis-shadow-focus)]",
@@ -24,4 +24,4 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   },
 );
 
-Input.displayName = "Input";
+Textarea.displayName = "Textarea";

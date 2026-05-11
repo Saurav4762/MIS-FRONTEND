@@ -57,14 +57,14 @@ const buttonVariants = cva(
     variants: {
       variant: {
         action:
-          "gap-2 rounded-lg border border-[#2A3244] bg-[#1B2130] px-3 py-2.5 text-xs font-semibold tracking-[0.08em] text-[#C9CFDE] hover:bg-[#242C40]",
+          "gap-2 rounded-lg border border-[var(--mis-color-ink-300)] bg-[var(--mis-color-white)] px-3 py-2.5 text-xs font-semibold tracking-[0.08em] text-[var(--mis-color-ink-700)] hover:bg-[var(--mis-color-ink-100)]",
         primary:
-          "gap-2 rounded-lg bg-[#4B62FF] px-3 py-2.5 text-xs font-semibold tracking-[0.08em] text-white hover:bg-[#546CFF]",
-        icon: "rounded-lg p-2 text-[#8990A2] hover:bg-[#2B3244] hover:text-[#A6AEBD]",
+          "gap-2 rounded-lg bg-[var(--mis-color-pri-500)] px-3 py-2.5 text-xs font-semibold tracking-[0.08em] text-white hover:bg-[var(--mis-color-pri-600)]",
+        icon: "rounded-lg p-2 text-[var(--mis-color-ink-500)] hover:bg-[var(--mis-color-ink-100)] hover:text-[var(--mis-color-ink-500)]",
         pagination:
-          "font-semibold uppercase tracking-[0.15em] text-[#AFB5C5] hover:text-white",
+          "font-semibold uppercase tracking-[0.15em] text-[var(--mis-color-ink-600)] hover:text-[var(--mis-color-pri-600)]",
         paginationActive:
-          "h-10 min-w-10 rounded-md bg-[#4B62FF] px-3 font-semibold uppercase tracking-[0.15em] text-white shadow-[0_0_18px_rgba(75,98,255,0.45)]",
+          "h-10 min-w-10 rounded-md bg-[var(--mis-color-pri-500)] px-3 font-semibold uppercase tracking-[0.15em] text-white shadow-[var(--mis-shadow-focus)]",
       },
     },
     defaultVariants: {
@@ -144,24 +144,24 @@ export function MasterSetupMunicipalityPage() {
     <>
       <section className="mx-auto w-full max-w-290 space-y-8 pb-5">
         <header className="space-y-3.5">
-          <h1 className="text-3xl font-extrabold leading-none tracking-[-0.01em] text-[#E8ECF8]">
+          <h1 className="text-3xl font-extrabold leading-none tracking-[-0.01em] text-[var(--mis-color-ink-900)]">
             Municipality Configuration
           </h1>
-          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-[#8D93A5]">
+          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mis-color-ink-500)]">
             <MapPin className="h-4 w-4" />
             Administrative Registry • National Overview
           </p>
         </header>
 
         <div className="flex flex-wrap items-center gap-4">
-          <label className="flex min-w-75 max-w-75 flex-1 items-center gap-3 rounded-xl border border-[#222A3C] bg-[#181E2B] px-4 py-3 text-[#9198AC] focus-within:border-[#3F68FF]">
+          <label className="flex min-w-75 max-w-75 flex-1 items-center gap-3 rounded-xl border border-[var(--mis-color-ink-300)] bg-[var(--mis-color-white)] px-4 py-3 text-[var(--mis-color-ink-500)] focus-within:border-[var(--mis-color-pri-500)]">
             <Search className="h-5 w-5" />
             <input
               type="text"
               value=""
               readOnly
               placeholder="Search registry by name, ID or head..."
-              className="w-full bg-transparent text-xs text-[#B8BED0] placeholder:text-[#6D7488] outline-none"
+              className="w-full bg-transparent text-xs text-[var(--mis-color-ink-600)] placeholder:text-[var(--mis-color-ink-500)] outline-none"
             />
           </label>
 
@@ -209,11 +209,11 @@ export function MasterSetupMunicipalityPage() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-[#252D40] bg-[#1A202D]">
+        <div className="overflow-hidden rounded-2xl border border-[var(--mis-color-ink-200)] bg-[var(--mis-color-white)]">
           <div className="custom-scrollbar overflow-x-auto">
             <table className="min-w-255 w-full">
               <thead>
-                <tr className="border-b border-[#272F42] text-left text-xs font-semibold tracking-[0.13em] text-[#B6BDCC]">
+                <tr className="border-b border-[var(--mis-color-ink-200)] text-left text-xs font-semibold tracking-[0.13em] text-[var(--mis-color-ink-500)]">
                   <th className="px-6 py-7 w-px whitespace-nowrap">ID</th>
                   <th className="px-6 py-7">ENTITY IDENTITY</th>
                   <th className="px-6 py-7">REPRESENTATIVE</th>
@@ -228,42 +228,42 @@ export function MasterSetupMunicipalityPage() {
                   return (
                     <tr
                       key={municipality.id}
-                      className="border-b border-[#272F42] last:border-b-0"
+                      className="border-b border-[var(--mis-color-ink-200)] last:border-b-0"
                     >
-                      <td className="px-6 py-8 text-sm font-semibold tracking-tight text-[#838BA0]">
+                      <td className="px-6 py-8 text-sm font-semibold tracking-tight text-[var(--mis-color-ink-500)]">
                         {municipality.code}
                       </td>
                       <td className="px-6 py-8 max-w-50">
-                        <p className="text-sm max-w-full whitespace-nowrap overflow-hidden text-ellipsis font-semibold tracking-tight text-[#E4E8F4]">
+                        <p className="text-sm max-w-full whitespace-nowrap overflow-hidden text-ellipsis font-semibold tracking-tight text-[var(--mis-color-ink-900)]">
                           {municipality.nameEn}
                         </p>
-                        <p className="mt-2 text-xs text-[#7E8599] max-w-full whitespace-nowrap overflow-hidden text-ellipsis ">
+                        <p className="mt-2 text-xs text-[var(--mis-color-ink-500)] max-w-full whitespace-nowrap overflow-hidden text-ellipsis ">
                           {municipality.nameNe}
                         </p>
                       </td>
                       <td className="px-6 py-8">
                         <div className="flex items-center gap-4">
-                          <div className="grid h-12 w-12 min-w-12 min-h-12 place-items-center rounded-xl bg-[#30384A] text-[#A8AEC1]">
+                          <div className="grid h-12 w-12 min-w-12 min-h-12 place-items-center rounded-xl bg-[var(--mis-color-ink-100)] text-[var(--mis-color-ink-500)]">
                             <User className="h-4 w-4" />
                           </div>
                           <div className="max-w-50">
-                            <p className="text-sm font-semibold tracking-tight text-[#E4E8F4] max-w-full whitespace-nowrap overflow-hidden text-ellipsis ">
+                            <p className="text-sm font-semibold tracking-tight text-[var(--mis-color-ink-900)] max-w-full whitespace-nowrap overflow-hidden text-ellipsis ">
                               {municipality.headExecutiveNameEn}
                             </p>
-                            <p className="mt-1 text-xs font-semibold tracking-[0.08em] text-[#5874FF] max-w-full whitespace-nowrap overflow-hidden text-ellipsis ">
+                            <p className="mt-1 text-xs font-semibold tracking-[0.08em] text-[var(--mis-color-pri-600)] max-w-full whitespace-nowrap overflow-hidden text-ellipsis ">
                               {municipality.headExecutiveNameNe}
                             </p>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-8">
-                        <div className="space-y-3 text-xs text-[#CFD3E1]">
+                        <div className="space-y-3 text-xs text-[var(--mis-color-ink-800)]">
                           <p className="flex items-center gap-3">
-                            <Phone className="h-4 w-4 text-[#737B8E]" />
+                            <Phone className="h-4 w-4 text-[var(--mis-color-ink-500)]" />
                             {municipality.phoneNo}
                           </p>
-                          <p className="flex items-center gap-3 text-[#7D8599] max-w-full whitespace-nowrap overflow-hidden text-ellipsis">
-                            <Mail className="h-4 w-4 text-[#6D7589]" />
+                          <p className="flex items-center gap-3 text-[var(--mis-color-ink-500)] max-w-full whitespace-nowrap overflow-hidden text-ellipsis">
+                            <Mail className="h-4 w-4 text-[var(--mis-color-ink-500)]" />
                             {municipality.email}
                           </p>
                         </div>
@@ -295,7 +295,7 @@ export function MasterSetupMunicipalityPage() {
         </div>
 
         <footer className="flex flex-wrap items-center justify-between gap-4 pt-5">
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#777F92]">
+          <p className="text-sm font-semibold uppercase tracking-widest text-[var(--mis-color-ink-500)]">
             Inventory: 3 of 142 Total Entries
           </p>
 
@@ -335,7 +335,7 @@ export function MasterSetupMunicipalityPage() {
       </section>
 
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-hidden bg-[#020816]/75 p-4 backdrop-blur-[2px] md:p-8">
+        <div className="mis-modal-overlay fixed inset-0 z-50 overflow-y-hidden p-4 backdrop-blur-[2px] md:p-8">
           <MunicipalityAddForm
             className="bg-transparent p-0 md:p-0"
             onClose={() => setIsAddModalOpen(false)}
@@ -346,7 +346,7 @@ export function MasterSetupMunicipalityPage() {
       )}
 
       {isEditModalOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-hidden bg-[#020816]/75 p-4 backdrop-blur-[2px] md:p-8">
+        <div className="mis-modal-overlay fixed inset-0 z-50 overflow-y-hidden p-4 backdrop-blur-[2px] md:p-8">
           <MunicipalityEditForm
             municipality={selectedMunicipality}
             className="bg-transparent p-0 md:p-0"
@@ -357,7 +357,7 @@ export function MasterSetupMunicipalityPage() {
         </div>
       )}
       {isDeleteConfirmOpen && (
-        <div className="fixed inset-0 z-50 bg-[#020816]/75  p-4 backdrop-blur-[2px] md:p-8">
+        <div className="mis-modal-overlay fixed inset-0 z-50 p-4 backdrop-blur-[2px] md:p-8">
           <MunicipalityDeleteConfirmBox
             municipality={selectedMunicipality}
             onClose={() => handleCloseDeleteConfirmModal()}
@@ -369,3 +369,4 @@ export function MasterSetupMunicipalityPage() {
     </>
   );
 }
+

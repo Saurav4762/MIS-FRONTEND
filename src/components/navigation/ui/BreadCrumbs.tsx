@@ -28,8 +28,8 @@ export default function Breadcrumbs() {
 
   return (
     <nav className="flex items-center gap-2 text-xs">
-      <span>
-        <Landmark size={14} color="#3b82f6" />
+      <span className="text-[var(--mis-color-pri-500)]">
+        <Landmark size={14} />
       </span>
       <h3 className="text-xs font-normal text-gray-400">Municipality</h3>
       {crumbs.map((crumb, index) => {

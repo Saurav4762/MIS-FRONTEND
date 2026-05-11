@@ -1,9 +1,12 @@
-import { Plus, X } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateOptionList } from "../api";
 import type { ApiError } from "@shared/api";
+import { Button } from "@shared/ui/Button";
+import { FormField, Input, Textarea } from "@shared/ui/Input";
+import { Modal } from "@shared/ui/Modal";
 import {
   createOptionListSchema,
   type CreateOptionListPayload,
@@ -14,7 +17,6 @@ interface SurveyOptionCreateModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
 
 export function SurveyOptionCreateModal({
   optionListId,
@@ -37,10 +39,6 @@ export function SurveyOptionCreateModal({
       description: "",
     },
   });
-
-  if (!isOpen) {
-    return null;
-  }
 
   const handleSave = async (data: CreateOptionListPayload) => {
     setApiError(null);
@@ -70,123 +68,76 @@ export function SurveyOptionCreateModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#020816]/75 p-4 backdrop-blur-[2px] md:p-8">
-      <div className="mx-auto mt-8 w-full max-w-xl rounded-[22px] border border-[#242C3F] bg-[#171D2A] p-6 shadow-[0_24px_70px_rgba(2,8,22,0.5)]">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#7E879A]">
-              Survey Directory
-            </p>
-            <h3 className="mt-2 text-2xl font-bold tracking-[-0.02em] text-[#E8ECF8]">
-              Create New Survey Option
-            </h3>
-            <p className="mt-2 text-sm text-[#8D97AC]">
-              Add a new master survey option for the survey directory sidebar.
-            </p>
-          </div>
+    <Modal
+      isOpen={isOpen}
+      title="Create New Survey Option"
+      description="Add a new master survey option for the survey directory sidebar."
+      onClose={() => {
+        setApiError(null);
+        onClose();
+      }}
+    >
+      <form onSubmit={handleSubmit(handleSave)} className="mt-6 space-y-6">
+        <FormField
+          label="Name (EN)"
+          required
+          errorText={errors.labelEn?.message}
+        >
+          <Input
+            {...register("labelEn")}
+            placeholder="Enter English category name"
+            hasError={Boolean(errors.labelEn)}
+          />
+        </FormField>
 
-          <button
+        <FormField
+          label="Name (NE)"
+          required
+          errorText={errors.labelNe?.message}
+        >
+          <Input
+            {...register("labelNe")}
+            placeholder="Nepali category name"
+            hasError={Boolean(errors.labelNe)}
+          />
+        </FormField>
+
+        <FormField
+          label="Description"
+          optional
+          errorText={errors.description?.message}
+        >
+          <Textarea
+            {...register("description")}
+            placeholder="Optional description for this category"
+            rows={4}
+            hasError={Boolean(errors.description)}
+          />
+        </FormField>
+
+        {apiError ? (
+          <p className="rounded-[--mis-field-radius] border border-[--mis-color-error-100] bg-[--mis-color-error-50] px-4 py-3 text-sm font-semibold text-[--mis-color-error-600]">
+            {apiError}
+          </p>
+        ) : null}
+
+        <div className="flex flex-wrap justify-end gap-3 border-t border-[--mis-color-ink-200] pt-5">
+          <Button
             type="button"
+            variant="ghost"
             onClick={() => {
               setApiError(null);
               onClose();
             }}
-            className="rounded-xl p-2 text-[#96A0B4] transition-colors hover:bg-[#21293A] hover:text-white"
           >
-            <X className="h-4 w-4" />
-          </button>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isSubmitting}>
+            <Plus className="h-4 w-4" />
+            {isSubmitting ? "Creating..." : "Create Survey Option"}
+          </Button>
         </div>
-
-        <form onSubmit={handleSubmit(handleSave)} className="mt-6 space-y-5">
-          <label className="block space-y-2">
-            <span className="text-sm font-semibold text-[#DCE2ED]">
-              Name (EN)
-            </span>
-            <input
-              {...register("labelEn")}
-              placeholder="Enter English category name"
-              className={`h-13 w-full rounded-2xl border bg-[#1D2434] px-4 text-sm text-[#E4EAF6] outline-none transition-colors placeholder:text-[#70798D] focus:border-[#4562F3] ${
-                errors.labelEn
-                  ? "border-[#8E3650] focus:border-[#F16A8B]"
-                  : "border-[#2A3348]"
-              }`}
-            />
-            {errors.labelEn?.message && (
-              <p className="text-xs font-medium text-[#F1A2B4]">
-                {errors.labelEn.message}
-              </p>
-            )}
-          </label>
-
-          <label className="block space-y-2">
-            <span className="text-sm font-semibold text-[#DCE2ED]">
-              Name (NE)
-            </span>
-            <input
-              {...register("labelNe")}
-              placeholder="नेपाली नाम प्रविष्ट गर्नुहोस्"
-              className={`h-13 w-full rounded-2xl border bg-[#1D2434] px-4 text-sm text-[#E4EAF6] outline-none transition-colors placeholder:text-[#70798D] focus:border-[#4562F3] ${
-                errors.labelNe
-                  ? "border-[#8E3650] focus:border-[#F16A8B]"
-                  : "border-[#2A3348]"
-              }`}
-            />
-            {errors.labelNe?.message && (
-              <p className="text-xs font-medium text-[#F1A2B4]">
-                {errors.labelNe.message}
-              </p>
-            )}
-          </label>
-
-          <label className="block space-y-2">
-            <span className="text-sm font-semibold text-[#DCE2ED]">
-              Description
-            </span>
-            <textarea
-              {...register("description")}
-              placeholder="Optional description for this category"
-              rows={4}
-              className={`w-full rounded-2xl border bg-[#1D2434] px-4 py-3 text-sm text-[#E4EAF6] outline-none transition-colors placeholder:text-[#70798D] focus:border-[#4562F3] ${
-                errors.description
-                  ? "border-[#8E3650] focus:border-[#F16A8B]"
-                  : "border-[#2A3348]"
-              }`}
-            />
-            {errors.description?.message && (
-              <p className="text-xs font-medium text-[#F1A2B4]">
-                {errors.description.message}
-              </p>
-            )}
-          </label>
-
-          {apiError && (
-            <p className="rounded-2xl border border-[#513244] bg-[#2A1B2A] px-4 py-3 text-sm font-medium text-[#F1A2B4]">
-              {apiError}
-            </p>
-          )}
-
-          <div className="mt-7 flex flex-wrap justify-end gap-3">
-            <button
-              type="button"
-              onClick={() => {
-                setApiError(null);
-                onClose();
-              }}
-              className="rounded-2xl border border-[#2A3348] px-4 py-3 text-sm font-semibold text-[#AEB7CA] transition-colors hover:bg-[#20283A]"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="inline-flex items-center gap-2 rounded-2xl bg-[#4562F3] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#5470FF] disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <Plus className="h-4 w-4" />
-              {isSubmitting ? "Creating..." : "Create Survey Option"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+      </form>
+    </Modal>
   );
 }
