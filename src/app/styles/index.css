@@ -3,10 +3,32 @@
   --text-tiny: 0.625rem; /* 10px */
 }
 
-:root {
-  --mis-font-sans: "Nunito", "Source Sans 3", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+:root,
+[data-theme="light"] {
+  /* Typography */
+  --mis-font-sans:
+    "Nunito", "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --mis-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+    monospace;
 
+  --mis-fs-xs: 12px;
+  --mis-fs-sm: 13px;
+  --mis-fs-md: 15px;
+  --mis-fs-lg: 17px;
+  --mis-fs-xl: 20px;
+  --mis-fs-2xl: 24px;
+  --mis-fs-3xl: 32px;
+  --mis-fs-4xl: 44px;
+  --mis-fs-5xl: 64px;
+
+  --mis-fw-regular: 400;
+  --mis-fw-medium: 500;
+  --mis-fw-semibold: 600;
+  --mis-fw-bold: 700;
+  --mis-fw-black: 800;
+
+  /* Color: Neutral */
   --mis-color-ink-900: #0f172a;
   --mis-color-ink-800: #1e293b;
   --mis-color-ink-700: #334155;
@@ -19,13 +41,17 @@
   --mis-color-ink-50: #f8fafc;
   --mis-color-white: #ffffff;
 
+  /* Color: Primary */
   --mis-color-pri-700: #0369a1;
   --mis-color-pri-600: #0284c7;
   --mis-color-pri-500: #0ea5e9;
+  --mis-color-pri-400: #38bdf8;
+  --mis-color-pri-300: #7dd3fc;
   --mis-color-pri-200: #bae6fd;
   --mis-color-pri-100: #e0f2fe;
   --mis-color-pri-50: #f0f9ff;
 
+  /* Color: Semantic */
   --mis-color-error-600: #dc2626;
   --mis-color-error-500: #ef4444;
   --mis-color-error-100: #fee2e2;
@@ -33,20 +59,61 @@
 
   --mis-color-success-600: #059669;
   --mis-color-success-500: #10b981;
+  --mis-color-success-100: #d1fae5;
+  --mis-color-success-50: #ecfdf5;
 
-  --mis-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06),
-    0 1px 2px rgba(15, 23, 42, 0.04);
-  --mis-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06),
-    0 2px 4px rgba(15, 23, 42, 0.04);
-  --mis-shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.08),
-    0 4px 10px rgba(15, 23, 42, 0.04);
+  --mis-color-warn-600: #d97706;
+  --mis-color-warn-500: #f59e0b;
+  --mis-color-warn-100: #fef3c7;
+  --mis-color-warn-50: #fffbeb;
+
+  /* Spacing */
+  --mis-space-1: 4px;
+  --mis-space-2: 8px;
+  --mis-space-3: 12px;
+  --mis-space-4: 16px;
+  --mis-space-5: 20px;
+  --mis-space-6: 24px;
+  --mis-space-7: 32px;
+  --mis-space-8: 40px;
+  --mis-space-9: 56px;
+  --mis-space-10: 72px;
+  --mis-space-11: 96px;
+
+  /* Radius */
+  --mis-radius-sm: 6px;
+  --mis-radius-md: 10px;
+  --mis-radius-lg: 14px;
+  --mis-radius-xl: 20px;
+  --mis-radius-full: 999px;
+
+  /* Shadow */
+  --mis-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --mis-shadow-sm:
+    0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --mis-shadow-md:
+    0 4px 12px rgba(15, 23, 42, 0.06), 0 2px 4px rgba(15, 23, 42, 0.04);
+  --mis-shadow-lg:
+    0 12px 28px rgba(15, 23, 42, 0.08), 0 4px 10px rgba(15, 23, 42, 0.04);
   --mis-shadow-focus: 0 0 0 4px rgba(14, 165, 233, 0.18);
   --mis-shadow-error: 0 0 0 4px rgba(239, 68, 68, 0.18);
+  --mis-shadow-success: 0 0 0 4px rgba(16, 185, 129, 0.18);
 
+  /* Component: Form Field */
   --mis-field-height: 44px;
+  --mis-field-px: 14px;
+  --mis-field-py: 10px;
+  --mis-field-font-size: var(--mis-fs-md);
+  --mis-field-border-width: 1.5px;
   --mis-field-radius: 10px;
+
+  /* Component: Surface */
   --mis-card-radius: 14px;
   --mis-shell-radius: 20px;
+
+  /* Layout */
+  --mis-content-max: 1280px;
+  --mis-sidebar-width: 248px;
 }
 
 body {
