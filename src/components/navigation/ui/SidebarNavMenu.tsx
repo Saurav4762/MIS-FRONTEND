@@ -9,21 +9,23 @@ export default function SidebarNavMenu() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <aside className="flex h-screen w-65 shrink-0 flex-col border-r border-[var(--mis-color-ink-200)] bg-linear-to-b from-[var(--mis-color-ink-50)] to-[var(--mis-color-white)] px-5 py-6 overflow-y-scroll custom-scrollbar space-y-6">
+    <aside className="flex h-screen w-65 shrink-0 flex-col border-r border-(--mis-color-ink-200) bg-linear-to-b from-(--mis-color-ink-50) to-(--mis-color-white) px-5 py-6 overflow-y-scroll custom-scrollbar space-y-6">
       <div className="flex items-center gap-4 px-1">
-        <div className="grid px-1 py-1.5 text-tiny place-items-center rounded-md bg-[var(--mis-color-pri-500)] font-bold text-white">
+        <div className="grid px-1 py-1.5 text-tiny place-items-center rounded-md bg-(--mis-color-pri-500) font-bold text-white">
           BM
         </div>
-        <h1 className="text-sm font-semibold text-[var(--mis-color-ink-900)]">Bhadrapur MIS</h1>
+        <h1 className="text-sm font-semibold text-(--mis-color-ink-900)">
+          Bhadrapur MIS
+        </h1>
       </div>
 
       <div>
-        <label className="group flex items-center gap-3 rounded-lg border border-[var(--mis-color-ink-300)] bg-[var(--mis-color-white)] px-4 py-2.5 text-[var(--mis-color-ink-500)] transition-colors focus-within:border-[var(--mis-color-pri-500)]">
+        <label className="group flex items-center gap-3 rounded-lg border border-(--mis-color-ink-300) bg-(--mis-color-white) px-4 py-2.5 text-(--mis-color-ink-500) transition-colors focus-within:border-(--mis-color-pri-500)">
           <Search size={18} />
           <input
             type="text"
             placeholder="Search modules..."
-            className="w-full border-none bg-transparent text-xs text-[var(--mis-color-ink-700)] placeholder:text-[var(--mis-color-ink-500)] focus:outline-none"
+            className="w-full border-none bg-transparent text-xs text-(--mis-color-ink-700) placeholder:text-(--mis-color-ink-500) focus:outline-none"
           />
         </label>
       </div>

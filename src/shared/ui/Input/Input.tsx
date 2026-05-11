@@ -11,11 +11,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       <input
         ref={ref}
         className={cn(
-          "h-[var(--mis-field-height)] w-full rounded-[var(--mis-field-radius)] border bg-[var(--mis-color-white)] px-[14px] text-[15px] font-medium text-[var(--mis-color-ink-900)] outline-none transition-colors placeholder:font-normal placeholder:text-[var(--mis-color-ink-400)]",
+          "h-(--mis-field-height) w-full rounded-(--mis-field-radius) border bg-(--mis-color-white) px-[14px] text-[15px] font-medium text-(--mis-color-ink-900) outline-none transition-colors placeholder:font-normal placeholder:text-(--mis-color-ink-400)",
           hasError
-            ? "border-[var(--mis-color-error-500)] focus:border-[var(--mis-color-error-500)] focus:shadow-[var(--mis-shadow-error)]"
-            : "border-[var(--mis-color-ink-300)] hover:border-[var(--mis-color-ink-400)] focus:border-[var(--mis-color-pri-500)] focus:shadow-[var(--mis-shadow-focus)]",
-          "disabled:cursor-not-allowed disabled:border-[var(--mis-color-ink-200)] disabled:bg-[var(--mis-color-ink-100)] disabled:text-[var(--mis-color-ink-400)]",
+            ? "border-(--mis-color-error-500) focus:border-(--mis-color-error-500) focus:shadow-(--mis-shadow-error)"
+            : "border-(--mis-color-ink-300) hover:border-(--mis-color-ink-400) focus:border-(--mis-color-pri-500) focus:shadow-(--mis-shadow-focus)",
+          "disabled:cursor-not-allowed disabled:border-(--mis-color-ink-200) disabled:bg-(--mis-color-ink-100) disabled:text-(--mis-color-ink-400)",
           className,
         )}
         {...props}

@@ -20,15 +20,15 @@ export function SectionHeader({
       <div className="flex items-center gap-4">
         <Link
           to="/master-setup"
-          className="rounded-lg border border-[var(--mis-color-ink-300)] bg-[var(--mis-color-white)] p-2 text-[var(--mis-color-ink-600)] transition-colors hover:bg-[var(--mis-color-ink-50)]"
+          className="rounded-lg border border-(--mis-color-ink-300) bg-(--mis-color-white) p-2 text-(--mis-color-ink-600) transition-colors hover:bg-(--mis-color-ink-50)"
         >
           <ChevronLeft className="h-5 w-5" />
         </Link>
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-[var(--mis-color-ink-900)] capitalize">
+          <h1 className="text-3xl font-semibold tracking-tight text-(--mis-color-ink-900) capitalize">
             {title}
           </h1>
-          <p className="mt-2 text-[var(--mis-color-ink-600)]">{description}</p>
+          <p className="mt-2 text-(--mis-color-ink-600)">{description}</p>
         </div>
       </div>
       <Button

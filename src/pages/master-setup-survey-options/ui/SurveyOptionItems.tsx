@@ -25,26 +25,22 @@ export function SurveyOptionItems({
   const [isCreateModelOpen, setIsCreateModelOpen] = useState(false);
   const [isEditModelOpen, setIsEditModelOpen] = useState(false);
   const [isDeleteModelOpen, setIsDeleteModelOpen] = useState(false);
-  const [selectedOptionItem, setSelectedOptionItem] =
-    useState<OptionItem>();
+  const [selectedOptionItem, setSelectedOptionItem] = useState<OptionItem>();
 
   return (
-    <section className="w-full overflow-hidden rounded-[var(--mis-card-radius)] border border-[var(--mis-color-ink-200)] bg-[var(--mis-color-white)] shadow-[var(--mis-shadow-md)]">
-      <header className="flex items-start justify-between border-b border-[var(--mis-color-ink-200)] px-6 py-4">
+    <section className="w-full overflow-hidden rounded-(--mis-card-radius) border border-(--mis-color-ink-200) bg-(--mis-color-white) shadow-(--mis-shadow-md)">
+      <header className="flex items-start justify-between border-b border-(--mis-color-ink-200) px-6 py-4">
         <div>
-          <h2 className="text-2xl font-semibold tracking-tight text-[var(--mis-color-ink-900)]">
+          <h2 className="text-2xl font-semibold tracking-tight text-(--mis-color-ink-900)">
             Data Registry: {selectedOptionList?.labelEn ?? "Select Category"}
           </h2>
-          <p className="mt-1 text-sm text-[var(--mis-color-ink-600)]">
+          <p className="mt-1 text-sm text-(--mis-color-ink-600)">
             {selectedOptionList?.description ??
               "Select a category to view its registered option items"}
           </p>
         </div>
 
-        <Button
-          type="button"
-          onClick={() => setIsCreateModelOpen(true)}
-        >
+        <Button type="button" onClick={() => setIsCreateModelOpen(true)}>
           <Plus className="h-4 w-4" />
           Add Type
         </Button>
@@ -53,7 +49,7 @@ export function SurveyOptionItems({
       <div className="overflow-x-auto">
         <table className="min-w-full">
           <thead>
-            <tr className="border-b border-[var(--mis-color-ink-200)] bg-[var(--mis-color-ink-50)] text-left text-xs font-bold uppercase tracking-wide text-[var(--mis-color-ink-500)]">
+            <tr className="border-b border-(--mis-color-ink-200) bg-(--mis-color-ink-50) text-left text-xs font-bold uppercase tracking-wide text-(--mis-color-ink-500)">
               <th className="w-16 whitespace-nowrap px-6 py-3">#</th>
               <th className="px-6 py-3">Name (EN)</th>
               <th className="px-6 py-3">Name (NE)</th>
@@ -61,12 +57,12 @@ export function SurveyOptionItems({
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-[var(--mis-color-ink-200)]">
+          <tbody className="divide-y divide-(--mis-color-ink-200)">
             {isLoading && (
               <tr>
                 <td
                   colSpan={4}
-                  className="px-6 py-8 text-center text-sm font-medium text-[var(--mis-color-ink-600)]"
+                  className="px-6 py-8 text-center text-sm font-medium text-(--mis-color-ink-600)"
                 >
                   Loading option items...
                 </td>
@@ -76,7 +72,7 @@ export function SurveyOptionItems({
               <tr>
                 <td
                   colSpan={4}
-                  className="px-6 py-8 text-center text-sm font-semibold text-[var(--mis-color-error-600)]"
+                  className="px-6 py-8 text-center text-sm font-semibold text-(--mis-color-error-600)"
                 >
                   Unable to load option items.
                 </td>
@@ -86,7 +82,7 @@ export function SurveyOptionItems({
               <tr>
                 <td
                   colSpan={4}
-                  className="px-6 py-8 text-center text-sm font-medium text-[var(--mis-color-ink-600)]"
+                  className="px-6 py-8 text-center text-sm font-medium text-(--mis-color-ink-600)"
                 >
                   No option items found.
                 </td>
@@ -97,26 +93,26 @@ export function SurveyOptionItems({
               optionRows.map((item, index) => (
                 <tr
                   key={item.id}
-                  className="text-[var(--mis-color-ink-900)] transition-colors hover:bg-[var(--mis-color-ink-50)]"
+                  className="text-(--mis-color-ink-900) transition-colors hover:bg-(--mis-color-ink-50)"
                 >
-                  <td className="px-6 py-4 text-sm font-medium text-[var(--mis-color-ink-500)]">
+                  <td className="px-6 py-4 text-sm font-medium text-(--mis-color-ink-500)">
                     {String(index + 1).padStart(2, "0")}
                   </td>
-                  <td className="px-6 py-4 text-base font-semibold text-[var(--mis-color-ink-900)]">
+                  <td className="px-6 py-4 text-base font-semibold text-(--mis-color-ink-900)">
                     {item.labelEn}
                   </td>
-                  <td className="px-6 py-4 text-base font-medium text-[var(--mis-color-ink-700)]">
+                  <td className="px-6 py-4 text-base font-medium text-(--mis-color-ink-700)">
                     {item.labelNe}
                   </td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center justify-end gap-3 text-[var(--mis-color-ink-500)]">
+                    <div className="flex items-center justify-end gap-3 text-(--mis-color-ink-500)">
                       <button
                         type="button"
                         onClick={() => {
                           setSelectedOptionItem(item);
                           setIsEditModelOpen(true);
                         }}
-                        className="rounded-md p-1.5 transition-colors hover:bg-[var(--mis-color-pri-50)] hover:text-[var(--mis-color-pri-700)]"
+                        className="rounded-md p-1.5 transition-colors hover:bg-(--mis-color-pri-50) hover:text-(--mis-color-pri-700)"
                       >
                         <Pencil className="h-4 w-4" />
                       </button>
@@ -126,7 +122,7 @@ export function SurveyOptionItems({
                           setSelectedOptionItem(item);
                           setIsDeleteModelOpen(true);
                         }}
-                        className="rounded-md p-1.5 transition-colors hover:bg-[var(--mis-color-error-50)] hover:text-[var(--mis-color-error-600)]"
+                        className="rounded-md p-1.5 transition-colors hover:bg-(--mis-color-error-50) hover:text-(--mis-color-error-600)"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
@@ -138,8 +134,8 @@ export function SurveyOptionItems({
         </table>
       </div>
 
-      <footer className="flex items-center justify-between border-t border-[var(--mis-color-ink-200)] bg-[var(--mis-color-white)] px-6 py-3">
-        <p className="text-sm font-medium text-[var(--mis-color-ink-600)]">
+      <footer className="flex items-center justify-between border-t border-(--mis-color-ink-200) bg-(--mis-color-white) px-6 py-3">
+        <p className="text-sm font-medium text-(--mis-color-ink-600)">
           Showing {optionRows.length}{" "}
           {optionRows.length === 1 ? "entry" : "entries"}
         </p>

@@ -10,9 +10,9 @@ const actionButtonVariants = cva(
   {
     variants: {
       variant: {
-        ghost: "text-[var(--mis-color-ink-700)] hover:text-[var(--mis-color-ink-900)]",
+        ghost: "text-(--mis-color-ink-700) hover:text-(--mis-color-ink-900)",
         danger:
-          "bg-[var(--mis-color-error-500)] text-white shadow-[var(--mis-shadow-error)] hover:bg-[var(--mis-color-error-600)]",
+          "bg-(--mis-color-error-500) text-white shadow-(--mis-shadow-error) hover:bg-(--mis-color-error-600)",
       },
     },
     defaultVariants: {
@@ -60,17 +60,17 @@ export default function MunicipalityDeleteConfirmBox({
 
   return (
     <section className="min-h-screen h-dvh overflow-hidden bg-transparent p-0">
-      <div className="mx-auto mt-[18vh] w-full max-w-xl overflow-hidden rounded-3xl border border-[var(--mis-color-ink-200)] bg-[var(--mis-color-white)] shadow-[var(--mis-shadow-lg)]">
-        <header className="flex items-start justify-between border-b border-[var(--mis-color-ink-200)] px-8 py-7 md:px-10">
+      <div className="mx-auto mt-[18vh] w-full max-w-xl overflow-hidden rounded-3xl border border-(--mis-color-ink-200) bg-(--mis-color-white) shadow-(--mis-shadow-lg)">
+        <header className="flex items-start justify-between border-b border-(--mis-color-ink-200) px-8 py-7 md:px-10">
           <div className="flex items-center gap-4">
-            <div className="grid h-12 w-12 place-items-center rounded-xl border border-[var(--mis-color-error-500)] bg-[var(--mis-color-error-50)] text-[var(--mis-color-error-600)]">
+            <div className="grid h-12 w-12 place-items-center rounded-xl border border-(--mis-color-error-500) bg-(--mis-color-error-50) text-(--mis-color-error-600)">
               <AlertTriangle className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="text-2xl font-semibold leading-none tracking-[-0.02em] text-[var(--mis-color-ink-900)]">
+              <h2 className="text-2xl font-semibold leading-none tracking-[-0.02em] text-(--mis-color-ink-900)">
                 Delete Municipality
               </h2>
-              <p className="mt-2 text-[13px] font-semibold uppercase tracking-[0.12em] text-[var(--mis-color-ink-500)]">
+              <p className="mt-2 text-[13px] font-semibold uppercase tracking-[0.12em] text-(--mis-color-ink-500)">
                 This action cannot be undone
               </p>
             </div>
@@ -80,18 +80,18 @@ export default function MunicipalityDeleteConfirmBox({
             type="button"
             aria-label="Close"
             onClick={handleClose}
-            className="rounded-lg p-2 text-[var(--mis-color-ink-600)] transition-colors hover:bg-[var(--mis-color-ink-100)] hover:text-[var(--mis-color-ink-900)]"
+            className="rounded-lg p-2 text-(--mis-color-ink-600) transition-colors hover:bg-(--mis-color-ink-100) hover:text-(--mis-color-ink-900)"
           >
             <X className="h-7 w-7" />
           </button>
         </header>
 
         <div className="space-y-3 px-8 py-8 md:px-10">
-          <p className="text-sm leading-7 text-[var(--mis-color-ink-700)]">
+          <p className="text-sm leading-7 text-(--mis-color-ink-700)">
             You are about to permanently delete this municipality record.
           </p>
-          <div className="rounded-xl border border-[var(--mis-color-ink-200)] bg-[var(--mis-color-ink-50)] px-4 py-3 text-[var(--mis-color-ink-800)]">
-            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--mis-color-ink-500)]">
+          <div className="rounded-xl border border-(--mis-color-ink-200) bg-(--mis-color-ink-50) px-4 py-3 text-(--mis-color-ink-800)">
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-(--mis-color-ink-500)">
               Selected Municipality
             </p>
             <p className="mt-2 text-base font-medium">
@@ -100,7 +100,7 @@ export default function MunicipalityDeleteConfirmBox({
           </div>
         </div>
 
-        <footer className="flex flex-wrap items-center justify-end gap-4 border-t border-[var(--mis-color-ink-200)] px-8 py-7 md:px-10">
+        <footer className="flex flex-wrap items-center justify-end gap-4 border-t border-(--mis-color-ink-200) px-8 py-7 md:px-10">
           <button
             type="button"
             className={cn(actionButtonVariants({ variant: "ghost" }))}
@@ -118,11 +118,12 @@ export default function MunicipalityDeleteConfirmBox({
             onClick={handleDelete}
           >
             <Trash2 className="h-4 w-4" />
-            {deleteMunicipalityMutation.isPending ? "Deleting..." : "Confirm Delete"}
+            {deleteMunicipalityMutation.isPending
+              ? "Deleting..."
+              : "Confirm Delete"}
           </button>
         </footer>
       </div>
     </section>
   );
 }
-

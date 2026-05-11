@@ -119,18 +119,18 @@ export function SurveyOptionItemEditModal({
 				</FormField>
 
 				{!normalizedItemId ? (
-					<p className="rounded-[var(--mis-field-radius)] border border-[var(--mis-color-error-100)] bg-[var(--mis-color-error-50)] px-4 py-3 text-sm font-semibold text-[var(--mis-color-error-600)]">
+					<p className="rounded-(--mis-field-radius) border border-(--mis-color-error-100) bg-(--mis-color-error-50) px-4 py-3 text-sm font-semibold text-(--mis-color-error-600)">
 						Select an option item before editing.
 					</p>
 				) : null}
 
 				{apiError ? (
-					<p className="rounded-[var(--mis-field-radius)] border border-[var(--mis-color-error-100)] bg-[var(--mis-color-error-50)] px-4 py-3 text-sm font-semibold text-[var(--mis-color-error-600)]">
+					<p className="rounded-(--mis-field-radius) border border-(--mis-color-error-100) bg-(--mis-color-error-50) px-4 py-3 text-sm font-semibold text-(--mis-color-error-600)">
 						{apiError}
 					</p>
 				) : null}
 
-				<div className="flex flex-wrap justify-end gap-3 border-t border-[var(--mis-color-ink-200)] pt-5">
+				<div className="flex flex-wrap justify-end gap-3 border-t border-(--mis-color-ink-200) pt-5">
 					<Button
 						type="button"
 						variant="ghost"

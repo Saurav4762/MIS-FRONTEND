@@ -28,7 +28,7 @@ export default function Breadcrumbs() {
 
   return (
     <nav className="flex items-center gap-2 text-xs">
-      <span className="text-[var(--mis-color-pri-500)]">
+      <span className="text-(--mis-color-pri-500)">
         <Landmark size={14} />
       </span>
       <h3 className="text-xs font-normal text-gray-400">Municipality</h3>

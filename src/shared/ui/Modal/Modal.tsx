@@ -32,14 +32,14 @@ export function Modal({
       <div className={cn("mis-modal-shell mx-auto mt-8 w-full max-w-xl p-6", className)}>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[var(--mis-color-ink-500)]">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-(--mis-color-ink-500)">
               {eyebrow}
             </p>
-            <h3 className="mt-2 text-[32px] font-extrabold leading-[1.1] tracking-[-0.015em] text-[var(--mis-color-ink-900)]">
+            <h3 className="mt-2 text-[32px] font-extrabold leading-[1.1] tracking-[-0.015em] text-(--mis-color-ink-900)">
               {title}
             </h3>
             {description ? (
-              <p className="mt-2 text-sm text-[var(--mis-color-ink-600)]">
+              <p className="mt-2 text-sm text-(--mis-color-ink-600)">
                 {description}
               </p>
             ) : null}
@@ -49,7 +49,7 @@ export function Modal({
             type="button"
             onClick={onClose}
             disabled={disableClose}
-            className="rounded-[var(--mis-field-radius)] p-2 text-[var(--mis-color-ink-500)] transition-colors hover:bg-[var(--mis-color-ink-100)] hover:text-[var(--mis-color-ink-900)] disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-(--mis-field-radius) p-2 text-(--mis-color-ink-500) transition-colors hover:bg-(--mis-color-ink-100) hover:text-(--mis-color-ink-900) disabled:cursor-not-allowed disabled:opacity-60"
           >
             <X className="h-4 w-4" />
           </button>

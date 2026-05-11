@@ -19,13 +19,12 @@ export function Pagination({
   onNextClick,
   onPageSelect,
 }: PaginationProps) {
-  const startItem =
-    itemsCount === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+  const startItem = itemsCount === 0 ? 0 : (currentPage - 1) * pageSize + 1;
   const endItem = Math.min(currentPage * pageSize, itemsCount);
 
   return (
-    <div className="flex flex-col gap-4 border-t border-[var(--mis-color-ink-200)] bg-[var(--mis-color-white)] px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-xs text-[var(--mis-color-ink-500)]">
+    <div className="flex flex-col gap-4 border-t border-(--mis-color-ink-200) bg-(--mis-color-white) px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-xs text-(--mis-color-ink-500)">
         Showing {startItem} to {endItem} of {itemsCount} entries
       </p>
 
@@ -34,7 +33,7 @@ export function Pagination({
           type="button"
           onClick={onPrevClick}
           disabled={currentPage === 1}
-          className="rounded-lg border border-[var(--mis-color-ink-300)] px-3 py-1.5 text-xs font-semibold text-[var(--mis-color-ink-700)] transition-colors hover:bg-[var(--mis-color-ink-50)] disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg border border-(--mis-color-ink-300) px-3 py-1.5 text-xs font-semibold text-(--mis-color-ink-700) transition-colors hover:bg-(--mis-color-ink-50) disabled:cursor-not-allowed disabled:opacity-50"
         >
           Prev
         </button>
@@ -47,8 +46,8 @@ export function Pagination({
               className={cn(
                 "min-w-9 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors",
                 page === currentPage
-                  ? "bg-[var(--mis-color-pri-500)] text-white"
-                  : "border border-[var(--mis-color-ink-300)] text-[var(--mis-color-ink-700)] hover:bg-[var(--mis-color-ink-50)]",
+                  ? "bg-(--mis-color-pri-500) text-white"
+                  : "border border-(--mis-color-ink-300) text-(--mis-color-ink-700) hover:bg-(--mis-color-ink-50)",
               )}
             >
               {page}
@@ -59,7 +58,7 @@ export function Pagination({
           type="button"
           onClick={onNextClick}
           disabled={currentPage === totalPages}
-          className="rounded-lg border border-[var(--mis-color-ink-300)] px-3 py-1.5 text-xs font-semibold text-[var(--mis-color-ink-700)] transition-colors hover:bg-[var(--mis-color-ink-50)] disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg border border-(--mis-color-ink-300) px-3 py-1.5 text-xs font-semibold text-(--mis-color-ink-700) transition-colors hover:bg-(--mis-color-ink-50) disabled:cursor-not-allowed disabled:opacity-50"
         >
           Next
         </button>

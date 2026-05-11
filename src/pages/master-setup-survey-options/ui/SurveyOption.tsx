@@ -30,12 +30,12 @@ export function SurveyOption({
   };
 
   return (
-    <aside className="w-full overflow-hidden rounded-[var(--mis-card-radius)] border border-[var(--mis-color-ink-200)] bg-[var(--mis-color-white)] shadow-[var(--mis-shadow-sm)]">
-      <div className="flex items-center justify-between border-b border-[var(--mis-color-ink-200)] px-6 py-3">
-        <p className="text-xs font-bold uppercase tracking-widest text-[var(--mis-color-ink-900)]">
+    <aside className="w-full overflow-hidden rounded-(--mis-card-radius) border border-(--mis-color-ink-200) bg-(--mis-color-white) shadow-(--mis-shadow-sm)">
+      <div className="flex items-center justify-between border-b border-(--mis-color-ink-200) px-6 py-3">
+        <p className="text-xs font-bold uppercase tracking-widest text-(--mis-color-ink-900)">
           Master Categories
         </p>
-        <span className="h-7 w-7 rounded-full bg-[var(--mis-color-pri-100)]" />
+        <span className="h-7 w-7 rounded-full bg-(--mis-color-pri-100)" />
       </div>
 
       <div className="space-y-1 px-4 py-3">
@@ -46,9 +46,10 @@ export function SurveyOption({
           return (
             <div
               key={item.id}
-              className={active
-                ? "flex items-stretch gap-2 rounded-[var(--mis-field-radius)] bg-[var(--mis-color-pri-50)] px-2 py-2 text-[var(--mis-color-pri-700)]"
-                : "flex items-stretch gap-2 rounded-[var(--mis-field-radius)] px-2 py-2 text-[var(--mis-color-ink-700)] transition-colors hover:bg-[var(--mis-color-ink-50)]"
+              className={
+                active
+                  ? "flex items-stretch gap-2 rounded-(--mis-field-radius) bg-(--mis-color-pri-50) px-2 py-2 text-(--mis-color-pri-700)"
+                  : "flex items-stretch gap-2 rounded-(--mis-field-radius) px-2 py-2 text-(--mis-color-ink-700) transition-colors hover:bg-(--mis-color-ink-50)"
               }
             >
               <button
@@ -58,20 +59,22 @@ export function SurveyOption({
                 }}
                 className={
                   active
-                    ? "flex min-w-0 flex-1 items-center gap-3 rounded-[var(--mis-field-radius)] px-4 py-3 text-left text-[var(--mis-color-pri-700)]"
-                    : "flex min-w-0 flex-1 items-center gap-3 rounded-[var(--mis-field-radius)] px-4 py-3 text-left text-[var(--mis-color-ink-700)] transition-colors hover:bg-[var(--mis-color-ink-50)]"
+                    ? "flex min-w-0 flex-1 items-center gap-3 rounded-(--mis-field-radius) px-4 py-3 text-left text-(--mis-color-pri-700)"
+                    : "flex min-w-0 flex-1 items-center gap-3 rounded-(--mis-field-radius) px-4 py-3 text-left text-(--mis-color-ink-700) transition-colors hover:bg-(--mis-color-ink-50)"
                 }
               >
                 <span
                   className={
                     active
-                      ? "grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[var(--mis-color-pri-100)] text-[var(--mis-color-pri-700)]"
-                      : "grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[var(--mis-color-ink-100)] text-[var(--mis-color-ink-500)]"
+                      ? "grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-(--mis-color-pri-100) text-(--mis-color-pri-700)"
+                      : "grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-(--mis-color-ink-100) text-(--mis-color-ink-500)"
                   }
                 >
                   <Icon className="h-4 w-4" />
                 </span>
-                <span className="min-w-0 flex-1 truncate text-base font-medium">{item.labelEn}</span>
+                <span className="min-w-0 flex-1 truncate text-base font-medium">
+                  {item.labelEn}
+                </span>
               </button>
 
               <div className="flex items-center gap-1 pr-2">
@@ -81,7 +84,7 @@ export function SurveyOption({
                     setSelectedOptionList(item);
                     setIsEditOpen(true);
                   }}
-                  className="rounded-md p-2 text-[var(--mis-color-ink-500)] transition-colors hover:bg-[var(--mis-color-pri-50)] hover:text-[var(--mis-color-pri-700)]"
+                  className="rounded-md p-2 text-(--mis-color-ink-500) transition-colors hover:bg-(--mis-color-pri-50) hover:text-(--mis-color-pri-700)"
                 >
                   <Pencil className="h-4 w-4" />
                 </button>
@@ -91,7 +94,7 @@ export function SurveyOption({
                     setSelectedOptionList(item);
                     setIsDeleteOpen(true);
                   }}
-                  className="rounded-md p-2 text-[var(--mis-color-ink-500)] transition-colors hover:bg-[var(--mis-color-error-50)] hover:text-[var(--mis-color-error-600)]"
+                  className="rounded-md p-2 text-(--mis-color-ink-500) transition-colors hover:bg-(--mis-color-error-50) hover:text-(--mis-color-error-600)"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
@@ -100,7 +103,7 @@ export function SurveyOption({
           );
         })}
       </div>
-      <div className="border-t border-[var(--mis-color-ink-200)] px-4 py-3">
+      <div className="border-t border-(--mis-color-ink-200) px-4 py-3">
         <Button
           type="button"
           variant="secondary"
