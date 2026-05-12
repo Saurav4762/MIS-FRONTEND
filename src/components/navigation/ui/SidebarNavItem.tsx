@@ -18,10 +18,10 @@ export function SidebarNavItem({
       type="button"
       onClick={onClick}
       className={[
-        "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-xs text-left font-medium transition-colors",
+        "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-tiny text-left font-medium transition-colors cursor-pointer",
         active
-          ? "bg-(--mis-color-pri-500) text-white"
-          : "bg-transparent text-(--mis-color-ink-600) hover:bg-(--mis-color-ink-50) hover:text-(--mis-color-ink-800)",
+          ? "bg-pri-500 text-ink-50"
+          : "bg-transparent text-ink-600 hover:bg-pri-50 hover:text-pri-700",
       ].join(" ")}
     >
       <Icon strokeWidth={1.85} className="w-4 h-4" />

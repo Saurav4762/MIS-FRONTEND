@@ -11,16 +11,16 @@ export function MasterSetupPage() {
   const { data, isLoading } = useMasterSetupSummary();
 
   if (isLoading) {
-    return <div className="text-slate-400">Loading master setup data...</div>;
+    return <div className="text-ink-400">Loading master setup data...</div>;
   }
 
   return (
     <section className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-slate-100">
+        <h1 className="text-3xl font-semibold tracking-tight text-ink-700">
           Master Setup
         </h1>
-        <p className="mt-2 text-slate-400">
+        <p className="mt-2 text-ink-400">
           For pre-configured system data. Manage core organizational structures
           and reporting timelines below.
         </p>

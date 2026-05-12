@@ -28,7 +28,7 @@ export function SurveyOptionItems({
   const [selectedOptionItem, setSelectedOptionItem] = useState<OptionItem>();
 
   return (
-    <section className="w-full overflow-hidden rounded-(--mis-card-radius) border border-(--mis-color-ink-200) bg-(--mis-color-white) shadow-(--mis-shadow-md)">
+    <section className="w-full overflow-hidden rounded-(--mis-card-radius) border border-(--mis-color-ink-200) bg-(--mis-color-white) shadow-md">
       <header className="flex items-start justify-between border-b border-(--mis-color-ink-200) px-6 py-4">
         <div>
           <h2 className="text-2xl font-semibold tracking-tight text-(--mis-color-ink-900)">
@@ -40,7 +40,7 @@ export function SurveyOptionItems({
           </p>
         </div>
 
-        <Button type="button" onClick={() => setIsCreateModelOpen(true)}>
+        <Button type="button" variant="primary" size="sm" onClick={() => setIsCreateModelOpen(true)}>
           <Plus className="h-4 w-4" />
           Add Type
         </Button>

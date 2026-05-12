@@ -26,7 +26,7 @@ export function SurveyOptionPage() {
         </p>
       </header>
 
-      <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-[340px_minmax(0,1fr)] xl:gap-5">
+      <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-[300px_minmax(0,1fr)] xl:gap-5">
         <div className="min-w-0">
           <SurveyOption
             optionList={optionList}

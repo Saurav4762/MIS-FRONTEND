@@ -30,17 +30,16 @@ export function SurveyOption({
   };
 
   return (
-    <aside className="w-full overflow-hidden rounded-(--mis-card-radius) border border-(--mis-color-ink-200) bg-(--mis-color-white) shadow-(--mis-shadow-sm)">
-      <div className="flex items-center justify-between border-b border-(--mis-color-ink-200) px-6 py-3">
-        <p className="text-xs font-bold uppercase tracking-widest text-(--mis-color-ink-900)">
+    <aside className="w-full overflow-hidden rounded-card border border-ink-200 bg-(--mis-color-white) shadow-sm">
+      <div className="flex items-center justify-between border-b border-(--mis-color-ink-200) px-4 py-4">
+        <p className="text-normal font-bold uppercase tracking-widest text-(--mis-color-ink-900) text-center w-full">
           Master Categories
         </p>
-        <span className="h-7 w-7 rounded-full bg-(--mis-color-pri-100)" />
       </div>
 
       <div className="space-y-1 px-4 py-3">
         {optionList?.map((item) => {
-          const Icon = Landmark;
+          // const Icon = Landmark;
           const active = selectedId === item.id;
 
           return (
@@ -59,11 +58,11 @@ export function SurveyOption({
                 }}
                 className={
                   active
-                    ? "flex min-w-0 flex-1 items-center gap-3 rounded-(--mis-field-radius) px-4 py-3 text-left text-(--mis-color-pri-700)"
-                    : "flex min-w-0 flex-1 items-center gap-3 rounded-(--mis-field-radius) px-4 py-3 text-left text-(--mis-color-ink-700) transition-colors hover:bg-(--mis-color-ink-50)"
+                    ? "flex min-w-0 flex-1 items-center gap-3 rounded-field-radius px-4 py-3 text-left text-pri-700 cursor-pointer"
+                    : "flex min-w-0 flex-1 items-center gap-3 rounded-field-radius px-4 py-3 text-left text-ink-700 transition-colors hover:bg-ink-50 cursor-pointer"
                 }
               >
-                <span
+                {/* <span
                   className={
                     active
                       ? "grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-(--mis-color-pri-100) text-(--mis-color-pri-700)"
@@ -71,7 +70,7 @@ export function SurveyOption({
                   }
                 >
                   <Icon className="h-4 w-4" />
-                </span>
+                </span> */}
                 <span className="min-w-0 flex-1 truncate text-base font-medium">
                   {item.labelEn}
                 </span>
@@ -84,7 +83,7 @@ export function SurveyOption({
                     setSelectedOptionList(item);
                     setIsEditOpen(true);
                   }}
-                  className="rounded-md p-2 text-(--mis-color-ink-500) transition-colors hover:bg-(--mis-color-pri-50) hover:text-(--mis-color-pri-700)"
+                  className="rounded-md p-2 text-(--mis-color-ink-500) transition-colors hover:bg-(--mis-color-pri-50) hover:text-(--mis-color-pri-700) cursor-pointer"
                 >
                   <Pencil className="h-4 w-4" />
                 </button>
@@ -94,7 +93,7 @@ export function SurveyOption({
                     setSelectedOptionList(item);
                     setIsDeleteOpen(true);
                   }}
-                  className="rounded-md p-2 text-(--mis-color-ink-500) transition-colors hover:bg-(--mis-color-error-50) hover:text-(--mis-color-error-600)"
+                  className="rounded-md p-2 text-ink-500 transition-colors hover:bg-error-50 hover:text-error-600 cursor-pointer"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
@@ -107,6 +106,7 @@ export function SurveyOption({
         <Button
           type="button"
           variant="secondary"
+          size="sm"
           className="w-full border-2 border-dashed uppercase tracking-[0.08em]"
           onClick={() => {
             onAddClick?.();
