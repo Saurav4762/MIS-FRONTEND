@@ -17,9 +17,9 @@ export function MasterSetupPage() {
   return (
     <section className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-ink-700">
+        <h2 className="text-3xl font-semibold tracking-tight text-ink-700">
           Master Setup
-        </h1>
+        </h2>
         <p className="mt-2 text-ink-400">
           For pre-configured system data. Manage core organizational structures
           and reporting timelines below.
