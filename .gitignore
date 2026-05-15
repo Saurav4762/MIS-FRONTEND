@@ -36,3 +36,6 @@ dist-ssr
 
 # Auto generated
 **/*.gen.ts
+
+# Dummy files
+temp/
