@@ -3,7 +3,7 @@ import { type ButtonHTMLAttributes, forwardRef } from "react";
 import cn from "@shared/lib";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-(--mis-field-radius) text-[15px] font-bold tracking-[-0.01em] cursor-pointer transition-all disabled:cursor-not-allowed disabled:opacity-60",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-field text-[15px] font-bold tracking-[-0.01em] cursor-pointer transition-all disabled:cursor-not-allowed disabled:opacity-60",
   {
     variants: {
       variant: {
@@ -17,7 +17,7 @@ const buttonVariants = cva(
           "bg-(--mis-color-error-500) px-5 text-white hover:bg-(--mis-color-error-600)",
       },
       size: {
-        sm: "h-auto px-3 py-2 text-sm",
+        sm: "h-auto px-3 py-3 text-sm",
         md: "py-4 px-5",
       },
       block: {

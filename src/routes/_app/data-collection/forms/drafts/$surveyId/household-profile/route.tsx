@@ -1,5 +1,5 @@
 import { HouseholdFormNavigation } from "@pages/data-collection-form-draft-household-profile-navigation";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
   "/_app/data-collection/forms/drafts/$surveyId/household-profile",
@@ -18,9 +18,7 @@ function RouteComponent() {
       </aside>
 
       <div className="col-start-2 row-span-2 overflow-y-scroll">
-        <p>something</p>
-        <p>something</p>
-        <p>something</p>
+        <Outlet />
       </div>
     </>
   );

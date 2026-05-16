@@ -1,14 +1,8 @@
-import { useState } from "react";
 import { Input } from "@shared/ui/Input";
-import { Button } from "@shared/ui/Button";
-import { Plus, Search } from "lucide-react";
-import { useNavigate } from "@tanstack/react-router";
-import NewSurveyModal from "./NewSurveyModel";
+import { ArrowRight, Search } from "lucide-react";
+import { ButtonLink } from "@shared/ui/ButtonLink";
 
 export default function DataCollectionHeader() {
-  const navigate = useNavigate();
-  const [isNewSurveyModalOpen, setIsNewSurveyModalOpen] = useState(false);
-
   return (
     <>
       <div className="flex items-start justify-between gap-4">
@@ -21,28 +15,19 @@ export default function DataCollectionHeader() {
           </div>
         </div>
 
-        <div>
-          <Button
-            variant="primary"
-            className="text-white cursor-pointer flex gap-4 h-auto p-2.5 px-4"
+        <div className="flex items-center gap-6">
+          <ButtonLink
+            variant="ghost"
             size="sm"
-            onClick={() => setIsNewSurveyModalOpen(true)}
+            to="/data-collection/forms/drafts"
           >
+            <span>See drafts</span>
             <span>
-              <Plus className="h-3 w-3 stroke-3" />
+              <ArrowRight className="h-3 w-3 stroke-3" />{" "}
             </span>
-            <span>Add New</span>
-          </Button>
+          </ButtonLink>
         </div>
       </div>
-
-      <NewSurveyModal
-        isOpen={isNewSurveyModalOpen}
-        onClose={() => setIsNewSurveyModalOpen(false)}
-        onCreateDraft={() => {
-          navigate({ to: "/data-collection/forms/drafts" });
-        }}
-      />
     </>
   );
 }

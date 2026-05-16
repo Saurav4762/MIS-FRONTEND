@@ -4,7 +4,7 @@ import { type ReactNode } from "react";
 import cn from "@shared/lib";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-(--mis-field-radius) text-[15px] font-bold tracking-[-0.01em] transition-all disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-field text-normal font-bold tracking-[-0.01em] transition-all disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer",
   {
     variants: {
       variant: {
@@ -13,13 +13,13 @@ const buttonVariants = cva(
         secondary:
           "h-11 border border-(--mis-color-ink-300) bg-(--mis-color-white) px-5 text-(--mis-color-ink-800) hover:bg-(--mis-color-ink-50)",
         ghost:
-          "h-11 px-5 text-(--mis-color-ink-700) hover:bg-(--mis-color-ink-100)",
+          "text-ink-700 hover:bg-ink-100",
         danger:
-          "h-11 bg-(--mis-color-error-500) px-5 text-white hover:bg-(--mis-color-error-600)",
+          "bg-(--mis-color-error-500) px-5 text-white hover:bg-(--mis-color-error-600)",
         text: "font-medium text-sm text-black hover:text-pri-700",
       },
       size: {
-        sm: "h-8 px-3 text-[13px]",
+        sm: "py-3 px-3 text-sm",
         md: "h-11 px-5",
         text: "h-min-content px-5",
       },
