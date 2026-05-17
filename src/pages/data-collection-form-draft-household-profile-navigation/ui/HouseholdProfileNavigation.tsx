@@ -1,84 +1,79 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HouseholdItem from "./HouseholdItem";
 import { Button } from "@shared/ui/Button";
 import { Plus } from "lucide-react";
+import { useSurveyDraftStore } from "@entities/survey";
+import { useHouseholdStore } from "@entities/household/model/household-store";
+import type { Household } from "@entities/household/model/types";
+import { redirect } from "@tanstack/react-router";
 
-interface FamilyMember {
-  id: string;
-  name: string;
-}
-
-interface Family {
-  id: string;
-  name: string;
-  members: FamilyMember[];
-}
-
-// const INITIAL_FAMILIES: Family[] = [
-//   {
-//     id: "family-1",
-//     name: "Family 1",
-//     members: [{ id: "member-1", name: "John Doe" }],
-//   },
-//   {
-//     id: "family-2",
-//     name: "Family 2",
-//     members: [{ id: "member-2", name: "Jane Smith" }],
-//   },
-//   {
-//     id: "family-3",
-//     name: "Family 3",
-//     members: [{ id: "member-3", name: "Bob Johnson" }],
-//   },
-// ];
+const EMPTY_HOUSEHOLDS: Household[] = [];
 
 export default function HouseholdProfileNavigation() {
-  const [families, setFamilies] = useState<Family[]>();
-  const [expandedFamilyId, setExpandedFamilyId] = useState<string | null>(
-    "family-1",
+  const activeDraftId = useSurveyDraftStore((s) => s.activeDraftId);
+  if (!activeDraftId) {
+    throw redirect({ to: "/data-collection/forms/drafts" });
+  }
+
+  // local UI state for expansion only (keeps the existing UI behavior)
+  const [expandedHouseholdId, setExpandedHouseholdId] = useState<string | null>(
+    "household-1",
   );
 
-  const deleteFamily = (familyId: string) => {
-    setFamilies(families?.filter((f) => f.id !== familyId));
-    if (expandedFamilyId === familyId) {
-      setExpandedFamilyId(null);
+  // households are stored per-survey in the global store
+  const surveyId = activeDraftId;
+  const households = useHouseholdStore(
+    (s) => s.surveys[surveyId]?.households ?? EMPTY_HOUSEHOLDS,
+  );
+  const isSurveyLoaded = useHouseholdStore((s) => s.loadedSurveyIds[surveyId]);
+
+  const loadHouseholds = useHouseholdStore((s) => s.loadSurveyHouseholds);
+  const addHouseholdAction = useHouseholdStore((s) => s.addHousehold);
+  const deleteHouseholdAction = useHouseholdStore((s) => s.deleteHousehold);
+
+  const deleteHousehold = async (householdId: string) => {
+    if (!surveyId) return;
+    await deleteHouseholdAction(surveyId, householdId);
+    if (expandedHouseholdId === householdId) {
+      setExpandedHouseholdId(null);
     }
   };
 
-  const addFamily = () => {
-    const newFamilyId = `family-${Date.now()}`;
-    const newFamilyIndex = families ? families.length + 1 : 1;
-    const newFamily: Family = {
-      id: newFamilyId,
-      name: `Family ${newFamilyIndex}`,
-      members: [],
-    };
-    setFamilies([...(families || []), newFamily]);
+  const addHousehold = async () => {
+    if (!surveyId) return;
+    const id = await addHouseholdAction(surveyId);
+    // optionally expand the newly added household
+    setExpandedHouseholdId(id);
   };
+
+  useEffect(() => {
+    if (!surveyId || isSurveyLoaded) return;
+    loadHouseholds(surveyId);
+  }, [surveyId, isSurveyLoaded, loadHouseholds]);
 
   return (
     <div className="w-full max-w-md rounded-lg border h-full overflow-hidden flex flex-col border-gray-200 bg-white shadow-sm">
-      <h2 className="mb-6 p-4 border-b border-ink-200 text-xs font-semibold text-gray-600 uppercase tracking-wide">
-        Form list
+      <h2 className="p-4 border-b border-ink-200 text-xs font-semibold text-gray-600 uppercase tracking-wide">
+        Household List
       </h2>
       <div className="flex-1 overflow-y-scroll">
-        {families?.map((family, index) => (
+        {households?.map((household, index) => (
           <HouseholdItem
-            familyName={family.name}
+            householdName={household.name}
             index={index}
-            key={family.id}
-            onDelete={() => deleteFamily(family.id)}
+            key={household.id}
+            onDelete={() => deleteHousehold(household.id)}
           />
         ))}
       </div>
 
-      {/* Add Family Button */}
+      {/* Add Household Button */}
       <div className="p-4 border-t-2 border-ink-100">
-        <Button variant="primary" size="sm" block onClick={addFamily}>
+        <Button variant="primary" size="sm" block onClick={addHousehold}>
           <span>
             <Plus />
           </span>
-          <span>Add Family</span>
+          <span>Add Household</span>
         </Button>
       </div>
     </div>

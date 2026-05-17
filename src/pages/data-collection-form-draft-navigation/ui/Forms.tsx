@@ -6,6 +6,8 @@ import {
 } from "lucide-react";
 
 export default function Forms() {
+  // check whether the draft exists or not
+
   return (
     <aside className="w-64 space-y-2 rounded-lg border border-ink-200 bg-white p-4 shadow-xs">
       <ButtonLink

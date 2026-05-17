@@ -8,11 +8,10 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-(--mis-color-pri-500) px-5 text-white shadow-(--mis-shadow-sm) hover:bg-(--mis-color-pri-600) hover:shadow-(--mis-shadow-md)",
+          "bg-(--mis-color-pri-500) px-5 text-white shadow-sm hover:bg-pri-600 hover:shadow-md",
         secondary:
           "border border-(--mis-color-ink-300) bg-(--mis-color-white) px-5 text-(--mis-color-ink-800) hover:bg-(--mis-color-ink-50)",
-        ghost:
-          "px-5 text-(--mis-color-ink-700) hover:bg-(--mis-color-ink-100)",
+        ghost: "px-5 text-(--mis-color-ink-700) hover:bg-(--mis-color-ink-100)",
         danger:
           "bg-(--mis-color-error-500) px-5 text-white hover:bg-(--mis-color-error-600)",
       },
@@ -20,11 +19,22 @@ const buttonVariants = cva(
         sm: "h-auto px-3 py-3 text-sm",
         md: "py-4 px-5",
       },
+      isActive: {
+        true: "",
+        false: "",
+      },
       block: {
         true: "w-full",
         false: "",
       },
     },
+    compoundVariants: [
+      {
+        variant: "ghost",
+        isActive: true,
+        className: "bg-pri-500 hover:bg-pri-700 text-white shadow-sm",
+      },
+    ],
     defaultVariants: {
       variant: "primary",
       size: "md",
@@ -37,12 +47,26 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants>;
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, block, type = "button", ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      isActive = false,
+      block,
+      type = "button",
+      ...props
+    },
+    ref,
+  ) => {
     return (
       <button
         ref={ref}
         type={type}
-        className={cn(buttonVariants({ variant, size, block }), className)}
+        className={cn(
+          buttonVariants({ variant, size, block, isActive }),
+          className,
+        )}
         {...props}
       />
     );

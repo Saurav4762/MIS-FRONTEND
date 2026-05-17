@@ -17,7 +17,7 @@ function RouteComponent() {
         <HouseholdFormNavigation />
       </aside>
 
-      <div className="col-start-2 row-span-2 overflow-y-scroll">
+      <div className="col-start-2 row-span-2 overflow-auto">
         <Outlet />
       </div>
     </>

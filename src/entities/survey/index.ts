@@ -20,20 +20,9 @@ export {
   formPathFromString,
   toFormPath,
 } from "./model/form-path";
-export {
-  SURVEY_DRAFTS_META_KEY,
-  surveyFormKey,
-  surveyFormKeyPrefix,
-  isSurveyFormKey,
-} from "./model/survey-storage-keys";
+export { SURVEY_DRAFTS_META_KEY } from "./model/survey-storage-keys";
 export {
   useSurveyDraftStore,
   selectActiveDraft,
   selectDraftById,
 } from "./model/survey-draft-store";
-export {
-  loadSurveyForm,
-  saveSurveyForm,
-  deleteSurveyForm,
-  deleteAllSurveyForms,
-} from "./lib/survey-form-storage";

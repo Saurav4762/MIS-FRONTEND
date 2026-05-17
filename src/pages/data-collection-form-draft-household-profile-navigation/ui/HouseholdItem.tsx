@@ -6,7 +6,7 @@ import { FAMILY_SECTIONS } from "../model";
 
 type HouseholdItemProps = {
   key: string;
-  familyName: string;
+  householdName: string;
   index: number;
   // onToggle: () => void;
   onDelete: () => void;
@@ -14,7 +14,7 @@ type HouseholdItemProps = {
 
 export default function HouseholdItem({
   key,
-  familyName,
+  householdName,
   index,
   // onToggle,
   onDelete,
@@ -31,7 +31,7 @@ export default function HouseholdItem({
   return (
     <div>
       <div key={key}>
-        {/* Family Header */}
+        {/* Household Header */}
         <Button
           onClick={() => toggleExpand()}
           size="sm"
@@ -46,7 +46,7 @@ export default function HouseholdItem({
             )}
             <span className="font-semibold text-pri-700 flex gap-3 text-left">
               <span>{index + 1}.</span>
-              <span>{familyName}</span>
+              <span>{householdName}</span>
             </span>
           </div>
 
@@ -57,7 +57,7 @@ export default function HouseholdItem({
             size="sm"
             block={false}
             className="hover:bg-red-50 group-hover:opacity-100 opacity-0 transition-all rounded-md group"
-            aria-label={`Delete ${familyName}`}
+            aria-label={`Delete ${householdName}`}
           >
             <X className="h-3 w-3 text-gray-400 group-hover:text-red-600" />
           </Button>

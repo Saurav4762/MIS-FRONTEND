@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { idbPersistStorage } from "@shared/lib/idb-persist-storage";
-import { deleteAllSurveyForms } from "../lib/survey-form-storage";
+// import { deleteAllSurveyForms } from "../lib/survey-form-storage";
 import { formPathToString } from "./form-path";
 import { SURVEY_DRAFTS_META_KEY } from "./survey-storage-keys";
 import type {
@@ -88,7 +88,6 @@ export const useSurveyDraftStore = create<SurveyDraftState>()(
         }));
       },
       removeDraft: async (id) => {
-        await deleteAllSurveyForms(id);
         set((state) => ({
           drafts: state.drafts.filter((draft) => draft.id !== id),
           activeDraftId:

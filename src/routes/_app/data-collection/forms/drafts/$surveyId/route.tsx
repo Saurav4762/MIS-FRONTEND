@@ -1,7 +1,6 @@
 import { useSurveyDraftStore } from "@entities/survey/model/survey-draft-store";
 import Forms from "@pages/data-collection-form-draft-navigation/ui/Forms";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
   "/_app/data-collection/forms/drafts/$surveyId",
@@ -10,22 +9,24 @@ export const Route = createFileRoute(
   beforeLoad: async ({ params }) => {
     await useSurveyDraftStore.getState().hydrate();
 
-    const currDraft = useSurveyDraftStore
-      .getState()
-      .getDraftById(params.surveyId);
+    const draft = useSurveyDraftStore.getState().getDraftById(params.surveyId);
+
+    if (!draft) {
+      useSurveyDraftStore.getState().setActiveDraft(null);
+      throw redirect({
+        to: "/data-collection/forms/drafts",
+      });
+    }
+
+    useSurveyDraftStore.getState().setActiveDraft(params.surveyId);
 
     return {
-      breadcrumb: `${currDraft?.name || "Draft Details"}`,
+      breadcrumb: draft.name || "Draft Details",
     };
   },
 });
 
 function RouteComponent() {
-  const hydrate = useSurveyDraftStore((state) => state.hydrate);
-  useEffect(() => {
-    hydrate();
-  }, [hydrate]);
-
   return (
     <div className="grid grid-cols-[min-content_1fr] grid-rows-[min-content_1fr] h-full gap-6">
       <Forms />
