@@ -6,7 +6,7 @@ import { FAMILY_SECTIONS } from "../model";
 
 type HouseholdItemProps = {
   householdId: string;
-  surveyId: string;
+  caseId: string;
   householdName: string;
   index: number;
   onDelete: () => void;
@@ -16,10 +16,10 @@ export default function HouseholdItem({
   householdId,
   householdName,
   index,
-  surveyId,
+  caseId,
   onDelete,
 }: HouseholdItemProps) {
-  console.log("Rendering keys", { householdId, surveyId });
+  console.log("Rendering keys", { householdId, caseId });
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpand = () => {
     setIsExpanded((prev) => !prev);
@@ -76,7 +76,7 @@ export default function HouseholdItem({
                   <ButtonLink
                     to={section.link}
                     params={{
-                      surveyId: surveyId,
+                      caseId: caseId,
                       householdId: householdId,
                     }}
                     align="left"

@@ -18,8 +18,8 @@ import LoanToggle from "./LoanToggle";
 
 export default function EconomyFormPage() {
   const navigate = useNavigate();
-  const { surveyId } = useParams({
-    from: "/_app/data-collection/forms/drafts/$surveyId/household-profile/economic",
+  const { caseId, householdId } = useParams({
+    from: "/_app/data-collection/forms/drafts/$caseId/household-profile/$householdId/economic",
   });
 
   const [classification, setClassification] = useState("");
@@ -55,15 +55,15 @@ export default function EconomyFormPage() {
 
   const goPrevious = () => {
     navigate({
-      to: "/data-collection/forms/drafts/$surveyId/household-profile/residence",
-      params: { surveyId },
+      to: "/data-collection/forms/drafts/$caseId/household-profile/$householdId/residence",
+      params: { caseId, householdId },
     });
   };
 
   const goNext = () => {
     navigate({
-      to: "/data-collection/forms/drafts/$surveyId/household-profile/facilities",
-      params: { surveyId },
+      to: "/data-collection/forms/drafts/$caseId/household-profile/$householdId/facilities",
+      params: { caseId, householdId },
     });
   };
 
@@ -84,8 +84,8 @@ export default function EconomyFormPage() {
       </header>
 
       <div className="flex min-h-0 flex-1 flex-col">
-        <form className="custom-scrollbar flex-1 overflow-y-auto px-17 py-13 md:px-16 md:py-12">
-          <div className="mx-auto space-y-14">
+        <form className="flex-1 overflow-y-auto custom-scrollbar">
+          <div className="mx-auto space-y-14 px-17 py-13 md:px-16 md:py-12">
             <EconomyFormSection
               title="Section 01: Status & Sources"
               subtitle="स्थिति र स्रोतहरू"
@@ -151,9 +151,8 @@ export default function EconomyFormPage() {
 
             <ExpenditureSummary total={totalExpenditure} />
           </div>
+          <EconomyFormFooter onPrevious={goPrevious} onNext={goNext} />
         </form>
-
-        <EconomyFormFooter onPrevious={goPrevious} onNext={goNext} />
       </div>
     </section>
   );

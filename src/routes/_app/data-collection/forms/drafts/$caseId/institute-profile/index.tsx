@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
-  "/_app/data-collection/forms/drafts/$surveyId/institute-profile/",
+  "/_app/data-collection/forms/drafts/$caseId/institute-profile/",
 )({
   beforeLoad: ({ params }) => ({
     breadcrumb: `Institute Profile - ${params.surveyId}`,

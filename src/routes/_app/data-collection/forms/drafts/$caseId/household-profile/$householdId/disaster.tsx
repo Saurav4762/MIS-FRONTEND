@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
-  '/_app/data-collection/forms/drafts/$surveyId/household-profile/$householdId/livestock',
+  '/_app/data-collection/forms/drafts/$caseId/household-profile/$householdId/disaster',
 )({
   component: RouteComponent,
 })
@@ -10,7 +10,7 @@ function RouteComponent() {
   return (
     <div>
       Hello
-      "/_app/data-collection/forms/drafts/$surveyId/household-profile/live-stock"!
+      "/_app/data-collection/forms/drafts/$surveyId/household-profile/disaster"!
     </div>
   )
 }

@@ -16,7 +16,21 @@ export {
   caseFormDraftKey,
   assertCaseId,
 } from "./case-storage-keys";
-export { useCaseDraftStore, selectActiveCase, selectCaseById } from "./case-draft-store";
-export { useCaseTreeStore, selectCaseTree, selectCaseTreeNode, selectCaseTreeChildren } from "./case-tree.store";
-export { useFormDraftStore, selectDraftMeta, selectCachedDraftValues } from "./form-draft.store";
+export {
+  useCaseDraftStore,
+  selectActiveCase,
+  selectCaseById,
+} from "./case-draft-store";
+export {
+  useCaseTreeStore,
+  selectCaseTree,
+  selectCaseTreeNode,
+  selectCaseTreeChildren,
+} from "./case-tree.store";
+export {
+  useFormDraftStore,
+  selectDraftMeta,
+  selectCachedDraftValues,
+} from "./form-draft.store";
 export { useCaseUiStore } from "./ui.store";
+export { householdProfileTemplate, applyTemplate } from "../catalog";

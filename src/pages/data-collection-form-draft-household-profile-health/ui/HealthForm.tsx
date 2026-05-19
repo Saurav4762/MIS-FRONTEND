@@ -77,8 +77,8 @@ const createInitialAwarenessState = (): AwarenessState =>
 
 export default function HealthForm() {
   const navigate = useNavigate();
-  const { surveyId } = useParams({
-    from: "/_app/data-collection/forms/drafts/$surveyId/household-profile/health",
+  const { caseId, householdId } = useParams({
+    from: "/_app/data-collection/forms/drafts/$caseId/household-profile/$householdId/health",
   });
 
   const insuranceProviderId = useId();
@@ -104,15 +104,15 @@ export default function HealthForm() {
 
   const goPrevious = () => {
     navigate({
-      to: "/data-collection/forms/drafts/$surveyId/household-profile/facilities",
-      params: { surveyId },
+      to: "/data-collection/forms/drafts/$caseId/household-profile/$householdId/facilities",
+      params: { caseId, householdId },
     });
   };
 
   const goNext = () => {
     navigate({
-      to: "/data-collection/forms/drafts/$surveyId/household-profile/agriculture",
-      params: { surveyId },
+      to: "/data-collection/forms/drafts/$caseId/household-profile/$householdId/agriculture",
+      params: { caseId, householdId },
     });
   };
 

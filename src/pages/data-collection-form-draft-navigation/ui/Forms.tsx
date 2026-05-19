@@ -11,7 +11,7 @@ export default function Forms() {
   return (
     <aside className="w-64 space-y-2 rounded-lg border border-ink-200 bg-white p-4 shadow-xs">
       <ButtonLink
-        to="/data-collection/forms/drafts/$surveyId/house-profile"
+        to="/data-collection/forms/drafts/$caseId/house-profile"
         variant="ghost"
         size="sm"
         align="left"
@@ -22,7 +22,7 @@ export default function Forms() {
       </ButtonLink>
 
       <ButtonLink
-        to="/data-collection/forms/drafts/$surveyId/household-profile"
+        to="/data-collection/forms/drafts/$caseId/household-profile"
         variant="ghost"
         size="sm"
         align="left"
@@ -33,7 +33,7 @@ export default function Forms() {
       </ButtonLink>
 
       <ButtonLink
-        to="/data-collection/forms/drafts/$surveyId/institute-profile"
+        to="/data-collection/forms/drafts/$caseId/institute-profile"
         variant="ghost"
         size="sm"
         align="left"

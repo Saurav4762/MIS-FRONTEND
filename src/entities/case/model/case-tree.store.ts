@@ -80,7 +80,9 @@ const detachFromParent = (
 
   const parent = tree.nodesById[parentId];
   if (!parent) return;
-  parent.childrenIds = parent.childrenIds.filter((currentId) => currentId !== nodeId);
+  parent.childrenIds = parent.childrenIds.filter(
+    (currentId) => currentId !== nodeId,
+  );
 };
 
 const attachToParent = (
@@ -102,7 +104,8 @@ export const useCaseTreeStore = create<CaseTreeState>((set, getState) => ({
   activeCaseId: null,
 
   hydrateCaseTree: async (caseId) => {
-    const storedTree = (await idbGet<CaseTreeSnapshot>(caseTreeKey(caseId))) ?? null;
+    const storedTree =
+      (await idbGet<CaseTreeSnapshot>(caseTreeKey(caseId))) ?? null;
     const tree = storedTree ?? createEmptyTree(caseId);
 
     set((state) => ({
@@ -173,7 +176,10 @@ export const useCaseTreeStore = create<CaseTreeState>((set, getState) => ({
     const currentTree = cloneTree(getState().ensureCaseTree(caseId));
     const node = currentTree.nodesById[nodeId];
     if (!node) return currentTree;
-    if (nextParentId === nodeId || isAncestor(currentTree, nodeId, nextParentId)) {
+    if (
+      nextParentId === nodeId ||
+      isAncestor(currentTree, nodeId, nextParentId)
+    ) {
       return currentTree;
     }
 
@@ -241,8 +247,8 @@ export const useCaseTreeStore = create<CaseTreeState>((set, getState) => ({
   },
 }));
 
-export const selectCaseTree =
-  (caseId: string) => (state: CaseTreeState) => state.treesByCaseId[caseId] ?? null;
+export const selectCaseTree = (caseId: string) => (state: CaseTreeState) =>
+  state.treesByCaseId[caseId] ?? null;
 
 export const selectCaseTreeNode =
   (caseId: string, nodeId: CaseNodeId) => (state: CaseTreeState) =>

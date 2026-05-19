@@ -1,4 +1,4 @@
-import { useCaseDraftStore } from "@entities/case";
+import { useCaseDraftStore, useCaseTreeStore } from "@entities/case";
 import ActionButtons from "./ActionButtons";
 import { formatDate } from "../lib/date";
 import { Input } from "@shared/ui/Input/Input";
@@ -20,6 +20,8 @@ export default function DraftsTable() {
 
   const draftsById = useCaseDraftStore((state) => state.draftsById);
 
+  const ensureCaseTree = useCaseTreeStore((state) => state.ensureCaseTree);
+
   const drafts = useMemo(
     () => draftIds.map((id) => draftsById[id]).filter(Boolean),
     [draftIds, draftsById],
@@ -29,6 +31,7 @@ export default function DraftsTable() {
 
   const onCreateDraft = (draftName: string) => {
     const draftId = createCase(draftName);
+    ensureCaseTree(draftId);
     navigate({ to: `/data-collection/forms/drafts/${draftId}` });
   };
 
@@ -83,9 +86,14 @@ export default function DraftsTable() {
               <tr
                 className="border-t border-ink-200 hover:bg-ink-50 cursor-pointer"
                 key={draft.id}
-                onClick={() =>
-                  navigate({ to: `/data-collection/forms/drafts/${draft.id}` })
-                }
+                onClick={(e) => {
+                  const target = e.target as HTMLElement;
+                  if (target.closest("button") || target.closest("a")) {
+                    // If the click is on a button or link, do not navigate
+                    return;
+                  }
+                  navigate({ to: `/data-collection/forms/drafts/${draft.id}` });
+                }}
               >
                 <td className="px-4 pl-6 py-3.5">
                   <div className="text-ink-900 font-medium">{draft.name}</div>
