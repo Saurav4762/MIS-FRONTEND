@@ -1,4 +1,4 @@
-import { useSurveyDraftStore } from "@entities/survey/model/survey-draft-store";
+import { useCaseDraftStore, useCaseUiStore } from "@entities/case";
 import Forms from "@pages/data-collection-form-draft-navigation/ui/Forms";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
@@ -7,22 +7,19 @@ export const Route = createFileRoute(
 )({
   component: RouteComponent,
   beforeLoad: async ({ params }) => {
-    await useSurveyDraftStore.getState().hydrate();
+    await useCaseDraftStore.getState().hydrate();
+    useCaseUiStore.getState().setActiveCaseId(params.surveyId);
 
-    const draft = useSurveyDraftStore.getState().getDraftById(params.surveyId);
+    const draft = useCaseDraftStore.getState().getCaseById(params.surveyId);
 
     if (!draft) {
-      useSurveyDraftStore.getState().setActiveDraft(null);
-      throw redirect({
-        to: "/data-collection/forms/drafts",
-      });
+      useCaseUiStore.getState().setActiveCaseId(null);
+      throw redirect({ to: "/data-collection/forms/drafts" });
     }
 
-    useSurveyDraftStore.getState().setActiveDraft(params.surveyId);
+    useCaseDraftStore.getState().setActiveCase(params.surveyId);
 
-    return {
-      breadcrumb: draft.name || "Draft Details",
-    };
+    return { breadcrumb: draft.name || "Draft Details" };
   },
 });
 

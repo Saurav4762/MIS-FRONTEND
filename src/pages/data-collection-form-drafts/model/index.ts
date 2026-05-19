@@ -1,1 +1,1 @@
-export type { SurveyDraft } from "@entities/survey/model/types";
+export type { CaseDraft as SurveyDraft } from "@entities/case/model/types";

@@ -2,7 +2,7 @@ import ResidenceFormPage from "@pages/data-collection-form-draft-household-profi
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
-  "/_app/data-collection/forms/drafts/$surveyId/household-profile/residence",
+  "/_app/data-collection/forms/drafts/$surveyId/household-profile/$householdId/residence",
 )({
   component: RouteComponent,
 });

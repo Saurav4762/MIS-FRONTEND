@@ -85,7 +85,7 @@ export function FormField({
       <fieldset className={cn("block space-y-1.5", className)}>
         <legend
           className={cn(
-            "flex items-center gap-1 text-[13px] font-bold text-(--mis-color-ink-800)",
+            "flex items-center gap-1 text-sm font-bold text-ink-800",
             labelClassName,
           )}
         >

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { Household } from "./types";
-import { assertSurveyId } from "@entities/survey/model/survey-storage-keys";
+import { assertCaseId as assertSurveyId } from "@entities/case/model/case-storage-keys";
 import {
   createEmptySnapshot,
   deleteSurveySnapshot,
@@ -183,25 +183,6 @@ export const useHouseholdStore = create<HouseholdState>((set, get) => ({
     await writeSurveySnapshot(surveyId, nextSnapshot);
   },
 
-  // toggleExpandedHouseholdId: async (surveyId, householdId) => {
-  //   assertSurveyId(surveyId);
-  //   if (!get().loadedSurveyIds[surveyId]) {
-  //     await get().loadSurveyHouseholds(surveyId);
-  //   }
-
-  //   const currentHouseholdsSnapshot =
-  //     get().surveys[surveyId] ?? createEmptySnapshot();
-  //   const expandedHouseholdId =
-  //     currentHouseholdsSnapshot.expandedHouseholdId === householdId ? null : householdId;
-  //   const nextSnapshot = { ...currentHouseholdsSnapshot, expandedHouseholdId };
-
-  //   set((state) => ({
-  //     surveys: { ...state.surveys, [surveyId]: nextSnapshot },
-  //     loadedSurveyIds: { ...state.loadedSurveyIds, [surveyId]: true },
-  //   }));
-  //   await writeSurveySnapshot(surveyId, nextSnapshot);
-  // },
-
   clearSurveyHouseholds: async (surveyId) => {
     assertSurveyId(surveyId);
     await deleteSurveySnapshot(surveyId);
@@ -221,6 +202,13 @@ export const useHouseholdStore = create<HouseholdState>((set, get) => ({
 export const selectHouseholdsBySurveyId =
   (surveyId: string) => (state: HouseholdState) =>
     state.surveys[surveyId]?.households ?? EMPTY_HOUSEHOLDS;
+
+export const selectHouseholdById =
+  (surveyId: string, householdId: string) =>
+  (state: HouseholdState): Household | undefined =>
+    state.surveys[surveyId]?.households.find(
+      (household) => household.id === householdId,
+    );
 
 export const selectExpandedHouseholdIdBySurveyId =
   (surveyId: string) => (state: HouseholdState) =>

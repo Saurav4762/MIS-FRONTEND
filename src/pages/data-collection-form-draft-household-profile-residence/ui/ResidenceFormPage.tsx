@@ -1,274 +1,242 @@
-import { Building2, MoveLeft, MoveRight } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { useId, useState } from "react";
-import cn from "@shared/lib";
+import { useForm, useWatch } from "react-hook-form";
+import { Home } from "lucide-react";
 import { Button } from "@shared/ui/Button";
-import { FormField, Select } from "@shared/ui/Input";
+import { FormField, Input, Select, Textarea } from "@shared/ui/Input";
+import {
+	FLOOR_MATERIAL_OPTIONS,
+	HOUSING_TYPE_OPTIONS,
+	OWNERSHIP_STATUS_OPTIONS,
+	RESIDENCE_FORM_DEFAULT_VALUES,
+	ROOF_MATERIAL_OPTIONS,
+	TOILET_FACILITY_OPTIONS,
+	WATER_SOURCE_OPTIONS,
+	YES_NO_OPTIONS,
+	type ResidenceFormValues,
+	loadResidenceDraft,
+	saveResidenceDraft,
+	createResidenceNodeId,
+} from "../model";
 
-const RESIDENCE_TYPES = [
-  "Owned house",
-  "Rented house",
-  "Shared house",
-  "Temporary shelter",
-];
-
-const LAND_OWNERSHIP_TYPES = [
-  "Private",
-  "Government",
-  "Guthi",
-  "Public",
-  "Other",
-];
-
-const PREVIOUS_DISTRICTS = [
-  "Kathmandu",
-  "Lalitpur",
-  "Bhaktapur",
-  "Kaski",
-  "Chitwan",
-];
-
-const PREVIOUS_MUNICIPALITIES = [
-  "Kathmandu Metropolitan City",
-  "Lalitpur Metropolitan City",
-  "Bhaktapur Municipality",
-  "Pokhara Metropolitan City",
-  "Bharatpur Metropolitan City",
-];
-
-const MIGRATION_REASONS = [
-  "Employment",
-  "Education",
-  "Marriage",
-  "Natural disaster",
-  "Other",
-];
-
-type MigrationStatus = "no" | "yes";
+const AUTOSAVE_DELAY_MS = 350;
 
 export default function ResidenceFormPage() {
-  const navigate = useNavigate();
-  const { surveyId } = useParams({
-    from: "/_app/data-collection/forms/drafts/$surveyId/household-profile/residence",
-  });
+	const navigate = useNavigate();
+	const { surveyId, householdId } = useParams({
+		from: "/_app/data-collection/forms/drafts/$surveyId/household-profile/$householdId/residence",
+	});
+	const nodeId = useMemo(() => createResidenceNodeId(householdId), [householdId]);
+	const [isHydrated, setIsHydrated] = useState(false);
+	const [isSaving, setIsSaving] = useState(false);
 
-  const [residenceType, setResidenceType] = useState("");
-  const [landOwnership, setLandOwnership] = useState("");
-  const [migrationStatus, setMigrationStatus] = useState<MigrationStatus>("no");
-  const [previousDistrict, setPreviousDistrict] = useState("");
-  const [previousMunicipality, setPreviousMunicipality] = useState("");
-  const [migrationReason, setMigrationReason] = useState("");
-  const residenceTypeId = useId();
-  const landOwnershipId = useId();
-  const previousDistrictId = useId();
-  const previousMunicipalityId = useId();
-  const migrationReasonId = useId();
+	const { register, reset, control, handleSubmit } = useForm<ResidenceFormValues>({
+		defaultValues: RESIDENCE_FORM_DEFAULT_VALUES,
+		mode: "onChange",
+	});
 
-  const goPrevious = () => {
-    navigate({
-      to: "/data-collection/forms/drafts/$surveyId/household-profile/social-cultural",
-      params: { surveyId },
-    });
-  };
+	useEffect(() => {
+		let isCancelled = false;
 
-  const goNext = () => {
-    navigate({
-      to: "/data-collection/forms/drafts/$surveyId/household-profile/economic",
-      params: { surveyId },
-    });
-  };
+		void (async () => {
+			const values = await loadResidenceDraft(surveyId, householdId);
+			if (isCancelled) return;
 
-  return (
-    <section className="flex h-full flex-col overflow-auto rounded-xl border border-ink-200 bg-white shadow-sm">
-      <header className="flex items-center gap-4 border-b border-ink-200 px-5 py-4">
-        <div className="grid h-10 w-10 place-items-center rounded-lg bg-pri-50 text-pri-600">
-          <Building2 className="h-5 w-5" />
-        </div>
-        <div>
-          <h1 className="text-lg font-bold leading-6 text-ink-900">
-            Residence Details
-          </h1>
-          <p className="mt-0.5 text-sm font-semibold text-ink-400">
-            बसोबास विवरण
-          </p>
-        </div>
-      </header>
+			reset(values);
+			setIsHydrated(true);
+		})();
 
-      <div className="overflow-y-auto h-full flex flex-col">
-        <form className="flex flex-1 flex-col px-17 py-13 ">
-          <div className="grid max-w-180 grid-cols-1 gap-x-12 gap-y-14 md:grid-cols-2">
-            <FormField
-              as="div"
-              htmlFor={residenceTypeId}
-              label="Residence Type"
-              labelSuffix="(बसोबासको प्रकार)"
-              className="space-y-3"
-            >
-              <Select
-                id={residenceTypeId}
-                value={residenceType}
-                placeholder="Select Type"
-                options={RESIDENCE_TYPES}
-                onChange={(event) => setResidenceType(event.target.value)}
-              />
-            </FormField>
+		return () => {
+			isCancelled = true;
+		};
+	}, [householdId, reset, surveyId]);
 
-            <FormField
-              as="div"
-              htmlFor={landOwnershipId}
-              label="Land Ownership"
-              labelSuffix="(जग्गा स्वामित्व)"
-              className="space-y-3"
-            >
-              <Select
-                id={landOwnershipId}
-                value={landOwnership}
-                placeholder="Select Ownership"
-                options={LAND_OWNERSHIP_TYPES}
-                onChange={(event) => setLandOwnership(event.target.value)}
-              />
-            </FormField>
-          </div>
+	const watchedValues = useWatch({ control });
+	const autosaveValues = useMemo(
+		() => ({
+			...RESIDENCE_FORM_DEFAULT_VALUES,
+			...watchedValues,
+		}) satisfies ResidenceFormValues,
+		[watchedValues],
+	);
 
-          <section className="mt-15 max-w-180">
-            <div className="border-b border-ink-200 pb-4">
-              <h2 className="text-base font-bold leading-5 text-ink-900">
-                Migration History
-              </h2>
-              <p className="mt-1 text-[11px] font-semibold text-ink-400">
-                बसाईसराइ विवरण
-              </p>
-            </div>
+	useEffect(() => {
+		if (!isHydrated) return;
 
-            <div className="mt-8">
-              <FormField
-                as="fieldset"
-                label="Has family migrated in the last 5 years?"
-                labelSuffix="(पछिल्लो ५ वर्षमा बसाईसराइ भएको?)"
-                className="space-y-3"
-              >
-                <div className="inline-grid grid-cols-2 border border-ink-200 bg-ink-50 rounded-full p-1">
-                  <Button
-                    onClick={() => setMigrationStatus("no")}
-                    isActive={migrationStatus === "no"}
-                    variant={"ghost"}
-                    size="sm"
-                    aria-pressed={migrationStatus === "no"}
-                    className={cn("rounded-full px-4 py-2")}
-                  >
-                    NO
-                  </Button>
-                  <Button
-                    onClick={() => setMigrationStatus("yes")}
-                    isActive={migrationStatus === "yes"}
-                    variant={"ghost"}
-                    size="sm"
-                    aria-pressed={migrationStatus === "yes"}
-                    className={cn("rounded-full px-8 py-2")}
-                  >
-                    YES
-                  </Button>
-                </div>
-              </FormField>
+		const timeoutId = window.setTimeout(() => {
+			setIsSaving(true);
+			void saveResidenceDraft(surveyId, householdId, autosaveValues).finally(() => {
+				setIsSaving(false);
+			});
+		}, AUTOSAVE_DELAY_MS);
 
-              {migrationStatus === "yes" && (
-                <div className="mt-8 grid max-w-180 grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2">
-                  <FormField
-                    as="div"
-                    htmlFor={previousDistrictId}
-                    label="Previous District"
-                    labelSuffix="(अघिल्लो जिल्ला)"
-                    className="space-y-3"
-                  >
-                    <Select
-                      id={previousDistrictId}
-                      value={previousDistrict}
-                      placeholder="Select District"
-                      options={PREVIOUS_DISTRICTS}
-                      onChange={(event) =>
-                        setPreviousDistrict(event.target.value)
-                      }
-                    />
-                  </FormField>
+		return () => window.clearTimeout(timeoutId);
+	}, [autosaveValues, householdId, isHydrated, surveyId]);
 
-                  <FormField
-                    as="div"
-                    htmlFor={previousMunicipalityId}
-                    label="Previous Municipality"
-                    labelSuffix="(अघिल्लो नगरपालिका)"
-                    className="space-y-3"
-                  >
-                    <Select
-                      id={previousMunicipalityId}
-                      value={previousMunicipality}
-                      placeholder="Select Municipality"
-                      options={PREVIOUS_MUNICIPALITIES}
-                      onChange={(event) =>
-                        setPreviousMunicipality(event.target.value)
-                      }
-                    />
-                  </FormField>
+	const goPrevious = () => {
+		navigate({
+			to: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/social-cultural",
+			params: { surveyId, householdId },
+		});
+	};
 
-                  <FormField
-                    as="div"
-                    htmlFor={migrationReasonId}
-                    label="Reason for Migration"
-                    labelSuffix="(बसाईसराइको कारण)"
-                    className="space-y-3 md:col-span-2"
-                  >
-                    <Select
-                      id={migrationReasonId}
-                      value={migrationReason}
-                      placeholder="Select Reason"
-                      options={MIGRATION_REASONS}
-                      onChange={(event) =>
-                        setMigrationReason(event.target.value)
-                      }
-                    />
-                  </FormField>
-                </div>
-              )}
-            </div>
-          </section>
-        </form>
+	const goNext = async (values: ResidenceFormValues) => {
+		setIsSaving(true);
+		await saveResidenceDraft(surveyId, householdId, values);
+		setIsSaving(false);
+		navigate({
+			to: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/economic",
+			params: { surveyId, householdId },
+		});
+	};
 
-        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-ink-200 px-5 py-4">
-          <Button
-            variant="secondary"
-            size="sm"
-            className="justify-center gap-3"
-            onClick={goPrevious}
-          >
-            <MoveLeft className="h-4 w-4" />
-            <span>Previous</span>
-            <span className="text-xs font-semibold text-ink-400">
-              (अघिल्लो)
-            </span>
-          </Button>
+	return (
+		<section className="flex h-full flex-col overflow-hidden rounded-xl border border-ink-200 bg-white shadow-sm">
+			<header className="flex shrink-0 items-center gap-4 border-b border-ink-200 px-5 py-4">
+				<div className="grid h-10 w-10 place-items-center rounded-lg bg-pri-50 text-pri-600">
+					<Home className="h-5 w-5" />
+				</div>
+				<div className="min-w-0">
+					<h1 className="truncate text-lg font-bold leading-6 text-ink-900">
+						Residence
+					</h1>
+					<p className="mt-0.5 text-sm font-bold uppercase tracking-wide text-ink-400">
+						आवास विवरण
+					</p>
+				</div>
+				<div className="ml-auto rounded-full border border-ink-200 bg-ink-50 px-3 py-1 text-xs font-semibold text-ink-500">
+					{isSaving ? "Saving locally..." : "Saved locally"}
+				</div>
+			</header>
 
-          <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
-            <Button variant="secondary" size="sm" className="justify-center">
-              <span>Save Draft</span>
-              <span className="text-xs font-semibold text-ink-400">
-                (मस्यौदा बचत गर्नुहोस्)
-              </span>
-            </Button>
+			<div className="flex min-h-0 flex-1 flex-col">
+				<form
+					className="custom-scrollbar flex-1 overflow-y-auto px-6 py-6 md:px-8 md:py-7"
+					onSubmit={handleSubmit(goNext)}
+				>
+					<div className="mx-auto max-w-4xl space-y-8">
+						<section className="rounded-lg border border-ink-200 bg-ink-50/70 p-5">
+							<div className="mb-4">
+								<h2 className="text-sm font-bold uppercase tracking-[0.12em] text-ink-500">
+									Draft Node
+								</h2>
+								<p className="text-sm text-ink-600">
+									Node ID: <span className="font-mono text-ink-800">{nodeId}</span>
+								</p>
+							</div>
 
-            <Button
-              variant="primary"
-              size="sm"
-              className="w-full justify-center gap-2 bg-success-500 shadow-success hover:bg-success-600 sm:w-auto"
-              onClick={goNext}
-            >
-              <span>Next Step</span>
-              <span className="text-xs font-semibold text-white/80">
-                (अर्को चरण)
-              </span>
-              <MoveRight className="h-4 w-4" />
-            </Button>
-          </div>
-        </footer>
-      </div>
-    </section>
-  );
+							<div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+								<FormField label="Ownership Status" as="div">
+									<Select
+										{...register("ownershipStatus")}
+										placeholder="Select ownership"
+										options={OWNERSHIP_STATUS_OPTIONS}
+									/>
+								</FormField>
+
+								<FormField label="Housing Type" as="div">
+									<Select
+										{...register("housingType")}
+										placeholder="Select housing type"
+										options={HOUSING_TYPE_OPTIONS}
+									/>
+								</FormField>
+
+								<FormField label="Roof Material" as="div">
+									<Select
+										{...register("roofMaterial")}
+										placeholder="Select roof material"
+										options={ROOF_MATERIAL_OPTIONS}
+									/>
+								</FormField>
+
+								<FormField label="Floor Material" as="div">
+									<Select
+										{...register("floorMaterial")}
+										placeholder="Select floor material"
+										options={FLOOR_MATERIAL_OPTIONS}
+									/>
+								</FormField>
+
+								<FormField label="Water Source" as="div">
+									<Select
+										{...register("waterSource")}
+										placeholder="Select water source"
+										options={WATER_SOURCE_OPTIONS}
+									/>
+								</FormField>
+
+								<FormField label="Toilet Facility" as="div">
+									<Select
+										{...register("toiletFacility")}
+										placeholder="Select toilet facility"
+										options={TOILET_FACILITY_OPTIONS}
+									/>
+								</FormField>
+
+								<FormField label="Electricity Access" as="div">
+									<Select
+										{...register("electricityAccess")}
+										placeholder="Select yes or no"
+										options={YES_NO_OPTIONS}
+									/>
+								</FormField>
+
+								<FormField label="Internet Access" as="div">
+									<Select
+										{...register("internetAccess")}
+										placeholder="Select yes or no"
+										options={YES_NO_OPTIONS}
+									/>
+								</FormField>
+
+								<FormField label="Room Count" as="div">
+									<Input
+										{...register("roomCount")}
+										type="number"
+										min={0}
+										placeholder="Enter room count"
+									/>
+								</FormField>
+							</div>
+
+							<div className="mt-5">
+								<FormField label="Remarks" as="div">
+									<Textarea
+										{...register("remarks")}
+										placeholder="Add any residence notes"
+									/>
+								</FormField>
+							</div>
+						</section>
+
+						<section className="rounded-lg border border-ink-200 bg-white p-5">
+							<div className="flex items-center justify-between gap-4">
+								<div>
+									<h2 className="text-sm font-bold uppercase tracking-[0.12em] text-ink-500">
+										Autosave
+									</h2>
+									<p className="text-sm text-ink-600">
+										Values are stored per node in IndexedDB and loaded lazily.
+									</p>
+								</div>
+								<Button type="submit" variant="primary">
+									Save and continue
+								</Button>
+							</div>
+						</section>
+					</div>
+				</form>
+
+				<footer className="flex shrink-0 items-center justify-between gap-3 border-t border-ink-200 bg-ink-50 px-6 py-4 md:px-8">
+					<Button variant="secondary" onClick={goPrevious}>
+						Previous
+					</Button>
+					<p className="text-xs font-medium text-ink-500">
+						Drafts are stored locally by survey and node id.
+					</p>
+				</footer>
+			</div>
+		</section>
+	);
 }

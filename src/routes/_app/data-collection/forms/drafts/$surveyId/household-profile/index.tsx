@@ -2,24 +2,20 @@ import { HouseholdFormNavigation } from "@pages/data-collection-form-draft-house
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
-  "/_app/data-collection/forms/drafts/$surveyId/household-profile",
+  "/_app/data-collection/forms/drafts/$surveyId/household-profile/",
 )({
-  beforeLoad: ({ params }) => ({
-    breadcrumb: `Household Profile - ${params.surveyId}`,
-  }),
   component: RouteComponent,
 });
 
 function RouteComponent() {
   return (
     <>
-      <aside className="w-full row-start-2 overflow-y-hidden">
+      <aside className="w-56 row-start-2 overflow-y-scroll">
         <HouseholdFormNavigation />
       </aside>
-
-      <div className="col-start-2 row-span-2 overflow-auto">
+      <main className="row-start-1 col-start-2 row-span-2 overflow-y-scroll">
         <Outlet />
-      </div>
+      </main>
     </>
   );
 }

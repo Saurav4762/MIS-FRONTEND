@@ -21,7 +21,7 @@ const buttonVariants = cva(
       size: {
         sm: "py-3 px-3 text-sm",
         md: "h-11 px-5",
-        text: "h-min-content px-5",
+        text: "h-min-content px-4 py-1.5",
       },
       align: {
         left: "justify-start",
@@ -82,7 +82,7 @@ const buttonVariants = cva(
       {
         variant: "text",
         isActive: true,
-        className: "text-pri-700 underlined bg-transparent"
+        className: "text-pri-700 underlined bg-pri-100"
       },
       {
         variant: "text",

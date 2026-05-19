@@ -1,10 +1,10 @@
-import { useSurveyDraftStore } from "@entities/survey";
+import { useCaseDraftStore } from "@entities/case";
 import ActionButtons from "./ActionButtons";
 import { formatDate } from "../lib/date";
 import { Input } from "@shared/ui/Input/Input";
 import { Button } from "@shared/ui/Button/Button";
 import NewSurveyModal from "./NewSurveyDraftModel";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Plus, Search } from "lucide-react";
 
@@ -12,11 +12,23 @@ export default function DraftsTable() {
   // Load drafts from state management
   const navigate = useNavigate();
 
-  const drafts = useSurveyDraftStore((state) => state.drafts);
-  const createDraft = useSurveyDraftStore((state) => state.createDraft);
+  // const drafts = useCaseDraftStore((state) =>
+  //   state.draftIds.map((draftId) => state.draftsById[draftId]).filter(Boolean),
+  // );
+
+  const draftIds = useCaseDraftStore((state) => state.draftIds);
+
+  const draftsById = useCaseDraftStore((state) => state.draftsById);
+
+  const drafts = useMemo(
+    () => draftIds.map((id) => draftsById[id]).filter(Boolean),
+    [draftIds, draftsById],
+  );
+
+  const createCase = useCaseDraftStore((state) => state.createCase);
 
   const onCreateDraft = (draftName: string) => {
-    const draftId = createDraft(draftName);
+    const draftId = createCase(draftName);
     navigate({ to: `/data-collection/forms/drafts/${draftId}` });
   };
 

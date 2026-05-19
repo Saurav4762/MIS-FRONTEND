@@ -1,4 +1,4 @@
-import { assertSurveyId } from "@entities/survey/model/survey-storage-keys";
+import { assertCaseId as assertSurveyId } from "@entities/case/model/case-storage-keys";
 import type { Household, HouseholdSurveySnapshot } from "../model/types";
 import { householdsMetaKey } from "../model/household-storage-keys";
 import { del, get, set } from "idb-keyval";

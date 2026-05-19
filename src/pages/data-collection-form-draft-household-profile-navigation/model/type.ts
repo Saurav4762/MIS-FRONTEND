@@ -10,56 +10,56 @@ export const FAMILY_SECTIONS: FamilySection[] = [
   {
     id: "member-details",
     label: "Member Details",
-    link: "/data-collection/forms/drafts/$surveyId/household-profile/member-details",
+    link: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/member-details",
   },
   {
     id: "social-cultural",
     label: "Social / Cultural",
-    link: "/data-collection/forms/drafts/$surveyId/household-profile/social-cultural",
+    link: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/social-cultural",
   },
   {
     id: "residence",
     label: "Residence",
-    link: "/data-collection/forms/drafts/$surveyId/household-profile/residence",
+    link: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/residence",
   },
   {
     id: "economic",
     label: "Economic",
-    link: "/data-collection/forms/drafts/$surveyId/household-profile/economic",
+    link: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/economic",
   },
   {
     id: "facilities",
     label: "Facilities",
-    link: "/data-collection/forms/drafts/$surveyId/household-profile/facilities",
+    link: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/facilities",
   },
   {
     id: "health",
     label: "Health",
-    link: "/data-collection/forms/drafts/$surveyId/household-profile/health",
+    link: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/health",
   },
   {
     id: "agriculture",
     label: "Agriculture",
-    link: "/data-collection/forms/drafts/$surveyId/household-profile/agriculture",
+    link: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/agriculture",
   },
   {
     id: "livestock",
     label: "Livestock",
-    link: "/data-collection/forms/drafts/$surveyId/household-profile/livestock",
+    link: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/livestock",
   },
   {
     id: "decision-making",
     label: "Decision Making",
-    link: "/data-collection/forms/drafts/$surveyId/household-profile/decision-making",
+    link: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/decision-making",
   },
   {
     id: "disaster",
     label: "Disaster",
-    link: "/data-collection/forms/drafts/$surveyId/household-profile/disaster",
+    link: "/data-collection/forms/drafts/$surveyId/household-profile/$householdId/disaster",
   },
-  {
-    id: "collector",
-    label: "Collector",
-    link: "/data-collection/forms/drafts/$surveyId/household-profile",
-  },
+  // {
+  //   id: "collector",
+  //   label: "Collector",
+  //   link: "/data-collection/forms/drafts/$surveyId",
+  // },
 ];
