@@ -113,7 +113,6 @@ export function ButtonLink({
   block,
   align,
   icon,
-
   children,
   ...props
 }: ButtonLinkProps) {

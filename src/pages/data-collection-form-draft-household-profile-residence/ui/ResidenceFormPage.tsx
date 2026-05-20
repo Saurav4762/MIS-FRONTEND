@@ -13,23 +13,31 @@ import {
 } from "../model/residence-options";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm, useWatch } from "react-hook-form";
-import { ResidenceFormSchema, type ResidenceFormValues } from "../model/types";
+import { ResidenceSchema, type Residence } from "../model/types";
 import ResidenceFormFooter from "./ResidenceFormFooter";
 import { useNavigate, useParams } from "@tanstack/react-router";
+import { useFormDraftStore } from "@entities/case";
+import { HOUSEHOLD_PROFILE_HOUSEHOLD_RESIDENCE_KEY } from "@entities/case/model/keys";
+import { useEffect } from "react";
 
 export default function ResidenceFormPage() {
   const navigate = useNavigate();
+
+  const saveDraftValues = useFormDraftStore((s) => s.saveDraftValues);
+  const getCachedDraftValues = useFormDraftStore((s) => s.getCachedDraftValues);
+
   const { caseId, householdId } = useParams({
     from: "/_app/data-collection/forms/drafts/$caseId/household-profile/$householdId/residence",
   });
+
   const {
     control,
     handleSubmit,
-    // register,
     setValue,
+    reset,
     // formState: { errors },
-  } = useForm<ResidenceFormValues>({
-    resolver: zodResolver(ResidenceFormSchema),
+  } = useForm<Residence>({
+    resolver: zodResolver(ResidenceSchema),
     defaultValues: {
       ownershipStatus: "",
       housingType: "",
@@ -41,21 +49,39 @@ export default function ResidenceFormPage() {
       internetAccess: "no",
       roomCount: 0,
       remarks: "",
-      hasMigrated: false,
-      previousDistrict: "",
-      previousMunicipality: "",
-      reasonForMigration: "",
+      migration: {
+        hasMigrated: false,
+        previousDistrict: "",
+        previousMunicipality: "",
+        reasonForMigration: "",
+      },
     },
   });
 
+  useEffect(() => {
+    const cachedValues: Residence = getCachedDraftValues(
+      caseId,
+      HOUSEHOLD_PROFILE_HOUSEHOLD_RESIDENCE_KEY(householdId),
+    ) as Residence;
+
+    if (cachedValues) {
+      reset(cachedValues);
+    }
+  }, [caseId, householdId, getCachedDraftValues, reset]);
+
   const hasMigrated = useWatch({
     control,
-    name: "hasMigrated",
+    name: "migration.hasMigrated",
   });
 
-  function onSubmit(values: ResidenceFormValues) {
-    // TODO: replace with API / save logic
-    console.log("Residence form submit:", values);
+  async function onSubmit(values: Residence) {
+    console.log("Helo hoelo")
+    console.log(values)
+    await saveDraftValues(
+      caseId,
+      HOUSEHOLD_PROFILE_HOUSEHOLD_RESIDENCE_KEY(householdId),
+      values,
+    );
   }
 
   return (
@@ -248,9 +274,9 @@ export default function ResidenceFormPage() {
                 render={({ field }) => (
                   <Input
                     type="number"
-                    min={0}
+                    min={1}
                     placeholder="Enter number of rooms"
-                    value={field.value}
+                    value={field.value || 1}
                     onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 )}
@@ -289,7 +315,7 @@ export default function ResidenceFormPage() {
                 <button
                   type="button"
                   id="toggle-no"
-                  onClick={() => setValue("hasMigrated", false)}
+                  onClick={() => setValue("migration.hasMigrated", false)}
                   className={`px-6 py-2 rounded-full text-sm font-bold tracking-wider transition-all duration-200 h-full flex items-center justify-center ${!hasMigrated ? "bg-pri-600 text-white shadow-sm" : "text-ink-400"}`}
                 >
                   NO
@@ -297,7 +323,7 @@ export default function ResidenceFormPage() {
                 <button
                   type="button"
                   id="toggle-yes"
-                  onClick={() => setValue("hasMigrated", true)}
+                  onClick={() => setValue("migration.hasMigrated", true)}
                   className={`px-6 py-2 rounded-full text-sm font-bold tracking-wider transition-all duration-200 h-full flex items-center justify-center ${hasMigrated ? "bg-pri-600 text-white shadow-sm" : "text-ink-400"}`}
                 >
                   YES
@@ -315,7 +341,7 @@ export default function ResidenceFormPage() {
                   >
                     <Controller
                       control={control}
-                      name="previousDistrict"
+                      name="migration.previousDistrict"
                       render={({ field }) => (
                         <Select
                           placeholder="Select District"
@@ -334,7 +360,7 @@ export default function ResidenceFormPage() {
                   >
                     <Controller
                       control={control}
-                      name="previousMunicipality"
+                      name="migration.previousMunicipality"
                       render={({ field }) => (
                         <Select
                           placeholder="Select Municipality"
@@ -354,7 +380,7 @@ export default function ResidenceFormPage() {
                 >
                   <Controller
                     control={control}
-                    name="reasonForMigration"
+                    name="migration.reasonForMigration"
                     render={({ field }) => (
                       <Select
                         placeholder="Select Reason"

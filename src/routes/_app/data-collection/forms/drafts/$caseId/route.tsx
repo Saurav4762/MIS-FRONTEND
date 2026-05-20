@@ -1,4 +1,8 @@
-import { useCaseDraftStore, useCaseUiStore } from "@entities/case";
+import {
+  useCaseDraftStore,
+  useCaseTreeStore,
+  useCaseUiStore,
+} from "@entities/case";
 import Forms from "@pages/data-collection-form-draft-navigation/ui/Forms";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
@@ -8,16 +12,21 @@ export const Route = createFileRoute(
   component: RouteComponent,
   beforeLoad: async ({ params }) => {
     await useCaseDraftStore.getState().hydrate();
-    useCaseUiStore.getState().setActiveCaseId(params.caseId);
 
     const draft = useCaseDraftStore.getState().getCaseById(params.caseId);
 
     if (!draft) {
       useCaseUiStore.getState().setActiveCaseId(null);
+      useCaseDraftStore.getState().setActiveCase(null);
+      useCaseTreeStore.getState().setActiveCaseId(null);
       throw redirect({ to: "/data-collection/forms/drafts" });
     }
 
     useCaseDraftStore.getState().setActiveCase(params.caseId);
+    useCaseTreeStore.getState().setActiveCaseId(params.caseId);
+    useCaseUiStore.getState().setActiveCaseId(params.caseId);
+
+    await useCaseTreeStore.getState().hydrateCaseTree(params.caseId);
 
     return { breadcrumb: draft.name || "Draft Details" };
   },

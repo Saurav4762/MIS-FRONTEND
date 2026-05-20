@@ -33,4 +33,3 @@ export {
   selectCachedDraftValues,
 } from "./form-draft.store";
 export { useCaseUiStore } from "./ui.store";
-export { householdProfileTemplate, applyTemplate } from "../catalog";

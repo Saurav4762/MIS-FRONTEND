@@ -18,7 +18,6 @@ export interface CaseTreeNode {
   type: CaseNodeType;
   parentId?: CaseNodeId;
   childrenIds: CaseNodeId[];
-  formKey?: string;
 }
 
 export interface CaseTreeSnapshot {

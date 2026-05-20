@@ -19,7 +19,7 @@ export default function HouseholdItem({
   caseId,
   onDelete,
 }: HouseholdItemProps) {
-  console.log("Rendering keys", { householdId, caseId });
+  // console.log("Rendering keys", { householdId, caseId });
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpand = () => {
     setIsExpanded((prev) => !prev);
@@ -46,7 +46,9 @@ export default function HouseholdItem({
             )}
             <span className="font-semibold w-full text-pri-700 flex gap-3 text-left">
               <span>{index + 1}.</span>
-              <span className="flex-1 w-1 overflow-hidden text-ellipsis">{householdName}</span>
+              <span className="flex-1 w-1 overflow-hidden text-ellipsis">
+                {householdName}
+              </span>
             </span>
           </div>
         </Button>
@@ -83,7 +85,6 @@ export default function HouseholdItem({
                   className="rounded-none"
                   variant={"text"}
                   size="text"
-                  isActive={false}
                 >
                   {section.label}
                 </ButtonLink>
