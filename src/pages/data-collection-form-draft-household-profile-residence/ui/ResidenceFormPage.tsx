@@ -276,9 +276,7 @@ export default function ResidenceFormPage() {
               />
             </FormField>
           </div>
-        </div>
 
-        <div className="mx-auto max-w-4xl px-17 md:px-16">
           <div className="pt-4 border-t border-ink-200">
             <div className="mb-4">
               <label className="block text-sm font-bold text-ink-700 mb-2">
@@ -370,20 +368,20 @@ export default function ResidenceFormPage() {
               </div>
             )}
           </div>
-
-          <ResidenceFormFooter
-            onPrevious={() => {
-              navigate({
-                to: `/data-collection/forms/drafts/${caseId}/household-profile/${householdId}/economic`,
-              });
-            }}
-            onNext={() => {
-              navigate({
-                to: `/data-collection/forms/drafts/${caseId}/household-profile/${householdId}/economic`,
-              });
-            }}
-          />
         </div>
+
+        <ResidenceFormFooter
+          onPrevious={() => {
+            navigate({
+              to: `/data-collection/forms/drafts/${caseId}/household-profile/${householdId}/economic`,
+            });
+          }}
+          onNext={() => {
+            navigate({
+              to: `/data-collection/forms/drafts/${caseId}/household-profile/${householdId}/economic`,
+            });
+          }}
+        />
       </form>
     </section>
   );

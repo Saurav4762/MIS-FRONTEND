@@ -85,13 +85,12 @@ export default function HouseholdProfileNavigation() {
     .map((node) => node.id);
 
   return (
-    <div className="w-full max-w-md rounded-lg border h-full overflow-hidden flex flex-col border-gray-200 bg-white shadow-sm">
+    <div className="w-full rounded-lg border h-full overflow-hidden flex flex-col border-gray-200 bg-white shadow-sm">
       <h2 className="p-4 border-b border-ink-200 text-xs font-semibold text-gray-600 uppercase tracking-wide">
         Household List
       </h2>
-      <div className="flex-1 overflow-y-scroll">
+      <div className="flex-1 overflow-y-auto">
         {householdIds.map((id, index) => {
-          console.log("Rendering household with id:", id);
           const household = nodesById[id];
           if (!household) return null;
           return (
