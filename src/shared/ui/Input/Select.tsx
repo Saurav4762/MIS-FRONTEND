@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { type SelectHTMLAttributes, forwardRef } from "react";
 import cn from "@shared/lib";
 
-type SelectOption = {
+export type SelectOption = {
   label: string;
   value: string;
 };
@@ -27,12 +27,12 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     ref,
   ) => {
     return (
-      <div className="relative">
+      <div className="relative h-fit">
         <select
           ref={ref}
           value={value}
           className={cn(
-            "h-12 w-full appearance-none rounded-lg border bg-ink-50 px-4 pr-11 text-sm font-semibold outline-none transition-colors",
+            "relative h-12 w-full appearance-none rounded-lg border bg-ink-50 px-4 pr-11 text-sm font-semibold outline-none transition-colors",
             hasError
               ? "border-error-500 focus:border-error-500 focus:shadow-error"
               : "border-ink-300 hover:border-ink-400 focus:border-pri-500 focus:bg-white focus:shadow-focus",

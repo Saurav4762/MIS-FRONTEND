@@ -3,11 +3,13 @@ import { Button } from "@shared/ui/Button";
 
 type HealthFormFooterProps = {
   onPrevious: () => void;
+  onSaveDraft?: () => void;
   onNext: () => void;
 };
 
 export default function HealthFormFooter({
   onPrevious,
+  onSaveDraft,
   onNext,
 }: HealthFormFooterProps) {
   return (
@@ -15,7 +17,7 @@ export default function HealthFormFooter({
       <Button
         variant="secondary"
         size="sm"
-        className="w-full justify-center gap-2 sm:w-auto"
+        className="w-full justify-center gap-3 sm:w-auto"
         onClick={onPrevious}
       >
         <MoveLeft className="h-4 w-4" />
@@ -27,11 +29,13 @@ export default function HealthFormFooter({
         <Button
           variant="secondary"
           size="sm"
+          type="submit"
           className="w-full justify-center sm:w-auto"
+          onClick={onSaveDraft}
         >
           <span>Save Draft</span>
           <span className="text-xs font-semibold text-ink-400">
-            (मस्यौदा सुरक्षित गर्नुहोस्)
+            (मस्यौदा बचत गर्नुहोस्)
           </span>
         </Button>
 

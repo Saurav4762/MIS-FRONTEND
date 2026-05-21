@@ -19,7 +19,7 @@ function RouteComponent() {
         <HouseholdFormNavigation />
       </aside>
 
-      <div className="col-start-2 row-span-2 overflow-auto">
+      <div className="col-start-2 row-span-2 overflow-hidden">
         <Outlet />
       </div>
     </>

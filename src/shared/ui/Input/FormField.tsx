@@ -38,7 +38,7 @@ export function FormField({
     <>
       {label}
       {labelSuffix && (
-        <span className="ml-1 text-sm font-semibold text-(--mis-color-ink-500)">
+        <span className="text-xs font-normal text-(--mis-color-ink-500)">
           {labelSuffix}
         </span>
       )}
@@ -93,7 +93,7 @@ export function FormField({
         </legend>
 
         <div className={contentClassName}>{children}</div>
-        {message}
+        <div className="min-h-4">{message}</div>
       </fieldset>
     );
   }
@@ -112,7 +112,7 @@ export function FormField({
         </label>
 
         <div className={contentClassName}>{children}</div>
-        {message}
+        <div className="min-h-4">{message}</div>
       </div>
     );
   }
@@ -133,7 +133,7 @@ export function FormField({
       ) : (
         children
       )}
-      {message}
+      <div className="min-h-4">{message}</div>
     </label>
   );
 }
