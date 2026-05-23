@@ -30,14 +30,14 @@ export function SurveyOption({
   };
 
   return (
-    <aside className="w-full overflow-hidden rounded-card border border-ink-200 bg-(--mis-color-white) shadow-sm">
+    <aside className="flex flex-1 min-h-0 [scrollbar-gutter:stable] w-full flex-col overflow-hidden rounded-card border border-ink-200 bg-(--mis-color-white) shadow-sm">
       <div className="flex items-center justify-between border-b border-(--mis-color-ink-200) px-4 py-4">
         <p className="text-normal font-bold uppercase tracking-widest text-(--mis-color-ink-900) text-center w-full">
           Master Categories
         </p>
       </div>
 
-      <div className="space-y-1 px-4 py-3">
+      <div className="flex-1 min-h-0 overflow-y-auto px-4 py-3 w-full">
         {optionList?.map((item) => {
           // const Icon = Landmark;
           const active = selectedId === item.id;
@@ -102,7 +102,7 @@ export function SurveyOption({
           );
         })}
       </div>
-      <div className="border-t border-(--mis-color-ink-200) px-4 py-3">
+      <div className="shrink-0 border-t border-(--mis-color-ink-200) bg-(--mis-color-white) px-4 py-3">
         <Button
           type="button"
           variant="secondary"

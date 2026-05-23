@@ -1,7 +1,7 @@
 import { http } from "@shared/api";
 
 import type { CreateOptionItem, OptionItem, UpdateOptionItem } from "../model";
-
+import type { ApiResponse } from "@shared/model";
 
 export const getOptionItemsByOptionListId = async (
   optionListId: string,
@@ -15,6 +15,19 @@ export const getOptionItemsByOptionListId = async (
   }
 };
 
+export const getOptionItemsByOptionListKey = async (
+  optionListId: string,
+): Promise<OptionItem[]> => {
+  try {
+    const response = (await http.get(`/OptionItem/OptionList/${optionListId}`))
+      .data as ApiResponse<OptionItem[]>;
+    if (response.data) return response.data;
+    return [];
+  } catch (error) {
+    console.error("Error fetching option items:", error);
+    throw error;
+  }
+};
 export const getOptionItemById = async (id: string): Promise<OptionItem> => {
   try {
     const response = await http.get(`/OptionItem/${id}`);

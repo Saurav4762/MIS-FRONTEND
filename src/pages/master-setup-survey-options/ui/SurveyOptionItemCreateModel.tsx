@@ -25,7 +25,7 @@ interface SurveyOptionItemCreateModalProps {
   onSave: () => void | Promise<void>;
 }
 
-// type CreateOptionItemFormData = typeof createOptionItemFormSchema._input;
+// type CreateOptionItemFormData = Omit<CreateOptionItem, "optionListId">;
 
 export function SurveyOptionItemCreateModal({
   isOpen,
@@ -41,12 +41,13 @@ export function SurveyOptionItemCreateModal({
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm<CreateOptionItem>({
     resolver: zodResolver(createOptionItemSchema),
     defaultValues: {
       labelEn: "",
       labelNe: "",
+      optionListId: optionListId,
     },
   });
 
@@ -74,6 +75,7 @@ export function SurveyOptionItemCreateModal({
       reset({
         labelEn: "",
         labelNe: "",
+        optionListId: optionListId,
       });
 
       await onSave();
@@ -94,15 +96,28 @@ export function SurveyOptionItemCreateModal({
       disableClose={isSubmitting}
     >
       <form onSubmit={handleSubmit(handleSave)} className="mt-6 space-y-6">
-        <FormField label="Name (EN)" required>
+        <FormField
+          label="Name (EN)"
+          required
+          errorText={errors.labelEn?.message}
+        >
           <Input
             {...register("labelEn")}
             placeholder="Enter English item name"
+            hasError={Boolean(errors.labelEn)}
           />
         </FormField>
 
-        <FormField label="Name (NE)" required>
-          <Input {...register("labelNe")} placeholder="Nepali item name" />
+        <FormField
+          label="Name (NE)"
+          required
+          errorText={errors.labelNe?.message}
+        >
+          <Input
+            {...register("labelNe")}
+            placeholder="Nepali item name"
+            hasError={Boolean(errors.labelNe)}
+          />
         </FormField>
 
         {!optionListId ? (

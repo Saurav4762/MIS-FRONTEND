@@ -22,6 +22,7 @@ export default function EconomyFormPage() {
     from: "/_app/data-collection/forms/drafts/$caseId/household-profile/$householdId/economic",
   });
 
+
   const [classification, setClassification] = useState("");
   const [incomeSource, setIncomeSource] = useState("");
   const [hasLoan, setHasLoan] = useState<YesNoValue>("yes");

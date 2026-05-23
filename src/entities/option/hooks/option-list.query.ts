@@ -6,4 +6,8 @@ export const useOptionList = () =>
   useQuery({
     queryKey: optionListKeys.all,
     queryFn: getOptionList,
+    placeholderData: [],
+    meta: {
+      persist: true,
+    },
   });

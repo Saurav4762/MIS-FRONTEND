@@ -2,23 +2,19 @@ import { useState } from "react";
 import { SurveyOptionCreateModal } from "./SurveyOptionCreateModel";
 import { SurveyOptionItems } from "./SurveyOptionItems";
 import { SurveyOption } from "./SurveyOption";
-import { useOptionList } from "@entities/option";
+import { useOptionList, type OptionList } from "@entities/option";
 
 export function SurveyOptionPage() {
   const { data: optionList } = useOptionList();
 
-  const [selectedId, setSelectedId] = useState<string | undefined>(
-    optionList?.[0]?.id,
-  );
-  const effectiveSelectedId = selectedId || optionList?.[0]?.id;
-  const selectedOptionList = optionList?.find(
-    (item) => item.id === effectiveSelectedId,
-  );
+  const [selectedOptionList, setSelectedOptionList] = useState<
+    OptionList | undefined
+  >(optionList?.[0]);
 
   const [isCategoryCreateOpen, setIsCategoryCreateOpen] = useState(false);
 
   return (
-    <section className="w-full space-y-5 pb-6 xl:pr-6">
+    <section className="w-full space-y-5 h-full flex flex-col pb-6 xl:pr-6 max-h-full overflow-hidden">
       <header className="space-y-1">
         <h1 className="text-3xl font-extrabold tracking-tight text-[--mis-color-ink-900]">
           Survey Directory
@@ -28,12 +24,14 @@ export function SurveyOptionPage() {
         </p>
       </header>
 
-      <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-[300px_minmax(0,1fr)] xl:gap-5">
-        <div className="min-w-0">
+      <div className="flex min-h-0 items-start gap-4 flex-1 xl:gap-5">
+        <div className="min-w-0 h-full flex flex-col max-w-90 w-full">
           <SurveyOption
             optionList={optionList}
-            selectedId={effectiveSelectedId}
-            onSelect={setSelectedId}
+            selectedId={selectedOptionList?.id}
+            onSelect={(id) =>
+              setSelectedOptionList(optionList?.find((item) => item.id === id))
+            }
             onAddClick={() => setIsCategoryCreateOpen(true)}
           />
 
@@ -48,7 +46,7 @@ export function SurveyOptionPage() {
           />
         </div>
 
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <SurveyOptionItems selectedOptionList={selectedOptionList} />
         </div>
       </div>

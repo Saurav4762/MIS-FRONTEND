@@ -8,5 +8,7 @@ export const optionItemKeys = {
   lists: () => [...optionItemKeys.all, "list"] as const,
   byOptionList: (optionListId: string) =>
     [...optionItemKeys.lists(), optionListId] as const,
+  byOptionListKey: (optionListKey: string) =>
+    [...optionItemKeys.lists(), optionListKey] as const,
   detail: (id: string) => [...optionItemKeys.all, "detail", id] as const,
 };

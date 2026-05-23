@@ -2,7 +2,6 @@ import { Home } from "lucide-react";
 import { FormField, Input, Select, Textarea } from "@shared/ui/Input";
 import {
   FLOOR_MATERIAL_OPTIONS,
-  OWNERSHIP_STATUS_OPTIONS,
   RESIDENCE_TYPE_OPTIONS,
   ROOF_MATERIAL_OPTIONS,
   TOILET_FACILITY_OPTIONS,
@@ -19,6 +18,8 @@ import { useNavigate, useParams } from "@tanstack/react-router";
 import { useFormDraftStore } from "@entities/case";
 import { HOUSEHOLD_PROFILE_HOUSEHOLD_RESIDENCE_KEY } from "@entities/case/model/keys";
 import { useEffect } from "react";
+import { useOptionItemByOptionListKey } from "@entities/option/hooks/option-item.query";
+import optionItemToSelectOption from "@shared/lib/optionItemToSelectOption";
 
 export default function ResidenceFormPage() {
   const navigate = useNavigate();
@@ -29,6 +30,9 @@ export default function ResidenceFormPage() {
   const { caseId, householdId } = useParams({
     from: "/_app/data-collection/forms/drafts/$caseId/household-profile/$householdId/residence",
   });
+
+  const { data: ownershipStatusOptions } =
+    useOptionItemByOptionListKey("ownership_status");
 
   const {
     control,
@@ -75,8 +79,8 @@ export default function ResidenceFormPage() {
   });
 
   async function onSubmit(values: Residence) {
-    console.log("Helo hoelo")
-    console.log(values)
+    console.log("Helo hoelo");
+    console.log(values);
     await saveDraftValues(
       caseId,
       HOUSEHOLD_PROFILE_HOUSEHOLD_RESIDENCE_KEY(householdId),
@@ -126,7 +130,9 @@ export default function ResidenceFormPage() {
                 render={({ field }) => (
                   <Select
                     placeholder="Select ownership"
-                    options={OWNERSHIP_STATUS_OPTIONS}
+                    options={ownershipStatusOptions?.map(
+                      optionItemToSelectOption,
+                    )}
                     value={field.value}
                     onChange={(v) => field.onChange(v)}
                   />

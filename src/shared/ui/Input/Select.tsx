@@ -3,7 +3,8 @@ import { type SelectHTMLAttributes, forwardRef } from "react";
 import cn from "@shared/lib";
 
 export type SelectOption = {
-  label: string;
+  labelEn: string;
+  labelNe?: string;
   value: string;
 };
 
@@ -47,12 +48,12 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           {options?.map((option) => {
             const normalized =
               typeof option === "string"
-                ? { label: option, value: option }
+                ? { labelEn: option, value: option }
                 : option;
 
             return (
               <option key={normalized.value} value={normalized.value}>
-                {normalized.label}
+                {normalized.labelEn}
               </option>
             );
           })}

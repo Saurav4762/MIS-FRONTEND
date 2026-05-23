@@ -12,21 +12,12 @@ import {
 } from "@entities/option/model";
 import { useCreateOptionList } from "@entities/option";
 
-// import { useCreateOptionList } from "../api";
-// import { Modal } from "@shared/ui/Modal";
-// import {
-//   createOptionListSchema,
-//   type CreateOptionListPayload,
-// } from "../model/types";
-
 interface SurveyOptionCreateModalProps {
-  optionListId?: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export function SurveyOptionCreateModal({
-  optionListId,
   isOpen,
   onClose,
 }: SurveyOptionCreateModalProps) {
@@ -44,6 +35,7 @@ export function SurveyOptionCreateModal({
       labelEn: "",
       labelNe: "",
       description: "",
+      key: "",
     },
   });
 
@@ -51,7 +43,6 @@ export function SurveyOptionCreateModal({
     setApiError(null);
 
     const payload = {
-      optionListId: optionListId ?? "",
       ...data,
       labelEn: data.labelEn.trim(),
       labelNe: data.labelNe.trim(),
@@ -107,6 +98,18 @@ export function SurveyOptionCreateModal({
             {...register("labelNe")}
             placeholder="Nepali category name"
             hasError={Boolean(errors.labelNe)}
+          />
+        </FormField>
+
+        <FormField
+          label="Key (Unique Identifier)"
+          required
+          errorText={errors.key?.message}
+        >
+          <Input
+            {...register("key")}
+            placeholder="Unique identifier for this option"
+            hasError={Boolean(errors.key)}
           />
         </FormField>
 

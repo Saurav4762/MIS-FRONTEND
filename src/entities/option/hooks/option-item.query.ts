@@ -2,7 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 
 import type { OptionItem } from "../model";
 
-import { getOptionItemById, getOptionItemsByOptionListId } from "../api";
+import {
+  getOptionItemById,
+  getOptionItemsByOptionListId,
+  getOptionItemsByOptionListKey,
+} from "../api";
 import { optionItemKeys } from "../model";
 
 export const useOptionItemsByOptionList = (
@@ -17,6 +21,21 @@ export const useOptionItemsByOptionList = (
     queryFn: () => getOptionItemsByOptionListId(normalizedOptionListId),
     enabled:
       normalizedOptionListId.length > 0 && normalizedOptionListName.length > 0,
+  });
+};
+
+export const useOptionItemByOptionListKey = (optionListKey: string) => {
+  const normalizedOptionListKey = optionListKey.trim();
+
+  return useQuery<OptionItem[]>({
+    queryKey: optionItemKeys.byOptionListKey(optionListKey),
+    staleTime: 0, // 1000,
+    queryFn: () => getOptionItemsByOptionListKey(optionListKey),
+    enabled: normalizedOptionListKey.length > 0,
+    placeholderData: [],
+    meta: {
+      // persist: false,
+    },
   });
 };
 

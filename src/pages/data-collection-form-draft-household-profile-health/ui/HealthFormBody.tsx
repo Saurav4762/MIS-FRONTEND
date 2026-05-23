@@ -177,11 +177,14 @@ export default function HealthFormBody() {
             />
             <Select
               options={[
-                { label: "Select an option", value: "" },
-                { label: "Government Health Insurance", value: "government" },
-                { label: "Private Insurance", value: "private" },
-                { label: "Community Fund", value: "community" },
-                { label: "Other", value: "other" },
+                { labelEn: "Select an option", value: "" },
+                { labelEn: "Government Health Insurance", value: "government" },
+                {
+                  labelEn: "Private Insurance",
+                  value: "private",
+                },
+                { labelEn: "Community Fund", value: "community" },
+                { labelEn: "Other", value: "other" },
               ]}
             />
           </div>
