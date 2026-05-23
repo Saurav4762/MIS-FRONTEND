@@ -17,7 +17,7 @@ export function Modal({
   isOpen,
   title,
   description,
-  eyebrow = "Survey Directory",
+  eyebrow = "Model Title",
   onClose,
   disableClose = false,
   children,
@@ -28,14 +28,19 @@ export function Modal({
   }
 
   return (
-    <div className="mis-modal-overlay fixed inset-0 z-50 p-4 backdrop-blur-[2px] md:p-8">
-      <div className={cn("mis-modal-shell mx-auto mt-8 w-full max-w-xl p-6", className)}>
+    <div className="fixed inset-0 z-50 p-4 backdrop-blur-sm md:p-8">
+      <div
+        className={cn(
+          "mis-modal-shell mx-auto mt-8 w-full max-w-7xl p-6",
+          className,
+        )}
+      >
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.12em] text-(--mis-color-ink-500)">
               {eyebrow}
             </p>
-            <h3 className="mt-2 text-[32px] font-extrabold leading-[1.1] tracking-[-0.015em] text-(--mis-color-ink-900)">
+            <h3 className="mt-2 text-2xl uppercase font-extrabold leading-[1.1] tracking-[-0.015em] text-ink-700">
               {title}
             </h3>
             {description ? (
