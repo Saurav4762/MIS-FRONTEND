@@ -4,13 +4,20 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { useUpdateOptionList } from "../api";
-import type { OptionList } from "../model";
 import type { ApiError } from "@shared/api";
 import { Button } from "@shared/ui/Button";
 import { FormField, Input, Textarea } from "@shared/ui/Input";
 import { Modal } from "@shared/ui/Modal";
-import { updateOptionListSchema, type UpdateOptionListPayload } from "../model/types";
+import {
+  updateOptionListSchema,
+  useUpdateOptionList,
+  type OptionList,
+  type UpdateOptionList,
+} from "@entities/option";
+
+// import { useUpdateOptionList } from "../api";
+// import type { OptionList } from "../model";
+// import { updateOptionListSchema, type UpdateOptionListPayload } from "../model/types";
 
 interface SurveyOptionEditModalProps {
   isOpen: boolean;
@@ -59,7 +66,7 @@ export function SurveyOptionEditModal({
     onClose();
   };
 
-  const handleSave = async (data: UpdateOptionListPayload) => {
+  const handleSave = async (data: UpdateOptionList) => {
     if (!normalizedId) {
       return;
     }
@@ -148,7 +155,10 @@ export function SurveyOptionEditModal({
           >
             Cancel
           </Button>
-          <Button type="submit" disabled={normalizedId.length === 0 || isSubmitting}>
+          <Button
+            type="submit"
+            disabled={normalizedId.length === 0 || isSubmitting}
+          >
             <Pencil className="h-4 w-4" />
             {isSubmitting ? "Updating..." : "Update Survey Option"}
           </Button>

@@ -1,6 +1,6 @@
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
-import type { OptionList } from "../model";
+import type { OptionList } from "@entities/option";
 import { Button } from "@shared/ui/Button";
 import { SurveyOptionEditModal } from "./SurveyOptionEditModel";
 import { SurveyOptionDeleteModal } from "./SurveyOptionDeleteModel";

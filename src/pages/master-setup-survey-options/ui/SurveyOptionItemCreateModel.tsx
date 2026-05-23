@@ -6,10 +6,16 @@ import type { ApiError } from "@shared/api";
 import { Button } from "@shared/ui/Button";
 import { FormField, Input } from "@shared/ui/Input";
 import { Modal } from "@shared/ui/Modal";
-import { useCreateOptionItem } from "../api";
 import {
-  createOptionItemFormSchema,
-} from "../model/types";
+  createOptionItemSchema,
+  useCreateOptionItem,
+  type CreateOptionItem,
+} from "@entities/option";
+
+// import { useCreateOptionItem } from "../api";
+// import {
+//   createOptionItemFormSchema,
+// } from "../model/types";
 
 interface SurveyOptionItemCreateModalProps {
   isOpen: boolean;
@@ -19,7 +25,7 @@ interface SurveyOptionItemCreateModalProps {
   onSave: () => void | Promise<void>;
 }
 
-type CreateOptionItemFormData = typeof createOptionItemFormSchema._input;
+// type CreateOptionItemFormData = typeof createOptionItemFormSchema._input;
 
 export function SurveyOptionItemCreateModal({
   isOpen,
@@ -36,8 +42,8 @@ export function SurveyOptionItemCreateModal({
     handleSubmit,
     reset,
     formState: { isSubmitting },
-  } = useForm<CreateOptionItemFormData>({
-    resolver: zodResolver(createOptionItemFormSchema),
+  } = useForm<CreateOptionItem>({
+    resolver: zodResolver(createOptionItemSchema),
     defaultValues: {
       labelEn: "",
       labelNe: "",
@@ -53,7 +59,7 @@ export function SurveyOptionItemCreateModal({
     onClose();
   };
 
-  const handleSave = async (data: CreateOptionItemFormData) => {
+  const handleSave = async (data: CreateOptionItem) => {
     const normalizedPayload = {
       optionListId: optionListId.trim(),
       labelEn: data.labelEn.trim(),
@@ -96,10 +102,7 @@ export function SurveyOptionItemCreateModal({
         </FormField>
 
         <FormField label="Name (NE)" required>
-          <Input
-            {...register("labelNe")}
-            placeholder="Nepali item name"
-          />
+          <Input {...register("labelNe")} placeholder="Nepali item name" />
         </FormField>
 
         {!optionListId ? (

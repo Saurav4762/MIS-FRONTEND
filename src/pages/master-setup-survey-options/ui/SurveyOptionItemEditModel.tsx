@@ -2,22 +2,22 @@ import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import type { ApiError } from "@shared/api";
 import { Button } from "@shared/ui/Button";
 import { FormField, Input } from "@shared/ui/Input";
 import { Modal } from "@shared/ui/Modal";
+import { updateOptionItemSchema, useUpdateOptionItem, type OptionItem, type UpdateOptionItem } from "@entities/option";
 
-import { useUpdateOptionItem } from "../api";
-import type { OptionItem } from "../model";
+// import { useUpdateOptionItem } from "../api";
+// import type { OptionItem } from "../model";
 
 // Form-specific schema for editing option items
-const updateOptionItemFormSchema = z.object({
-  labelEn: z.string().min(1, "English label is required").optional(),
-  labelNe: z.string().min(1, "Nepali label is required").optional(),
-});
+// const updateOptionItemFormSchema = z.object({
+//   labelEn: z.string().min(1, "English label is required").optional(),
+//   labelNe: z.string().min(1, "Nepali label is required").optional(),
+// });
 
-type UpdateOptionItemFormData = z.infer<typeof updateOptionItemFormSchema>;
+// type UpdateOptionItemFormData = z.infer<typeof updateOptionItemFormSchema>;
 
 interface SurveyOptionItemEditModalProps {
 	isOpen: boolean;
@@ -41,8 +41,8 @@ export function SurveyOptionItemEditModal({
 		register,
 		handleSubmit,
 		formState: { isSubmitting },
-	} = useForm<UpdateOptionItemFormData>({
-		resolver: zodResolver(updateOptionItemFormSchema),
+	} = useForm<UpdateOptionItem>({
+		resolver: zodResolver(updateOptionItemSchema),
 		defaultValues: {
 			labelEn: optionItem?.labelEn ?? "",
 			labelNe: optionItem?.labelNe ?? "",
@@ -68,7 +68,7 @@ export function SurveyOptionItemEditModal({
 		onClose();
 	};
 
-	const handleSave = async (data: UpdateOptionItemFormData) => {
+	const handleSave = async (data: UpdateOptionItem) => {
 		if (normalizedItemId.length === 0) {
 			return;
 		}

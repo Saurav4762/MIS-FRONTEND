@@ -1,11 +1,16 @@
 import { Pencil, Plus, Trash2 } from "lucide-react";
-import { useOptionItemsByOptionList } from "../api";
-import type { OptionItem, OptionList } from "../model";
+// import { useOptionItemsByOptionList } from "../api";
+// import type { OptionItem, OptionList } from "../model";
 import { useState } from "react";
 import { Button } from "@shared/ui/Button";
 import { SurveyOptionItemCreateModal } from "./SurveyOptionItemCreateModel";
 import { SurveyOptionItemEditModal } from "./SurveyOptionItemEditModel";
 import { SurveyOptionItemDeleteModal } from "./SurveyOptionItemDeleteModel";
+import {
+  useOptionItemsByOptionList,
+  type OptionItem,
+  type OptionList,
+} from "@entities/option";
 
 type SurveyOptionsItemsProps = {
   selectedOptionList?: OptionList;
@@ -40,7 +45,12 @@ export function SurveyOptionItems({
           </p>
         </div>
 
-        <Button type="button" variant="primary" size="sm" onClick={() => setIsCreateModelOpen(true)}>
+        <Button
+          type="button"
+          variant="primary"
+          size="sm"
+          onClick={() => setIsCreateModelOpen(true)}
+        >
           <Plus className="h-4 w-4" />
           Add Type
         </Button>

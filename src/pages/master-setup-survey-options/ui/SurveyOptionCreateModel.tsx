@@ -2,15 +2,22 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreateOptionList } from "../api";
 import type { ApiError } from "@shared/api";
 import { Button } from "@shared/ui/Button";
 import { FormField, Input, Textarea } from "@shared/ui/Input";
 import { Modal } from "@shared/ui/Modal";
 import {
   createOptionListSchema,
-  type CreateOptionListPayload,
-} from "../model/types";
+  type CreateOptionList,
+} from "@entities/option/model";
+import { useCreateOptionList } from "@entities/option";
+
+// import { useCreateOptionList } from "../api";
+// import { Modal } from "@shared/ui/Modal";
+// import {
+//   createOptionListSchema,
+//   type CreateOptionListPayload,
+// } from "../model/types";
 
 interface SurveyOptionCreateModalProps {
   optionListId?: string;
@@ -31,7 +38,7 @@ export function SurveyOptionCreateModal({
     handleSubmit,
     reset,
     formState: { isSubmitting, errors },
-  } = useForm<CreateOptionListPayload>({
+  } = useForm<CreateOptionList>({
     resolver: zodResolver(createOptionListSchema),
     defaultValues: {
       labelEn: "",
@@ -40,7 +47,7 @@ export function SurveyOptionCreateModal({
     },
   });
 
-  const handleSave = async (data: CreateOptionListPayload) => {
+  const handleSave = async (data: CreateOptionList) => {
     setApiError(null);
 
     const payload = {

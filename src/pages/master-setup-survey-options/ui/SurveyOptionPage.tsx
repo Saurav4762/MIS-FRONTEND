@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SurveyOptionCreateModal } from "./SurveyOptionCreateModel";
 import { SurveyOptionItems } from "./SurveyOptionItems";
 import { SurveyOption } from "./SurveyOption";
-import { useOptionList } from "../api";
+import { useOptionList } from "@entities/option";
 
 export function SurveyOptionPage() {
   const { data: optionList } = useOptionList();
@@ -11,7 +11,9 @@ export function SurveyOptionPage() {
     optionList?.[0]?.id,
   );
   const effectiveSelectedId = selectedId || optionList?.[0]?.id;
-  const selectedOptionList = optionList?.find((item) => item.id === effectiveSelectedId);
+  const selectedOptionList = optionList?.find(
+    (item) => item.id === effectiveSelectedId,
+  );
 
   const [isCategoryCreateOpen, setIsCategoryCreateOpen] = useState(false);
 

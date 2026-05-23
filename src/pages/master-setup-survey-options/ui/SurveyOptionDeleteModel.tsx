@@ -1,11 +1,12 @@
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 
-import { useDeleteOptionList } from "../api";
-import type { OptionList } from "../model";
+// import { useDeleteOptionList } from "../api";
+// import type { OptionList } from "../model";
 import type { ApiError } from "@shared/api";
 import { Button } from "@shared/ui/Button";
 import { Modal } from "@shared/ui/Modal";
+import { useDeleteOptionList, type OptionList } from "@entities/option";
 
 interface SurveyOptionDeleteModalProps {
   isOpen: boolean;
