@@ -70,6 +70,7 @@ export function SurveyOptionCreateModal({
   return (
     <Modal
       isOpen={isOpen}
+      eyebrow="Survey Option"
       title="Create New Survey Option"
       description="Add a new master survey option for the survey directory sidebar."
       onClose={() => {
@@ -77,7 +78,7 @@ export function SurveyOptionCreateModal({
         onClose();
       }}
     >
-      <form onSubmit={handleSubmit(handleSave)} className="mt-6 space-y-6">
+      <form onSubmit={handleSubmit(handleSave)} className="mt-6 ">
         <FormField
           label="Name (EN)"
           required
@@ -102,24 +103,23 @@ export function SurveyOptionCreateModal({
           />
         </FormField>
 
-        <FormField
-          label="Description"
-          optional
-          errorText={errors.description?.message}
-        >
+        <FormField label="Description" errorText={errors.description?.message}>
           <Textarea
             {...register("description")}
+            required
             placeholder="Optional description for this category"
             rows={4}
             hasError={Boolean(errors.description)}
           />
         </FormField>
 
-        {apiError ? (
-          <p className="rounded-[--mis-field-radius] border border-[--mis-color-error-100] bg-[--mis-color-error-50] px-4 py-3 text-sm font-semibold text-[--mis-color-error-600]">
-            {apiError}
-          </p>
-        ) : null}
+        <div className="min-h-7">
+          {apiError ? (
+            <p className="rounded-field border border-error-100 bg-error-50 px-4 py-3 text-sm min-h-[1.3rem] font-semibold text-error-600">
+              {apiError}
+            </p>
+          ) : null}
+        </div>
 
         <div className="flex flex-wrap justify-end gap-3 border-t border-[--mis-color-ink-200] pt-5">
           <Button
