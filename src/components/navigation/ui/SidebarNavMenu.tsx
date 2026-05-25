@@ -1,12 +1,19 @@
-import { Search } from "lucide-react";
+import { Search, LogOut } from "lucide-react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { SidebarNavItem } from "./SidebarNavItem";
 import { SidebarSectionTitle } from "./SidebarSectionTitle";
 import { sidebarGroups } from "../model/sidebar-items";
+import { useAuthStore } from "@shared/store/auth-store";
 
 export default function SidebarNavMenu() {
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const logout = useAuthStore((state) => state.logout);
+
+  const handleLogout = () => {
+    logout();
+    navigate({ to: "/Login" });
+  };
 
   return (
     <aside className="flex h-screen w-65 shrink-0 flex-col border-r border-(--mis-color-ink-200) bg-linear-to-b from-(--mis-color-ink-50) to-(--mis-color-white) px-5 py-6 overflow-y-scroll custom-scrollbar space-y-6">
@@ -54,6 +61,15 @@ export default function SidebarNavMenu() {
           </section>
         ))}
       </div>
+
+      <button
+        type="button"
+        onClick={handleLogout}
+        className="mt-auto flex items-center gap-3 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300 transition-colors hover:bg-red-500/20 hover:text-red-200"
+      >
+        <LogOut size={18} />
+        Logout
+      </button>
     </aside>
   );
 }

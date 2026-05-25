@@ -58,6 +58,7 @@ export const sidebarGroups: SidebarGroup[] = [
       { label: "Audit Log", icon: FileStack, path: "/audit-log" },
       { label: "Notifications", icon: Bell, path: "/notifications" },
       { label: "Settings", icon: Cog, path: "/settings" },
+      { label: "LogOut", icon: FileStack, path: "/log-out" },
     ],
   },
 ];
