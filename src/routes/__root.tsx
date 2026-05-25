@@ -4,10 +4,10 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 export const Route = createRootRouteWithContext<RouteContext>()({
   component: () => (
-    <>
+    <div className="min-h-screen bg-(--mis-color-white) text-(--mis-color-ink-900)">
       <Outlet />
       {import.meta.env.DEV && <TanStackRouterDevtools />}
-    </>
+    </div>
   ),
 
   // Global 404

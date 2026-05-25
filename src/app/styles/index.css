@@ -279,11 +279,19 @@
 
 html {
   font-size: 62.5%; /* 1rem = 10px */
+  min-height: 100%;
 }
 
 body {
-  font-family: var(--mis-font-sans);
+  font-family: var(--mis-font-sans, sans-serif);
   font-size: var(--mis-fs-md);
+  min-height: 100vh;
+  background-color: var(--mis-color-white);
+  color: var(--mis-color-ink-900);
+}
+
+#root {
+  min-height: 100vh;
 }
 
 @layer utilities {

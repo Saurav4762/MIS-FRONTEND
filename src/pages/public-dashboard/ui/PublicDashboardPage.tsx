@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { publicDashboardApi } from "../api/public-dashboard.api";
+import { publicDashboardApi, type MunicipalityInfo } from "../api/public-dashboard.api";
 import type { DashboardStats } from "@pages/dashboard/model/types";
 import { GenderPieChart } from "@pages/dashboard/ui/GenderPieChart";
 
@@ -8,8 +8,6 @@ type Ward = {
     id: string;
     number: number;
     representativeNameEn: string;
-    email: string;
-    phoneNo: string;
 };
 
 type Props = {
@@ -22,6 +20,7 @@ export function PublicDashboardPage({ municipalityId }: Props) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [wards, setWards] = useState<Ward[]>([]);
+    const [municipality, setMunicipality] = useState<MunicipalityInfo | null>(null);
     const [selectedWard, setSelectedWard] = useState<string | undefined>(undefined);
 
     useEffect(() => {
@@ -34,43 +33,46 @@ export function PublicDashboardPage({ municipalityId }: Props) {
 
     useEffect(() => {
         publicDashboardApi.getWards(municipalityId)
-            .then(res => {
-                console.log('Wards:', res); // debug
-                setWards(Array.isArray(res) ? res : []);
-            })
-            .catch((err) => console.error('Ward error:', err));
+            .then(res => setWards(Array.isArray(res) ? res : res.data ?? []))
+            .catch(() => {});
+
+        publicDashboardApi.getMunicipality(municipalityId)
+            .then(res => setMunicipality(res))
+            .catch(() => {});
     }, [municipalityId]);
 
     if (loading) return (
-        <div className="min-h-screen bg-[#020816] flex items-center justify-center">
-            <p className="text-white text-lg">Loading...</p>
+        <div className="min-h-screen bg-white flex items-center justify-center">
+            <p className="text-gray-600 text-lg">Loading...</p>
         </div>
     );
 
     if (error || !data) return (
-        <div className="min-h-screen bg-[#020816] flex items-center justify-center">
-            <p className="text-red-400">{error || "No data available"}</p>
+        <div className="min-h-screen bg-white flex items-center justify-center">
+            <p className="text-red-500">{error || "No data available"}</p>
         </div>
     );
 
+    const municipalityName = municipality?.nameEn ?? "Municipality";
+
     return (
-        <div className="min-h-screen bg-[#020816] text-white">
+        <div className="min-h-screen bg-gray-50 text-gray-900">
 
             {/* Header */}
-            <header className="flex items-center justify-between px-8 py-4 border-b border-gray-800">
+            <header className="flex items-center justify-between px-8 py-4 bg-white border-b border-gray-200 shadow-sm">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-bold text-sm">
+                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-bold text-white text-sm">
                         BM
                     </div>
                     <div>
-                        <h1 className="text-lg font-bold">Bhadrapur MIS</h1>
-                        <p className="text-xs text-gray-400">Municipality Information System</p>
+                        <h1 className="text-lg font-bold text-gray-900">{municipalityName}</h1>
+                        <p className="text-xs text-gray-500">Municipality Information System</p>
                     </div>
                 </div>
 
                 {/* Ward Filter */}
                 <select
-                    className="bg-[#0f1729] border border-gray-700 text-white rounded-lg px-3 py-2 text-sm"
+                    className="bg-white border border-gray-300 text-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
                     value={selectedWard ?? "all"}
                     onChange={(e) => setSelectedWard(e.target.value === "all" ? undefined : e.target.value)}
                 >
@@ -81,12 +83,10 @@ export function PublicDashboardPage({ municipalityId }: Props) {
                         </option>
                     ))}
                 </select>
+
                 {/* Login Button */}
                 <button
-                    onClick={() => {
-                        localStorage.removeItem("accessToken"); // clear token first
-                        navigate({ to: "/login" });
-                    }}
+                    onClick={() => navigate({ to: "/Login" })}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors"
                 >
                     Sign In
@@ -95,12 +95,6 @@ export function PublicDashboardPage({ municipalityId }: Props) {
 
             {/* Main Content */}
             <main className="px-8 py-6 space-y-6">
-                <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-bold">Dashboard Overview</h2>
-                    <p className="text-sm text-gray-400">
-                        {selectedWard ? `वडा ${wards.find(w => w.id === selectedWard)?.number}` : "सबै वडा"}
-                    </p>
-                </div>
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -112,8 +106,8 @@ export function PublicDashboardPage({ municipalityId }: Props) {
 
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-[#0f1729] border border-gray-800 rounded-xl p-6">
-                        <h3 className="text-lg font-semibold mb-4">लिङ्ग अनुसार जनसंख्या</h3>
+                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-800">लिङ्ग अनुसार जनसंख्या</h3>
                         <div className="space-y-3">
                             <GenderRow label="पुरुष" value={data.populationByGender.male} total={data.totalPopulation} color="bg-blue-500" />
                             <GenderRow label="महिला" value={data.populationByGender.female} total={data.totalPopulation} color="bg-pink-500" />
@@ -121,8 +115,8 @@ export function PublicDashboardPage({ municipalityId }: Props) {
                         </div>
                     </div>
 
-                    <div className="bg-[#0f1729] border border-gray-800 rounded-xl p-6">
-                        <h3 className="text-lg font-semibold mb-4">जनसंख्या विवरण</h3>
+                    <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-800">जनसंख्या विवरण</h3>
                         <GenderPieChart data={data.populationByGender} />
                     </div>
                 </div>
@@ -133,15 +127,15 @@ export function PublicDashboardPage({ municipalityId }: Props) {
 
 function StatBox({ label, value, color }: { label: string; value: number; color: string }) {
     const colors: Record<string, string> = {
-        blue: "border-blue-500 text-blue-400",
-        purple: "border-purple-500 text-purple-400",
-        green: "border-green-500 text-green-400",
-        yellow: "border-yellow-500 text-yellow-400",
+        blue: "border-blue-200 text-blue-600 bg-blue-50",
+        purple: "border-purple-200 text-purple-600 bg-purple-50",
+        green: "border-green-200 text-green-600 bg-green-50",
+        yellow: "border-yellow-200 text-yellow-600 bg-yellow-50",
     };
     return (
-        <div className={`bg-[#0f1729] border rounded-xl p-5 ${colors[color]}`}>
-            <p className="text-gray-400 text-sm mb-2">{label}</p>
-            <p className={`text-3xl font-bold ${colors[color]}`}>
+        <div className={`border rounded-xl p-5 ${colors[color]}`}>
+            <p className="text-gray-500 text-sm mb-2">{label}</p>
+            <p className="text-3xl font-bold">
                 {value.toLocaleString()}
             </p>
         </div>
@@ -154,11 +148,11 @@ function GenderRow({ label, value, total, color }: {
     const pct = total > 0 ? ((value / total) * 100).toFixed(1) : "0";
     return (
         <div>
-            <div className="flex justify-between text-sm mb-1">
+            <div className="flex justify-between text-sm mb-1 text-gray-700">
                 <span>{label}</span>
                 <span>{value.toLocaleString()} ({pct}%)</span>
             </div>
-            <div className="w-full bg-gray-800 rounded-full h-2">
+            <div className="w-full bg-gray-200 rounded-full h-2">
                 <div className={`${color} h-2 rounded-full`} style={{ width: `${pct}%` }} />
             </div>
         </div>

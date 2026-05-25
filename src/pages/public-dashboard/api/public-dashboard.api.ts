@@ -1,6 +1,16 @@
 import { http } from "@shared/api";
 import type { DashboardResponse } from "@pages/dashboard/model";
 
+export type MunicipalityInfo = {
+    id: string;
+    nameEn: string;
+    nameNe: string;
+    code: string;
+    email: string;
+    phoneNo: string;
+    website: string;
+};
+
 export const publicDashboardApi = {
     getStats: async (municipalityId: string, wardId?: string): Promise<DashboardResponse> => {
         const url = wardId
@@ -12,6 +22,11 @@ export const publicDashboardApi = {
 
     getWards: async (municipalityId: string) => {
         const response = await http.get(`/ward/municipality/${municipalityId}`);
-        return response.data; // returns array of WardDTO
+        return response.data;
+    },
+
+    getMunicipality: async (municipalityId: string): Promise<MunicipalityInfo> => {
+        const response = await http.get<MunicipalityInfo>(`/municipality/${municipalityId}`);
+        return response.data;
     },
 };
