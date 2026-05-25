@@ -1,5 +1,15 @@
 import { create } from "zustand";
 
+const isTokenValid = (token: string | null): boolean => {
+	if (!token) return false;
+	try {
+		const payload = JSON.parse(atob(token.split(".")[1]));
+		return Date.now() < payload.exp * 1000;
+	} catch {
+		return false;
+	}
+};
+
 type AuthState = {
 	token: string | null;
 	isAuthenticated: boolean;
@@ -7,17 +17,27 @@ type AuthState = {
 	logout: () => void;
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
-	token: localStorage.getItem("accessToken"),
-	isAuthenticated: !!localStorage.getItem("accessToken"),
+export const useAuthStore = create<AuthState>((set) => {
+	const token = localStorage.getItem("accessToken");
+	const valid = isTokenValid(token);
 
-	login: (token: string) => {
-		localStorage.setItem("accessToken", token);
-		set({ token, isAuthenticated: true });
-	},
-
-	logout: () => {
+	if (!valid && token) {
 		localStorage.removeItem("accessToken");
-		set({ token: null, isAuthenticated: false });
-	},
-}));
+	}
+
+	return {
+		token: valid ? token : null,
+		isAuthenticated: valid,
+
+		login: (token: string) => {
+			localStorage.setItem("accessToken", token);
+			set({ token, isAuthenticated: true });
+		},
+
+		logout: () => {
+			localStorage.removeItem("accessToken");
+			set({ token: null, isAuthenticated: false });
+			window.location.href = "/Login";
+		},
+	};
+});
