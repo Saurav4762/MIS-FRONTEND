@@ -16,6 +16,18 @@ type Props = {
 
 export function PublicDashboardPage({ municipalityId }: Props) {
     const navigate = useNavigate();
+    // Prevent browser back navigation away from public dashboard
+    useEffect(() => {
+        window.history.pushState(null, "", window.location.href);
+        const handlePopState = () => {
+            window.history.pushState(null, "", window.location.href);
+        };
+        window.addEventListener("popstate", handlePopState);
+        return () => {
+            window.removeEventListener("popstate", handlePopState);
+        };
+    }, []);
+
     const [data, setData] = useState<DashboardStats | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -86,7 +98,10 @@ export function PublicDashboardPage({ municipalityId }: Props) {
 
                 {/* Login Button */}
                 <button
-                    onClick={() => navigate({ to: "/Login" })}
+                    onClick={() => {
+                        localStorage.removeItem("accessToken");
+                        navigate({ to: "/Login" });
+                    }}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors"
                 >
                     Sign In

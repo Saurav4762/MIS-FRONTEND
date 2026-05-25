@@ -29,7 +29,7 @@ export const Route = createFileRoute("/_app")({
 
 function RouteComponent() {
     return (
-        <div className="flex min-h-screen bg-[#020816] text-white overflow-hidden h-dvh">
+        <div className="flex min-h-screen bg-ink-50 text-ink-900 overflow-hidden h-dvh">
             <SidebarNavMenu />
             <main className="min-w-0 flex-1 p-6 space-y-6.5 overflow-y-scroll">
                 <div className="pb-6 pt-0.5">

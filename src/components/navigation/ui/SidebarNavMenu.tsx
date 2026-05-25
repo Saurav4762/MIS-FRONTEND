@@ -65,7 +65,7 @@ export default function SidebarNavMenu() {
       <button
         type="button"
         onClick={handleLogout}
-        className="mt-auto flex items-center gap-3 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-300 transition-colors hover:bg-red-500/20 hover:text-red-200"
+        className="mt-auto flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600 transition-colors hover:bg-red-100 hover:text-red-700"
       >
         <LogOut size={18} />
         Logout
