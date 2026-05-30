@@ -1,111 +1,180 @@
 import { useDashboardStats } from "../api/dashboard.queries";
-import { Pie, Bar } from "react-chartjs-2";
-import {
-    Chart as ChartJS,
-    ArcElement,
-    Tooltip,
-    Legend,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-} from "chart.js";
-
-ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
-
-const COLORS = {
-    blue: "#0ea5e9",
-    sky: "#38bdf8",
-    slate: "#94a3b8",
-    green: "#10b981",
-    amber: "#f59e0b",
-    red: "#ef4444",
-};
-
-function StatCard({ label, value, color = "#0ea5e9" }: { label: string; value: string | number; color?: string }) {
-    return (
-        <div className="rounded-xl border border-(--mis-color-ink-200) bg-(--mis-color-white) p-5 space-y-1 shadow-sm">
-            <p className="text-xs text-(--mis-color-ink-500) uppercase tracking-wide font-semibold">{label}</p>
-            <p className="text-3xl font-bold" style={{ color }}>{value}</p>
-        </div>
-    );
-}
-
-function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
-    return (
-        <div className="rounded-xl border border-(--mis-color-ink-200) bg-(--mis-color-white) p-6 shadow-sm">
-            <p className="text-md font-semibold text-(--mis-color-ink-700) mb-4">{title}</p>
-            {children}
-        </div>
-    );
-}
+import ReactECharts from "echarts-for-react";
 
 export function DashboardPage() {
     const { data, isLoading, isError } = useDashboardStats();
 
-    if (isLoading) return <div className="flex items-center justify-center h-64 text-(--mis-color-ink-400)">Loading dashboard...</div>;
-    if (isError || !data?.data) return <div className="flex items-center justify-center h-64 text-(--mis-color-error-500)">Failed to load dashboard data.</div>;
+    if (isLoading) return (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "256px", fontFamily: "Nunito, sans-serif" }}>
+            <div className="text-center">
+                <div className="w-8 h-8 border-4 border-[#0ea5e9] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                <p style={{ color: "#64748b", fontSize: "15px" }}>Loading dashboard…</p>
+            </div>
+        </div>
+    );
+
+    if (isError || !data?.data) return (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "256px" }}>
+            <p style={{ color: "#dc2626", fontSize: "15px", fontFamily: "Nunito, sans-serif" }}>Failed to load dashboard data.</p>
+        </div>
+    );
 
     const stats = data.data;
-    const literacyRate = ((stats.literate / stats.totalPopulation) * 100).toFixed(1);
-    const employmentRate = (((stats.ageGroup16Plus - stats.jobless) / stats.ageGroup16Plus) * 100).toFixed(1);
+    const literacyRate = stats.totalPopulation > 0 ? ((stats.literate / stats.totalPopulation) * 100).toFixed(1) : "0";
+    const employmentRate = stats.ageGroup16Plus > 0 ? (((stats.ageGroup16Plus - stats.jobless) / stats.ageGroup16Plus) * 100).toFixed(1) : "0";
+    const employedCount = stats.ageGroup16Plus - stats.jobless;
 
     const genderChart = {
-        labels: ["Male", "Female", "Others"],
-        datasets: [{ data: [stats.populationByGender.male, stats.populationByGender.female, stats.populationByGender.others], backgroundColor: [COLORS.blue, COLORS.sky, COLORS.slate], borderWidth: 0 }],
+        tooltip: { trigger: "item", formatter: "{b}: {c} ({d}%)" },
+        legend: { bottom: 0, textStyle: { color: "#64748b", fontSize: 12, fontFamily: "Nunito" } },
+        series: [{
+            type: "pie", radius: ["48%", "72%"], center: ["50%", "44%"],
+            padAngle: 4, itemStyle: { borderRadius: 8 },
+            data: [
+                { value: stats.populationByGender.male, name: "Male", itemStyle: { color: "#0ea5e9" } },
+                { value: stats.populationByGender.female, name: "Female", itemStyle: { color: "#ec4899" } },
+                { value: stats.populationByGender.others, name: "Others", itemStyle: { color: "#a855f7" } },
+            ],
+            label: { show: false },
+        }],
+        graphic: [
+            { type: "text", left: "center", top: "36%", style: { text: stats.totalPopulation.toLocaleString(), fontSize: 22, fontWeight: "bold", fill: "#0f172a", fontFamily: "Nunito" } },
+            { type: "text", left: "center", top: "50%", style: { text: "Total", fontSize: 12, fill: "#94a3b8", fontFamily: "Nunito" } },
+        ],
     };
 
     const literacyChart = {
-        labels: ["Literate", "Illiterate"],
-        datasets: [{ data: [stats.literate, stats.totalPopulation - stats.literate], backgroundColor: [COLORS.green, COLORS.slate], borderWidth: 0 }],
+        tooltip: { trigger: "item", formatter: "{b}: {c} ({d}%)" },
+        legend: { bottom: 0, textStyle: { color: "#64748b", fontSize: 12, fontFamily: "Nunito" } },
+        series: [{
+            type: "pie", radius: ["48%", "72%"], center: ["50%", "44%"],
+            padAngle: 4, itemStyle: { borderRadius: 8 },
+            data: [
+                { value: stats.literate, name: "Literate", itemStyle: { color: "#10b981" } },
+                { value: stats.totalPopulation - stats.literate, name: "Illiterate", itemStyle: { color: "#f43f5e" } },
+            ],
+            label: { show: false },
+        }],
+        graphic: [
+            { type: "text", left: "center", top: "36%", style: { text: `${literacyRate}%`, fontSize: 22, fontWeight: "bold", fill: "#0f172a", fontFamily: "Nunito" } },
+            { type: "text", left: "center", top: "50%", style: { text: "Literate", fontSize: 12, fill: "#94a3b8", fontFamily: "Nunito" } },
+        ],
     };
 
     const employmentChart = {
-        labels: ["Employed", "Jobless"],
-        datasets: [{ data: [stats.ageGroup16Plus - stats.jobless, stats.jobless], backgroundColor: [COLORS.blue, COLORS.red], borderWidth: 0 }],
+        tooltip: { trigger: "item", formatter: "{b}: {c} ({d}%)" },
+        legend: { bottom: 0, textStyle: { color: "#64748b", fontSize: 12, fontFamily: "Nunito" } },
+        series: [{
+            type: "pie", radius: ["48%", "72%"], center: ["50%", "44%"],
+            padAngle: 4, itemStyle: { borderRadius: 8 },
+            data: [
+                { value: employedCount, name: "Employed", itemStyle: { color: "#f59e0b" } },
+                { value: stats.jobless, name: "Jobless", itemStyle: { color: "#94a3b8" } },
+            ],
+            label: { show: false },
+        }],
+        graphic: [
+            { type: "text", left: "center", top: "36%", style: { text: `${employmentRate}%`, fontSize: 22, fontWeight: "bold", fill: "#0f172a", fontFamily: "Nunito" } },
+            { type: "text", left: "center", top: "50%", style: { text: "Employed", fontSize: 12, fill: "#94a3b8", fontFamily: "Nunito" } },
+        ],
     };
 
     const barChart = {
-        labels: ["Total Population", "Age 16+", "Literate", "Jobless"],
-        datasets: [{ label: "Count", data: [stats.totalPopulation, stats.ageGroup16Plus, stats.literate, stats.jobless], backgroundColor: COLORS.blue, borderRadius: 6 }],
+        tooltip: { trigger: "axis", axisPointer: { type: "shadow" } },
+        grid: { left: 16, right: 16, bottom: 8, top: 8, containLabel: true },
+        xAxis: {
+            type: "category",
+            data: ["Population", "Age 16+", "Literate", "Employed"],
+            axisLine: { show: false }, axisTick: { show: false },
+            axisLabel: { color: "#64748b", fontSize: 12, fontFamily: "Nunito" },
+        },
+        yAxis: {
+            type: "value", axisLine: { show: false }, axisTick: { show: false },
+            splitLine: { lineStyle: { color: "#f1f5f9" } },
+            axisLabel: { color: "#94a3b8", fontSize: 11, fontFamily: "Nunito" },
+        },
+        series: [{
+            type: "bar", barMaxWidth: 56,
+            data: [
+                { value: stats.totalPopulation, itemStyle: { color: "#0ea5e9", borderRadius: [6, 6, 0, 0] } },
+                { value: stats.ageGroup16Plus, itemStyle: { color: "#8b5cf6", borderRadius: [6, 6, 0, 0] } },
+                { value: stats.literate, itemStyle: { color: "#10b981", borderRadius: [6, 6, 0, 0] } },
+                { value: employedCount, itemStyle: { color: "#f59e0b", borderRadius: [6, 6, 0, 0] } },
+            ],
+        }],
     };
 
-    const pieOptions = { plugins: { legend: { position: "bottom" as const } }, cutout: "60%" };
-    const barOptions = { plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { grid: { color: "#f1f5f9" } } } };
+    const F = (n: number) => n.toLocaleString();
 
     return (
-        <section className="space-y-8">
+        <section style={{ fontFamily: "Nunito, sans-serif" }} className="space-y-6">
+
+            {/* Page Title */}
             <div>
-                <h2 className="text-3xl font-semibold tracking-tight text-(--mis-color-ink-900)">Dashboard Overview</h2>
-                <p className="mt-1 text-sm text-(--mis-color-ink-400)">Municipality population and survey statistics</p>
+                <p style={{ color: "#64748b", fontSize: "12px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 4px" }}>Live Data</p>
+                <h2 style={{ color: "#0f172a", fontSize: "32px", fontWeight: 600, margin: 0, letterSpacing: "-0.015em" }}>Dashboard Overview</h2>
+                <p style={{ color: "#64748b", fontSize: "15px", margin: "4px 0 0" }}>Municipality population and survey statistics</p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-                <StatCard label="Total Population" value={stats.totalPopulation.toLocaleString()} color={COLORS.blue} />
-                <StatCard label="Total Households" value={stats.totalHouseholds.toLocaleString()} color={COLORS.sky} />
-                <StatCard label="Literacy Rate" value={`${literacyRate}%`} color={COLORS.green} />
-                <StatCard label="Employment Rate" value={`${employmentRate}%`} color={COLORS.amber} />
+            {/* Stat Cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
+                {[
+                    { label: "Total Population", value: F(stats.totalPopulation), sub: "Registered citizens", color: "#0ea5e9" },
+                    { label: "Total Households", value: F(stats.totalHouseholds), sub: "Registered households", color: "#8b5cf6" },
+                    { label: "Literacy Rate", value: `${literacyRate}%`, sub: `${F(stats.literate)} literate`, color: "#10b981" },
+                    { label: "Employment Rate", value: `${employmentRate}%`, sub: "Age 16+ population", color: "#f59e0b" },
+                ].map((card) => (
+                    <div key={card.label} style={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "14px", padding: "24px", boxShadow: "0 1px 3px rgba(15,23,42,0.06)" }}>
+                        <p style={{ color: "#64748b", fontSize: "13px", fontWeight: 600, margin: "0 0 8px" }}>{card.label}</p>
+                        <p style={{ color: card.color, fontSize: "32px", fontWeight: 800, margin: "0 0 4px", letterSpacing: "-0.02em" }}>{card.value}</p>
+                        <p style={{ color: "#94a3b8", fontSize: "12px", margin: 0 }}>{card.sub}</p>
+                    </div>
+                ))}
             </div>
 
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                <ChartCard title="Population by Gender">
-                    <div className="flex justify-center"><div style={{ width: 260, height: 220 }}><Pie data={genderChart} options={pieOptions} /></div></div>
-                </ChartCard>
-                <ChartCard title="Literacy Status">
-                    <div className="flex justify-center"><div style={{ width: 260, height: 220 }}><Pie data={literacyChart} options={pieOptions} /></div></div>
-                </ChartCard>
-                <ChartCard title="Employment Status (Age 16+)">
-                    <div className="flex justify-center"><div style={{ width: 260, height: 220 }}><Pie data={employmentChart} options={pieOptions} /></div></div>
-                </ChartCard>
+            {/* Pie Charts */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px" }}>
+                {[
+                    { title: "Population by Gender", sub: "Male / Female / Others", chart: genderChart },
+                    { title: "Literacy Status", sub: "Literate vs Illiterate", chart: literacyChart },
+                    { title: "Employment Status", sub: "Age 16+ population", chart: employmentChart },
+                ].map((item) => (
+                    <div key={item.title} style={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "14px", padding: "24px", boxShadow: "0 1px 3px rgba(15,23,42,0.06)" }}>
+                        <p style={{ color: "#0f172a", fontSize: "15px", fontWeight: 600, margin: "0 0 2px" }}>{item.title}</p>
+                        <p style={{ color: "#94a3b8", fontSize: "12px", margin: "0 0 16px" }}>{item.sub}</p>
+                        <ReactECharts option={item.chart} style={{ height: 260 }} />
+                    </div>
+                ))}
             </div>
 
-            <ChartCard title="Population Breakdown">
-                <Bar data={barChart} options={barOptions} height={100} />
-            </ChartCard>
+            {/* Bar Chart */}
+            <div style={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "14px", padding: "24px", boxShadow: "0 1px 3px rgba(15,23,42,0.06)" }}>
+                <p style={{ color: "#0f172a", fontSize: "15px", fontWeight: 600, margin: "0 0 2px" }}>Population Breakdown</p>
+                <p style={{ color: "#94a3b8", fontSize: "12px", margin: "0 0 16px" }}>Key demographic indicators</p>
+                <ReactECharts option={barChart} style={{ height: 260 }} />
+            </div>
 
-            <div className="grid grid-cols-3 gap-4">
-                <StatCard label="Male Population" value={stats.populationByGender.male.toLocaleString()} color={COLORS.blue} />
-                <StatCard label="Female Population" value={stats.populationByGender.female.toLocaleString()} color={COLORS.sky} />
-                <StatCard label="Others" value={stats.populationByGender.others.toLocaleString()} color={COLORS.slate} />
+            {/* Gender Detail */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px" }}>
+                {[
+                    { label: "Male Population", value: stats.populationByGender.male, color: "#0ea5e9" },
+                    { label: "Female Population", value: stats.populationByGender.female, color: "#ec4899" },
+                    { label: "Others", value: stats.populationByGender.others, color: "#a855f7" },
+                ].map((item) => {
+                    const pct = stats.totalPopulation > 0 ? ((item.value / stats.totalPopulation) * 100).toFixed(1) : "0";
+                    return (
+                        <div key={item.label} style={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "14px", padding: "24px", boxShadow: "0 1px 3px rgba(15,23,42,0.06)" }}>
+                            <p style={{ color: "#64748b", fontSize: "13px", fontWeight: 600, margin: "0 0 8px" }}>{item.label}</p>
+                            <p style={{ color: item.color, fontSize: "32px", fontWeight: 800, margin: "0 0 8px", letterSpacing: "-0.02em" }}>{F(item.value)}</p>
+                            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                <div style={{ flex: 1, height: "4px", backgroundColor: "#f1f5f9", borderRadius: "999px" }}>
+                                    <div style={{ width: `${pct}%`, height: "100%", backgroundColor: item.color, borderRadius: "999px" }} />
+                                </div>
+                                <span style={{ color: "#94a3b8", fontSize: "12px", fontWeight: 600 }}>{pct}%</span>
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
         </section>
     );

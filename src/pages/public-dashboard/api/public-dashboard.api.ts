@@ -12,21 +12,21 @@ export type MunicipalityInfo = {
 };
 
 export const publicDashboardApi = {
-    getStats: async (municipalityId: string, wardId?: string): Promise<DashboardResponse> => {
+    getStats: async (wardId?: string): Promise<DashboardResponse> => {
         const url = wardId
-            ? `/reports/dashboard/stats?municipalityId=${municipalityId}&wardId=${wardId}`
-            : `/reports/dashboard/stats?municipalityId=${municipalityId}`;
+            ? `/reports/dashboard/stats?wardId=${wardId}`
+            : `/reports/dashboard/stats`;
         const response = await http.get<DashboardResponse>(url);
         return response.data;
     },
 
-    getWards: async (municipalityId: string) => {
-        const response = await http.get(`/ward/municipality/${municipalityId}`);
+    getWards: async () => {
+        const response = await http.get(`/ward`);
         return response.data;
     },
 
-    getMunicipality: async (municipalityId: string): Promise<MunicipalityInfo> => {
-        const response = await http.get<MunicipalityInfo>(`/municipality/${municipalityId}`);
+    getMunicipality: async (): Promise<MunicipalityInfo> => {
+        const response = await http.get<MunicipalityInfo>(`/municipality`);
         return response.data;
     },
 };

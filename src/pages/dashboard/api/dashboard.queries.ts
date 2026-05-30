@@ -8,10 +8,3 @@ export const useDashboardStats = () => {
     queryFn: () => dashboardApi.getStats(),
   });
 };
-
-export const useDashboardWards = () => {
-  return useQuery({
-    queryKey: dashboardKeys.wards(),
-    queryFn: dashboardApi.getWards,
-  });
-};
