@@ -126,7 +126,6 @@ export function PublicDashboardPage() {
                         <span style={{ color: "#ffffff", fontSize: "13px", fontWeight: 800 }}>BM</span>
                     </div>
                     <div>
-                        <p style={{ color: "#0f172a", fontSize: "15px", fontWeight: 700, margin: 0 }}>Bhadrapur Municipality</p>
                         <p style={{ color: "#64748b", fontSize: "11px", fontWeight: 500, margin: 0, letterSpacing: "0.05em" }}>MUNICIPALITY INFORMATION SYSTEM</p>
                     </div>
                 </div>
@@ -143,9 +142,7 @@ export function PublicDashboardPage() {
             <main style={{ maxWidth: "1280px", margin: "0 auto", padding: "32px 24px" }}>
                 {/* Page Title */}
                 <div style={{ marginBottom: "24px" }}>
-                    <p style={{ color: "#64748b", fontSize: "12px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 4px" }}>Live Data</p>
-                    <h1 style={{ color: "#0f172a", fontSize: "32px", fontWeight: 600, margin: 0, letterSpacing: "-0.015em" }}>Municipal Dashboard</h1>
-                    <p style={{ color: "#64748b", fontSize: "15px", margin: "4px 0 0" }}>Real-time statistics from the municipal database</p>
+                    <h1 style={{ color: "#0f172a", fontSize: "32px", fontWeight: 400, margin: 0, letterSpacing: "-0.015em" }}>Municipal Dashboard</h1>
                 </div>
 
                 {/* Stat Cards */}
